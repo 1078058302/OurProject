@@ -140,10 +140,9 @@
                     android:background="@drawable/shape" />
 
                 <ImageView
-
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_alignPrentRight="true"
+                    android:layout_alignParentRight="true"
                     android:background="@mipmap/blank_xxx" />
 
                 <android.support.v7.widget.RecyclerView
