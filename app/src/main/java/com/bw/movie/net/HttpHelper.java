@@ -26,7 +26,7 @@ public class HttpHelper {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl("http://www.zhaoapi.cn/")
+                .baseUrl("http://mobile.bwstudent.com/")
                 .client(okHttpClient)
                 .build();
         baseService = retrofit.create(BaseService.class);
