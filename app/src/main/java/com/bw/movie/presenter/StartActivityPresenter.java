@@ -23,12 +23,12 @@ public class StartActivityPresenter extends AppDelegate {
             switch (msg.what) {
                 case 0:
                     context.startActivity(new Intent(context, WelcomeActivity.class));
+                    ((StartActivity)context).finish();
                     break;
                 case 1:
                     context.startActivity(new Intent(context, MainActivity.class));
                     ((StartActivity)context).finish();
                     break;
-
             }
         }
 
