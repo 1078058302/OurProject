@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.MainActivity;
@@ -35,6 +34,7 @@ public class MainActivityPresenter extends AppDelegate implements View.OnClickLi
     public void initData() {
         super.initData();
 
+
         main_vp = get(R.id.main_vp);
         //加入三个fragment
         fragments.add(new MovieFragment());
@@ -47,7 +47,42 @@ public class MainActivityPresenter extends AppDelegate implements View.OnClickLi
         cinema_main = get(R.id.cinema_main);
         mine_main = get(R.id.mine_main);
         setClick(this, R.id.movie_main, R.id.cinema_main, R.id.mine_main);
+        main_vp.setOffscreenPageLimit(3);
 
+        main_vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                switch (i){
+                    case 0:
+                        movie_main.setImageResource(R.drawable.icon_film_selected_xhdpi);
+                        cinema_main.setImageResource(R.drawable.icon_cinema_default_hdpi);
+                        mine_main.setImageResource(R.drawable.icon_my_default_hdip);
+                        break;
+                    case 1:
+                        cinema_main.setImageResource(R.drawable.icon_cinema_selected_hdpi);
+                        movie_main.setImageResource(R.drawable.icon_film_fault_hdpi);
+                        mine_main.setImageResource(R.drawable.icon_my_default_hdip);
+                        break;
+                    case 2:
+                        mine_main.setImageResource(R.drawable.icon_my_selected_xhdpi);
+                        movie_main.setImageResource(R.drawable.icon_film_fault_hdpi);
+                        cinema_main.setImageResource(R.drawable.icon_cinema_default_hdpi);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+
+
+        });
     }
 
 
