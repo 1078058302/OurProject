@@ -39,6 +39,8 @@ public abstract class AppDelegate implements Delegate {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
+
+
     @Override
     public void initData() {
 
