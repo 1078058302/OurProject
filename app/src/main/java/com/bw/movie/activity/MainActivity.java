@@ -6,6 +6,7 @@ import com.bw.movie.mvp.basepresenter.BaseActivityPresenter;
 import com.bw.movie.presenter.MainActivityPresenter;
 //主Activity
 
+
 public class MainActivity extends BaseActivityPresenter<MainActivityPresenter> {
 
     @Override
@@ -24,4 +25,6 @@ public class MainActivity extends BaseActivityPresenter<MainActivityPresenter> {
         super.getContext(context);
         delegate.setContext(context);
     }
+
+
 }
