@@ -16,19 +16,9 @@ public class MainActivity extends BaseActivityPresenter<MainActivityPresenter> {
     }
 
     @Override
-<<<<<<< HEAD
+
     public void getContext(Context context) {
         super.getContext(context);
         delegate.setContext(context);
-=======
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
->>>>>>> origin/master
     }
-
-        
-
-
 }
