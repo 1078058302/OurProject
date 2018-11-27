@@ -6,6 +6,9 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.bw.movie.R;
 
 public abstract class AppDelegate implements Delegate {
     private int layoutId;
@@ -20,6 +23,21 @@ public abstract class AppDelegate implements Delegate {
             views.put(id, view);
         }
         return view;
+    }
+
+    public void setClick(View.OnClickListener listener, int... ids) {
+        if (ids == null) {
+            return;
+        }
+
+        for (int id : ids) {
+            get(id).setOnClickListener(listener);
+        }
+    }
+
+    public void toast(Context context, String msg) {
+
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
