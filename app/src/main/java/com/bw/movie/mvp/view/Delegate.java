@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public interface Delegate {
+
     void create(LayoutInflater inflater, ViewGroup viewGroup, Bundle bundle);
 
     void initData();
