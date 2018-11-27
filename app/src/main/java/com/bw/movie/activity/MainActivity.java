@@ -1,11 +1,9 @@
-package com.bw.movie;
+package com.bw.movie.activity;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
-import com.bw.movie.mvp.presenter.BaseActivityPresenter;
-import com.bw.movie.mvp.presenter.MainActivityPresenter;
+import com.bw.movie.mvp.basepresenter.BaseActivityPresenter;
+import com.bw.movie.presenter.MainActivityPresenter;
 //主Activity
 
 
@@ -17,7 +15,12 @@ public class MainActivity extends BaseActivityPresenter<MainActivityPresenter> {
     }
 
     @Override
+    public void initView() {
+        super.initView();
 
+    }
+
+    @Override
     public void getContext(Context context) {
         super.getContext(context);
         delegate.setContext(context);
