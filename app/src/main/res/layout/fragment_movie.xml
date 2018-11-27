@@ -1,14 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".fragment.MovieFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="我是影片页面" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="186dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/moviebackground1" />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vp_movie"
+                    android:layout_width="158dp"
+                    android:layout_height="223dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="85dp"></android.support.v4.view.ViewPager>
+
+                <ProgressBar
+                    android:layout_width="312dp"
+                    android:layout_height="3dp"
+                    android:layout_below="@+id/vp_movie"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:background="#999999" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:id="@+id/hotMovie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="热门电影"
+                    android:textSize="16sp" />
+
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="30dp"
+                    android:layout_height="3dp"
+                    android:layout_below="@+id/hotMovie"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/shape" />
+
+                <ImageView
+
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@mipmap/blank_xxx" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="164dp"
+                    android:layout_below="@+id/view1"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:id="@+id/hoting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="正在上映"
+                    android:textSize="16sp" />
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="30dp"
+                    android:layout_height="3dp"
+                    android:layout_below="@+id/hoting"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/shape" />
+
+                <ImageView
+
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@mipmap/blank_xxx" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="164dp"
+                    android:layout_below="@+id/view2"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:id="@+id/jijiang"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="即将上映"
+                    android:textSize="16sp" />
+
+                <View
+                    android:id="@+id/view3"
+                    android:layout_width="30dp"
+                    android:layout_height="3dp"
+                    android:layout_below="@+id/jijiang"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/shape" />
+
+                <ImageView
+
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignPrentRight="true"
+                    android:background="@mipmap/blank_xxx" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="164dp"
+                    android:layout_below="@+id/view3"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -10,8 +10,9 @@ import com.bw.movie.activity.MainActivity;
 import com.bw.movie.activity.StartActivity;
 import com.bw.movie.activity.WelcomeActivity;
 import com.bw.movie.mvp.view.AppDelegate;
-import com.bw.movie.net.SharedPreferencesUtils;
-import com.bw.movie.net.UltimateBar;
+import com.bw.movie.utils.SharedPreferencesUtils;
+import com.bw.movie.utils.UltimateBar;
+
 
 public class StartActivityPresenter extends AppDelegate {
 
@@ -25,6 +26,7 @@ public class StartActivityPresenter extends AppDelegate {
                     break;
                 case 1:
                     context.startActivity(new Intent(context, MainActivity.class));
+                    ((StartActivity)context).finish();
                     break;
 
             }
