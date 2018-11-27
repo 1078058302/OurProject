@@ -40,11 +40,15 @@ public abstract class BaseFragmentPresenter<T extends AppDelegate> extends Fragm
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initView();
         delegate.initData();
     }
 
     public void getContext(Context context) {
 
+    }
+
+    public  void  initView(){
     }
 
     @Override

@@ -18,7 +18,6 @@ public class MainActivity extends BaseActivityPresenter<MainActivityPresenter> {
     @Override
     public void initView() {
         super.initView();
-
     }
 
     @Override
