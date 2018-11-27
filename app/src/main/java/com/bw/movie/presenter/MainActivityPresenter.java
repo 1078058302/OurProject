@@ -35,6 +35,7 @@ public class MainActivityPresenter extends AppDelegate implements View.OnClickLi
         super.initData();
 
         main_vp = get(R.id.main_vp);
+        //加入三个fragment
         fragments.add(new MovieFragment());
         fragments.add(new CinemaFragment());
         fragments.add(new MineFragment());
