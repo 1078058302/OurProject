@@ -31,7 +31,12 @@ public abstract class BaseActivityPresenter<T extends AppDelegate> extends AppCo
         getContext(this);
         delegate.create(getLayoutInflater(), null, savedInstanceState);
         setContentView(delegate.rootView());
+        initView();
         delegate.initData();
+    }
+
+    public void initView() {
+
     }
 
     public void getContext(Context context) {
