@@ -19,9 +19,5 @@ public class MainActivityPresenter extends AppDelegate {
 
     public void setContext(Context context) {
         this.context = context;
-
     }
-
-
-
 }
