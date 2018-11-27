@@ -34,7 +34,7 @@ public abstract class AppDelegate implements Delegate {
         }
     }
 
-    public void toast(Context context, String msg) {
+    public void toast(String msg) {
 
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
@@ -53,6 +53,7 @@ public abstract class AppDelegate implements Delegate {
     public View rootView() {
         return rootView;
     }
+
 
     public abstract int getLayoutId();
 
