@@ -22,6 +22,8 @@ public abstract class AppDelegate implements Delegate {
         return view;
     }
 
+
+
     @Override
     public void initData() {
 

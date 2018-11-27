@@ -1,9 +1,9 @@
-package com.bw.movie;
+package com.bw.movie.activity;
 
 import android.content.Context;
 
-import com.bw.movie.mvp.presenter.BaseActivityPresenter;
-import com.bw.movie.mvp.presenter.MainActivityPresenter;
+import com.bw.movie.mvp.basepresenter.BaseActivityPresenter;
+import com.bw.movie.presenter.MainActivityPresenter;
 //主Activity
 
 public class MainActivity extends BaseActivityPresenter<MainActivityPresenter> {

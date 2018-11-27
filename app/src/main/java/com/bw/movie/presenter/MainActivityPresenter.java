@@ -1,4 +1,4 @@
-package com.bw.movie.mvp.presenter;
+package com.bw.movie.presenter;
 
 import android.content.Context;
 
