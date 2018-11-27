@@ -14,7 +14,7 @@ public class MainActivityPresenter extends AppDelegate {
     @Override
     public void initData() {
         super.initData();
-        toast("大");
+        
     }
 
     public void setContext(Context context) {
