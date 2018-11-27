@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.MainActivity;
@@ -46,7 +47,6 @@ public class MainActivityPresenter extends AppDelegate implements View.OnClickLi
         cinema_main = get(R.id.cinema_main);
         mine_main = get(R.id.mine_main);
         setClick(this, R.id.movie_main, R.id.cinema_main, R.id.mine_main);
-
 
     }
 
