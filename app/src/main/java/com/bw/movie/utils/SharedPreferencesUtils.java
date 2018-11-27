@@ -1,5 +1,6 @@
-package com.bw.movie.net;
+package com.bw.movie.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 

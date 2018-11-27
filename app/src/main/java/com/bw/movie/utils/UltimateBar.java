@@ -1,4 +1,4 @@
-package com.bw.movie.net;
+package com.bw.movie.utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
