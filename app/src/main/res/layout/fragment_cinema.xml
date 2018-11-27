@@ -73,5 +73,7 @@
             android:background="@drawable/edit_bg1"
             android:text="附近影院" />
     </LinearLayout>
-
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.jcodecraeer.xrecyclerview.XRecyclerView>
 </LinearLayout>

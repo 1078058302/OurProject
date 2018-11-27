@@ -23,6 +23,7 @@ public class CinemaFragmentPresenter extends AppDelegate implements View.OnClick
         recommend = get(R.id.recommend);
         nearby = get(R.id.nearby);
         setClick(this, R.id.recommend, R.id.nearby);
+
     }
 
     public void setContext(Context context) {
