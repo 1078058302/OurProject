@@ -8,23 +8,54 @@
     tools:context=".activity.MainActivity">
 
     <android.support.v4.view.ViewPager
+        android:id="@+id/main_vp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"></android.support.v4.view.ViewPager>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
         android:orientation="horizontal">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/movie_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/icon_film_selected_xhdpi" />
         </RelativeLayout>
-    </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true">
+
+            <ImageView
+                android:id="@+id/cinema_main"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/icon_cinema_default_hdpi" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="50dp">
+
+            <ImageView
+                android:id="@+id/mine_main"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/icon_my_default_hdip" />
+        </RelativeLayout>
+    </RelativeLayout>
 
 </LinearLayout>
