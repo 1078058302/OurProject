@@ -5,57 +5,56 @@
     android:background="@mipmap/bitmap3"
     android:orientation="vertical">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="150dp">
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_100">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="5dp"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_30"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_10"
             android:background="@mipmap/register_icon_phone_default_xxhdpi" />
 
         <EditText
             android:id="@+id/tv_phone"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/dp_50"
             android:background="@null"
             android:drawableBottom="@drawable/bootom_line"
             android:hint="手机号"
             android:inputType="number"
-            android:paddingLeft="60dp"
+            android:paddingLeft="@dimen/dp_40"
             android:textColor="#ffffff"
             android:textColorHint="#ffffff" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp">
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_10">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="5dp"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_30"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_10"
             android:background="@mipmap/register_icon_lock_default_xxhdpi" />
 
         <EditText
             android:id="@+id/tv_pwd"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/dp_50"
             android:background="@null"
             android:drawableBottom="@drawable/bootom_line"
             android:hint="登陆密码"
-            android:inputType="numberPassword"
-            android:paddingLeft="60dp"
+            android:inputType="textPassword"
+            android:paddingLeft="@dimen/dp_40"
             android:textColor="#ffffff"
             android:textColorHint="#ffffff" />
     </RelativeLayout>
@@ -63,9 +62,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_10">
 
         <RelativeLayout
             android:id="@+id/rr1"
@@ -93,6 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_50"
             android:layout_toRightOf="@+id/rr1">
 
             <CheckBox
@@ -111,6 +111,7 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -123,9 +124,9 @@
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_100"
         android:background="@drawable/circle1"
         android:text="登录"
         android:textColor="#ffffff"
@@ -134,17 +135,19 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_30"
         android:gravity="center_horizontal"
-        android:text="---------------------第三方账号快速登录---------------------"
-        android:textColor="#ffffff" />
+        android:text="---------------第三方账号快速登录-------------"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/sp_16" />
 
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:id="@+id/img1"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/dp_10"
         android:src="@mipmap/pay_icon_weixin_default_xxhdpi" />
 </LinearLayout>

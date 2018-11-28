@@ -44,7 +44,7 @@ public class HttpHelper {
             map = new HashMap<>();
         }
 
-        baseService.get(url, map)
+        baseService.post(url, map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
