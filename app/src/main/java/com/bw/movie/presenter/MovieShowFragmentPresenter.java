@@ -92,7 +92,7 @@ public class MovieShowFragmentPresenter extends AppDelegate implements View.OnCl
                 for (int i = 0; i < result.size(); i++) {
                     images.add(result.get(i).getImageUrl());
                 }
-                //
+
                 initViews();
 
             }
