@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:padding="@dimen/dp_15">
+    android:padding="@dimen/dp_12">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:layout_margin="5dp"
         android:background="@drawable/background_bg"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_5">
 
         <LinearLayout
             android:id="@+id/cinema_show"
@@ -33,36 +33,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_110"
                 android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:orientation="vertical"
-                android:padding="5dp">
+                android:layout_marginLeft="5dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/title_cinema"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:lines="1" />
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/desc_cinema"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:lines="2" />
 
                 <TextView
                     android:id="@+id/away_cinema"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:lines="1" />
+                    android:layout_marginTop="5dp" />
             </LinearLayout>
         </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/collection"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
             android:layout_marginRight="10dp"
             android:layout_marginTop="80dp">
 
