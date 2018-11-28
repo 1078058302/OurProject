@@ -172,8 +172,8 @@
                     android:background="@drawable/shape" />
 
                 <ImageView
-                    android:layout_width="@dimen/dp_24"
-                    android:layout_height="@dimen/dp_24"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_alignParentRight="true"
                     android:background="@mipmap/blank_xxx" />
 
