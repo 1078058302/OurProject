@@ -1,7 +1,6 @@
 package com.bw.movie.fragment;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 
 import com.bw.movie.mvp.basepresenter.BaseFragmentPresenter;
 import com.bw.movie.presenter.MovieFragmentPresenter;
