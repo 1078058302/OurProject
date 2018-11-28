@@ -61,7 +61,7 @@
             android:layout_height="match_parent"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/edit_bg1"
+            android:background="@drawable/edit_bg"
             android:text="推荐影院" />
 
         <Button
@@ -73,7 +73,9 @@
             android:background="@drawable/edit_bg1"
             android:text="附近影院" />
     </LinearLayout>
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
+
+    <FrameLayout
+        android:id="@+id/show_frag"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.jcodecraeer.xrecyclerview.XRecyclerView>
+        android:layout_height="match_parent"></FrameLayout>
 </LinearLayout>
