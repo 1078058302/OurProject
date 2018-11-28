@@ -5,10 +5,10 @@ import android.content.Context;
 import com.bw.movie.R;
 import com.bw.movie.mvp.view.AppDelegate;
 
-public class MovieFragmentPresenter extends AppDelegate {
+public class ShowFindActivityPresenter extends AppDelegate {
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_movie;
+        return R.layout.activity_show_find;
     }
 
     @Override

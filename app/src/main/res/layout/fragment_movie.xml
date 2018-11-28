@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragment.MovieFragment">
+    tools:context=".fragment.MovieShowFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,8 +17,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
+                android:layout_height="wrap_content"
+                android:clipChildren="false">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -26,14 +26,24 @@
                     android:scaleType="fitXY"
                     android:src="@mipmap/moviebackground1" />
 
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/vp_movie"
-                    android:layout_width="@dimen/dp_158"
+                <recycler.coverflow.RecyclerCoverFlow
+
+                    android:id="@+id/list"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_223"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="@dimen/dp_24"
                     android:layout_marginRight="@dimen/dp_24"
-                    android:layout_marginTop="@dimen/dp_85" />
+                    android:layout_marginTop="@dimen/dp_85"></recycler.coverflow.RecyclerCoverFlow>
+                <!--<android.support.v4.view.ViewPager-->
+                <!--android:clipChildren="false"-->
+                <!--android:id="@+id/vp_movie"-->
+                <!--android:layout_width="@dimen/dp_100"-->
+                <!--android:layout_height="@dimen/dp_223"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginLeft="@dimen/dp_24"-->
+                <!--android:layout_marginRight="@dimen/dp_24"-->
+                <!--android:layout_marginTop="@dimen/dp_85" />-->
 
                 <ImageView
                     android:id="@+id/map_moviefragment"
@@ -52,24 +62,24 @@
                     android:textSize="@dimen/sp_16" />
 
                 <RelativeLayout
-                    android:layout_marginTop="@dimen/dp_30"
-                    android:layout_alignParentRight="true"
                     android:layout_width="@dimen/dp_50"
                     android:layout_height="@dimen/dp_24"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/dp_30"
                     android:background="@drawable/find_bg">
 
                     <ImageView
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/dp_6"
                         android:layout_width="@dimen/dp_20"
                         android:layout_height="@dimen/dp_20"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_6"
                         android:background="@mipmap/find" />
                 </RelativeLayout>
 
                 <ProgressBar
                     android:layout_width="@dimen/dp_312"
                     android:layout_height="@dimen/dp_3"
-                    android:layout_below="@+id/vp_movie"
+                    android:layout_below="@+id/list"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/dp_20"
                     android:background="#999999" />
@@ -97,20 +107,30 @@
                     android:layout_marginTop="@dimen/dp_4"
                     android:background="@drawable/shape" />
 
-                <ImageView
-
+                <RelativeLayout
                     android:layout_width="@dimen/dp_24"
                     android:layout_height="@dimen/dp_24"
-                    android:layout_alignParentRight="true"
-                    android:background="@mipmap/blank_xxx" />
+                    android:layout_alignParentRight="true">
 
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_164"
-                    android:layout_below="@+id/view1"
-                    android:layout_marginTop="@dimen/dp_20"
-                    android:orientation="horizontal" />
+                    <ImageView
+                        android:id="@+id/hotMovie_image_moviefragment"
+                        android:layout_width="@dimen/dp_14"
+                        android:layout_height="@dimen/dp_14"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:background="@mipmap/blank_xxx" />
+                </RelativeLayout>
             </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/hotMovie_recycle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_164"
+                android:layout_below="@+id/view1"
+                android:layout_marginRight="@dimen/dp_24"
+                android:layout_marginTop="@dimen/dp_20"
+                android:orientation="horizontal" />
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -134,20 +154,30 @@
                     android:layout_marginTop="@dimen/dp_4"
                     android:background="@drawable/shape" />
 
-                <ImageView
-
+                <RelativeLayout
                     android:layout_width="@dimen/dp_24"
                     android:layout_height="@dimen/dp_24"
-                    android:layout_alignParentRight="true"
-                    android:background="@mipmap/blank_xxx" />
+                    android:layout_alignParentRight="true">
 
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_164"
-                    android:layout_below="@+id/view2"
-                    android:layout_marginTop="@dimen/dp_20"
-                    android:orientation="horizontal" />
+                    <ImageView
+                        android:id="@+id/Movieing_image_moviefragment"
+                        android:layout_width="@dimen/dp_14"
+                        android:layout_height="@dimen/dp_14"
+                        android:layout_alignParentRight="true"
+                        android:background="@mipmap/blank_xxx" />
+                </RelativeLayout>
+
+
             </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/movieing_recycle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_164"
+                android:layout_below="@+id/view2"
+                android:layout_marginRight="@dimen/dp_24"
+                android:layout_marginTop="@dimen/dp_20"
+                android:orientation="horizontal" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -171,19 +201,31 @@
                     android:layout_marginTop="@dimen/dp_4"
                     android:background="@drawable/shape" />
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                <RelativeLayout
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
                     android:layout_alignParentRight="true"
-                    android:background="@mipmap/blank_xxx" />
+                    android:gravity="center">
 
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_164"
-                    android:layout_below="@+id/view3"
-                    android:layout_marginTop="@dimen/dp_20"
-                    android:orientation="horizontal" />
+                    <ImageView
+                        android:id="@+id/nextMovie_image_moviefragment"
+                        android:layout_width="@dimen/dp_14"
+                        android:layout_height="@dimen/dp_14"
+                        android:layout_alignParentTop="true"
+                        android:background="@mipmap/blank_xxx" />
+                </RelativeLayout>
+
+
             </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/nextmovie_recycle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_164"
+                android:layout_below="@+id/view3"
+                android:layout_marginRight="@dimen/dp_24"
+                android:layout_marginTop="@dimen/dp_20"
+                android:orientation="horizontal" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

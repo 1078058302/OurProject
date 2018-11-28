@@ -1,21 +1,23 @@
 package com.bw.movie.fragment;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 
 import com.bw.movie.mvp.basepresenter.BaseFragmentPresenter;
-import com.bw.movie.presenter.MovieFragmentPresenter;
+import com.bw.movie.presenter.MovieShowFragmentPresenter;
 
-public class MovieFragment extends BaseFragmentPresenter<MovieFragmentPresenter> {
+public class MovieShowFragment extends BaseFragmentPresenter<MovieShowFragmentPresenter> {
 
     @Override
-    public Class<MovieFragmentPresenter> getClassDelegate() {
-        return MovieFragmentPresenter.class;
+    public Class<MovieShowFragmentPresenter> getClassDelegate() {
+        return MovieShowFragmentPresenter.class;
     }
 
     @Override
     public void getContext(Context context) {
         super.getContext(context);
+
         delegate.setContext(context);
     }
+
+    
 }
