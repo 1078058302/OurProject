@@ -11,7 +11,7 @@ import com.bw.movie.activity.MainActivity;
 import com.bw.movie.adapter.ViewPagerAdapter;
 import com.bw.movie.fragment.CinemaFragment;
 import com.bw.movie.fragment.MineFragment;
-import com.bw.movie.fragment.MovieFragment;
+import com.bw.movie.fragment.MovieShowFragment;
 import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.utils.UltimateBar;
 
@@ -37,7 +37,7 @@ public class MainActivityPresenter extends AppDelegate implements View.OnClickLi
         UltimateBar.newImmersionBuilder().applyNav(false).build((MainActivity) context).apply();
         main_vp = get(R.id.main_vp);
         //加入三个fragment
-        fragments.add(new MovieFragment());
+        fragments.add(new MovieShowFragment());
         fragments.add(new CinemaFragment());
         fragments.add(new MineFragment());
         ViewPagerAdapter adapter = new ViewPagerAdapter(((MainActivity) context).getSupportFragmentManager());
