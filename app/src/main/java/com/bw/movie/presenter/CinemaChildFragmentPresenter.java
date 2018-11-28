@@ -50,7 +50,7 @@ public class CinemaChildFragmentPresenter extends AppDelegate {
             }
         });
     }
-
+//123
     private void doHttp() {
         Map map = new HashMap();
         map.put("page", 1);
