@@ -23,9 +23,12 @@
         </activity>
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.WelcomeActivity"></activity>
-        <activity android:name=".activity.MovieShowActivity"/>
-        <activity android:name=".activity.ErrorActivity"/>
-        <activity android:name=".activity.ShowFindActivity"/>
+        <activity android:name=".activity.RegisterActivity"></activity>
+        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.UserInfoActivity"></activity>
+        <activity android:name=".activity.ErrorActivity"></activity>
+        <activity android:name=".activity.ShowFindActivity"></activity>
+        <activity android:name=".activity.MovieShowActivity"></activity>
     </application>
 
 </manifest>
