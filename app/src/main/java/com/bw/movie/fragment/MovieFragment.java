@@ -3,13 +3,13 @@ package com.bw.movie.fragment;
 import android.content.Context;
 
 import com.bw.movie.mvp.basepresenter.BaseFragmentPresenter;
-import com.bw.movie.presenter.ShowMovieFragmentPresenter;
+import com.bw.movie.presenter.MovieFragmentPresenter;
 
-public class MovieFragment extends BaseFragmentPresenter<ShowMovieFragmentPresenter> {
+public class MovieFragment extends BaseFragmentPresenter<MovieFragmentPresenter> {
 
     @Override
-    public Class<ShowMovieFragmentPresenter> getClassDelegate() {
-        return ShowMovieFragmentPresenter.class;
+    public Class<MovieFragmentPresenter> getClassDelegate() {
+        return MovieFragmentPresenter.class;
     }
 
     @Override

@@ -24,7 +24,7 @@ import com.google.gson.Gson;
 import java.util.HashMap;
 import java.util.List;
 
-public class ShowMovieFragmentPresenter extends AppDelegate implements View.OnClickListener {
+public class MovieFragmentPresenter extends AppDelegate implements View.OnClickListener {
 
     private RecyclerView hotRecycle;
     HotMovieAdapter hotMovieAdapter = new HotMovieAdapter();
