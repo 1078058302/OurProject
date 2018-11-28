@@ -48,7 +48,7 @@ dependencies {
     implementation project(':xrecyclerview')
 
     implementation 'com.tapadoo.android:alerter:1.0.8'
-
+    implementation 'com.chenlittleping:recyclercoverflow:1.0.6'
     // add library
 
 }

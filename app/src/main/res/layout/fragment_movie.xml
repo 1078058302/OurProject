@@ -16,9 +16,9 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:clipChildren="false"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:clipChildren="false">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -26,15 +26,24 @@
                     android:scaleType="fitXY"
                     android:src="@mipmap/moviebackground1" />
 
-                <android.support.v4.view.ViewPager
-                    android:clipChildren="false"
-                    android:id="@+id/vp_movie"
-                    android:layout_width="@dimen/dp_100"
+                <recycler.coverflow.RecyclerCoverFlow
+
+                    android:id="@+id/list"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_223"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="@dimen/dp_24"
                     android:layout_marginRight="@dimen/dp_24"
-                    android:layout_marginTop="@dimen/dp_85" />
+                    android:layout_marginTop="@dimen/dp_85"></recycler.coverflow.RecyclerCoverFlow>
+                <!--<android.support.v4.view.ViewPager-->
+                <!--android:clipChildren="false"-->
+                <!--android:id="@+id/vp_movie"-->
+                <!--android:layout_width="@dimen/dp_100"-->
+                <!--android:layout_height="@dimen/dp_223"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginLeft="@dimen/dp_24"-->
+                <!--android:layout_marginRight="@dimen/dp_24"-->
+                <!--android:layout_marginTop="@dimen/dp_85" />-->
 
                 <ImageView
                     android:id="@+id/map_moviefragment"
@@ -70,7 +79,7 @@
                 <ProgressBar
                     android:layout_width="@dimen/dp_312"
                     android:layout_height="@dimen/dp_3"
-                    android:layout_below="@+id/vp_movie"
+                    android:layout_below="@+id/list"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/dp_20"
                     android:background="#999999" />

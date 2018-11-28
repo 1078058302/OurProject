@@ -1,8 +1,6 @@
 package com.bw.movie.presenter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -12,7 +10,6 @@ import com.bw.movie.R;
 import com.bw.movie.activity.MainActivity;
 import com.bw.movie.fragment.CinemaChild1Fragment;
 import com.bw.movie.fragment.CinemaChildFragment;
-import com.bw.movie.fragment.CinemaFragment;
 import com.bw.movie.mvp.view.AppDelegate;
 
 public class CinemaFragmentPresenter extends AppDelegate implements View.OnClickListener {
