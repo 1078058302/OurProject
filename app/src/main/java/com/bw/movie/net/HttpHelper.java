@@ -11,7 +11,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -20,14 +19,10 @@ public class HttpHelper {
     private BaseService baseService;
 
     public HttpHelper() {
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(new NetWorkInterceptor())
-                .build();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl("http://mobile.bwstudent.com/")
-                .client(okHttpClient)
                 .build();
         baseService = retrofit.create(BaseService.class);
     }

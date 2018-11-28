@@ -13,7 +13,6 @@ import com.bw.movie.activity.MainActivity;
 import com.bw.movie.activity.WelcomeActivity;
 import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.utils.SharedPreferencesUtils;
-import com.bw.movie.utils.UltimateBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +32,6 @@ public class WelcomeActivityPresenter extends AppDelegate {
     @Override
     public void initData() {
         super.initData();
-        UltimateBar.newImmersionBuilder().applyNav(false)
-                .build((WelcomeActivity) context).apply();
         mPics.add(R.mipmap.introducer1);
         mPics.add(R.mipmap.introducer2);
         mPics.add(R.mipmap.introducer3);
@@ -57,6 +54,7 @@ public class WelcomeActivityPresenter extends AppDelegate {
                     ((WelcomeActivity) context).finish();
                 }
             }
+
 
             @Override
             public void onPageSelected(int i) {

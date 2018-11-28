@@ -13,6 +13,7 @@ import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.utils.SharedPreferencesUtils;
 import com.bw.movie.utils.UltimateBar;
 
+
 public class StartActivityPresenter extends AppDelegate {
 
     private Handler handler = new Handler() {

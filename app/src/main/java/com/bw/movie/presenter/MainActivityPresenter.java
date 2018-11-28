@@ -13,6 +13,7 @@ import com.bw.movie.fragment.CinemaFragment;
 import com.bw.movie.fragment.MineFragment;
 import com.bw.movie.fragment.MovieFragment;
 import com.bw.movie.mvp.view.AppDelegate;
+import com.bw.movie.utils.UltimateBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +34,7 @@ public class MainActivityPresenter extends AppDelegate implements View.OnClickLi
     @Override
     public void initData() {
         super.initData();
-
-
+        UltimateBar.newImmersionBuilder().applyNav(false).build((MainActivity) context).apply();
         main_vp = get(R.id.main_vp);
         //加入三个fragment
         fragments.add(new MovieFragment());
@@ -57,7 +57,7 @@ public class MainActivityPresenter extends AppDelegate implements View.OnClickLi
 
             @Override
             public void onPageSelected(int i) {
-                switch (i){
+                switch (i) {
                     case 0:
                         movie_main.setImageResource(R.drawable.icon_film_selected_xhdpi);
                         cinema_main.setImageResource(R.drawable.icon_cinema_default_hdpi);
