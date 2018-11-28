@@ -16,6 +16,9 @@ public class MovieFragment extends BaseFragmentPresenter<MovieFragmentPresenter>
     @Override
     public void getContext(Context context) {
         super.getContext(context);
+
         delegate.setContext(context);
     }
+
+    
 }

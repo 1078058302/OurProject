@@ -1,5 +1,6 @@
 package com.bw.movie.mvp.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.SparseArray;
@@ -7,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.bw.movie.R;
+import com.tapadoo.alerter.Alerter;
 
 public abstract class AppDelegate implements Delegate {
     private int layoutId;
@@ -61,5 +65,10 @@ public abstract class AppDelegate implements Delegate {
 
     public void destroy() {
         rootView = null;
+    }
+
+    //弹出框
+    public void toastData(String content){
+        Alerter.create((Activity) context).setDuration(2000).setText(content).setBackgroundColor(R.color.colorRed).show();
     }
 }

@@ -32,6 +32,7 @@ public class WelcomeActivityPresenter extends AppDelegate {
     @Override
     public void initData() {
         super.initData();
+        
         mPics.add(R.mipmap.introducer1);
         mPics.add(R.mipmap.introducer2);
         mPics.add(R.mipmap.introducer3);
@@ -66,6 +67,13 @@ public class WelcomeActivityPresenter extends AppDelegate {
 
             }
         });
+
+
+
+
+
+
+
     }
 
 
@@ -73,4 +81,5 @@ public class WelcomeActivityPresenter extends AppDelegate {
     public void getContext(Context context) {
         this.context = context;
     }
+
 }

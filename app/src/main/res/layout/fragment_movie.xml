@@ -17,8 +17,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                >
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -28,12 +29,12 @@
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/vp_movie"
-                    android:layout_width="@dimen/dp_158"
+                    android:layout_width="@dimen/dp_100"
                     android:layout_height="@dimen/dp_223"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="@dimen/dp_24"
-                    android:layout_marginRight="@dimen/dp_24"
-                    android:layout_marginTop="@dimen/dp_85" />
+                    android:layout_marginTop="@dimen/dp_85"
+                    android:clipChildren="false"
+                    />
 
                 <ImageView
                     android:id="@+id/map_moviefragment"
@@ -69,10 +70,25 @@
                 <ProgressBar
                     android:layout_width="@dimen/dp_312"
                     android:layout_height="@dimen/dp_3"
-                    android:layout_below="@+id/vp_movie"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/dp_20"
-                    android:background="#999999" />
+                    android:layout_below="@+id/vp_movie" />
+
+                <RelativeLayout
+                    android:id="@+id/tou"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:clipChildren="false">
+
+
+                </RelativeLayout>
+
+
+                <ProgressBar
+                    android:id="@+id/progress_page"
+                    android:layout_width="312dp"
+                    android:layout_height="3dp"
+                    android:layout_below="@+id/tou"/>
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -135,7 +151,6 @@
                     android:background="@drawable/shape" />
 
                 <ImageView
-
                     android:layout_width="@dimen/dp_24"
                     android:layout_height="@dimen/dp_24"
                     android:layout_alignParentRight="true"
