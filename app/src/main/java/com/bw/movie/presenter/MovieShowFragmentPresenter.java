@@ -119,7 +119,7 @@ public class MovieShowFragmentPresenter extends AppDelegate implements View.OnCl
         });
     }
 
-
+    //即将上映
     private void doNextHttp() {
         HashMap<String, String> map = new HashMap<>();
         map.put("page", 1 + "");
