@@ -19,138 +19,169 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="186dp"
+                    android:layout_height="@dimen/dp_186"
                     android:scaleType="fitXY"
                     android:src="@mipmap/moviebackground1" />
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/vp_movie"
-                    android:layout_width="158dp"
-                    android:layout_height="223dp"
+                    android:layout_width="@dimen/dp_158"
+                    android:layout_height="@dimen/dp_223"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="85dp"></android.support.v4.view.ViewPager>
+                    android:layout_marginLeft="@dimen/dp_24"
+                    android:layout_marginRight="@dimen/dp_24"
+                    android:layout_marginTop="@dimen/dp_85" />
+
+                <ImageView
+                    android:id="@+id/map_moviefragment"
+                    android:layout_width="@dimen/dp_40"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_marginTop="@dimen/dp_21"
+                    android:src="@mipmap/map1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:layout_toRightOf="@+id/map_moviefragment"
+                    android:text="北京"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/sp_16" />
+
+                <RelativeLayout
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_24"
+                    android:background="@drawable/find_bg">
+
+                    <ImageView
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_6"
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:background="@mipmap/find" />
+                </RelativeLayout>
 
                 <ProgressBar
-                    android:layout_width="312dp"
-                    android:layout_height="3dp"
+                    android:layout_width="@dimen/dp_312"
+                    android:layout_height="@dimen/dp_3"
                     android:layout_below="@+id/vp_movie"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/dp_20"
                     android:background="#999999" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginTop="20dp">
+                android:layout_marginLeft="@dimen/dp_24"
+                android:layout_marginRight="@dimen/dp_24"
+                android:layout_marginTop="@dimen/dp_20">
 
                 <TextView
                     android:id="@+id/hotMovie"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="热门电影"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/sp_16" />
 
                 <View
                     android:id="@+id/view1"
-                    android:layout_width="30dp"
-                    android:layout_height="3dp"
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_3"
                     android:layout_below="@+id/hotMovie"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="@dimen/dp_4"
                     android:background="@drawable/shape" />
 
                 <ImageView
 
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
                     android:layout_alignParentRight="true"
                     android:background="@mipmap/blank_xxx" />
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="164dp"
+                    android:layout_height="@dimen/dp_164"
                     android:layout_below="@+id/view1"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/dp_20"
                     android:orientation="horizontal" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginTop="20dp">
+                android:layout_marginLeft="@dimen/dp_24"
+                android:layout_marginRight="@dimen/dp_24"
+                android:layout_marginTop="@dimen/dp_20">
 
                 <TextView
                     android:id="@+id/hoting"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="正在上映"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/sp_16" />
 
                 <View
                     android:id="@+id/view2"
-                    android:layout_width="30dp"
-                    android:layout_height="3dp"
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_3"
                     android:layout_below="@+id/hoting"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="@dimen/dp_4"
                     android:background="@drawable/shape" />
 
                 <ImageView
 
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
                     android:layout_alignParentRight="true"
                     android:background="@mipmap/blank_xxx" />
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="164dp"
+                    android:layout_height="@dimen/dp_164"
                     android:layout_below="@+id/view2"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/dp_20"
                     android:orientation="horizontal" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginTop="20dp">
+                android:layout_marginLeft="@dimen/dp_24"
+                android:layout_marginRight="@dimen/dp_24"
+                android:layout_marginTop="@dimen/dp_20">
 
                 <TextView
                     android:id="@+id/jijiang"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="即将上映"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/sp_16" />
 
                 <View
                     android:id="@+id/view3"
-                    android:layout_width="30dp"
-                    android:layout_height="3dp"
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_3"
                     android:layout_below="@+id/jijiang"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="@dimen/dp_4"
                     android:background="@drawable/shape" />
 
                 <ImageView
-
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignPrentRight="true"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:layout_alignParentRight="true"
                     android:background="@mipmap/blank_xxx" />
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="164dp"
+                    android:layout_height="@dimen/dp_164"
                     android:layout_below="@+id/view3"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/dp_20"
                     android:orientation="horizontal" />
             </RelativeLayout>
         </LinearLayout>
