@@ -25,6 +25,7 @@ public class HotMovieAdapter extends RecyclerView.Adapter<HotMovieAdapter.MyView
     @Override
     public HotMovieAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = View.inflate(context, R.layout.hotmovie_recycle_item,null);
+
         MyViewHolder myViewHolder = new MyViewHolder(view);
         myViewHolder.simpleDraweeView = view.findViewById(R.id.hotmovie_item_image);
         return myViewHolder;

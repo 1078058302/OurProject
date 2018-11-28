@@ -9,8 +9,16 @@ import android.widget.ImageView;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.MovieShowActivity;
+import com.bw.movie.adapter.HotMovieShowAdapter;
+import com.bw.movie.mvp.model.HotMovieBean;
 import com.bw.movie.mvp.view.AppDelegate;
+import com.bw.movie.net.HttpHelper;
+import com.bw.movie.net.HttpListener;
 import com.bw.movie.utils.UltimateBar;
+import com.google.gson.Gson;
+
+import java.util.HashMap;
+import java.util.List;
 
 /*
  * insert zhang
@@ -19,9 +27,11 @@ import com.bw.movie.utils.UltimateBar;
 public class MovieShowActivityPresenter extends AppDelegate implements View.OnClickListener {
     private ImageView retreat;
     private RecyclerView recycle_movieshow;
+    HotMovieShowAdapter hotMovieShowAdapter = new HotMovieShowAdapter();
 
     @Override
     public int getLayoutId() {
+
         return R.layout.activity_movie_show;
     }
 
@@ -35,10 +45,6 @@ public class MovieShowActivityPresenter extends AppDelegate implements View.OnCl
         Button next_bt = get(R.id.next_bt_movieshow);
         recycle_movieshow = get(R.id.recycle_movieshow);
         setClick(this, R.id.movieshow_image_retreat, R.id.movieshow_image_retreat, R.id.hot_bt_movieshow, R.id.moviing_bt_movieshow, R.id.next_bt_movieshow);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recycle_movieshow.setLayoutManager(linearLayoutManager);
-
         ChenJinShi();
     }
 
@@ -59,13 +65,52 @@ public class MovieShowActivityPresenter extends AppDelegate implements View.OnCl
             case R.id.movieshow_image_retreat:
                 ((MovieShowActivity) context).finish();
                 break;
+            //热门播放
             case R.id.hot_bt_movieshow:
-
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                recycle_movieshow.setLayoutManager(linearLayoutManager);
+                recycle_movieshow.setAdapter(hotMovieShowAdapter);
+                doHotHttp();
                 break;
+            //正在播放
             case R.id.moviing_bt_movieshow:
+                doMovieingHttp();
                 break;
+            //即将播放
             case R.id.next_bt_movieshow:
+                doNextHttp();
                 break;
         }
+    }
+
+    //即将播放
+    private void doNextHttp() {
+
+    }
+
+    //正在播放
+    private void doMovieingHttp() {
+
+    }
+
+    //热门播放
+    private void doHotHttp() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("page", 1 + "");
+        map.put("count", 10 + "");
+        new HttpHelper().get("movieApi/movie/v1/findHotMovieList", map).result(new HttpListener() {
+            @Override
+            public void success(String data) {
+                HotMovieBean hotMovieBean = new Gson().fromJson(data, HotMovieBean.class);
+                List<HotMovieBean.ResultBean> result = hotMovieBean.getResult();
+                hotMovieShowAdapter.setlist(context, result);
+            }
+
+            @Override
+            public void fail(String error) {
+
+            }
+        });
     }
 }
