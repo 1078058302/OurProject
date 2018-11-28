@@ -32,8 +32,8 @@ public abstract class BaseFragmentPresenter<T extends AppDelegate> extends Fragm
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        delegate.create(inflater, container, savedInstanceState);
         getContext(getActivity());
+        delegate.create(inflater, container, savedInstanceState);
         return delegate.rootView();
     }
 

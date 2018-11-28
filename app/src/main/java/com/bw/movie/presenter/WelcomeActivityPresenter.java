@@ -13,6 +13,7 @@ import com.bw.movie.activity.MainActivity;
 import com.bw.movie.activity.WelcomeActivity;
 import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.utils.SharedPreferencesUtils;
+import com.bw.movie.utils.UltimateBar;
 
 import java.util.ArrayList;
 import java.util.List;
