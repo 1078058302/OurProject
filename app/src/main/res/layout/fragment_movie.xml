@@ -27,7 +27,6 @@
                     android:src="@mipmap/moviebackground1" />
 
                 <recycler.coverflow.RecyclerCoverFlow
-
                     android:id="@+id/list"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_223"
@@ -35,47 +34,12 @@
                     android:layout_marginLeft="@dimen/dp_24"
                     android:layout_marginRight="@dimen/dp_24"
                     android:layout_marginTop="@dimen/dp_85"></recycler.coverflow.RecyclerCoverFlow>
-                <!--<android.support.v4.view.ViewPager-->
-                <!--android:clipChildren="false"-->
-                <!--android:id="@+id/vp_movie"-->
-                <!--android:layout_width="@dimen/dp_100"-->
-                <!--android:layout_height="@dimen/dp_223"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_marginLeft="@dimen/dp_24"-->
-                <!--android:layout_marginRight="@dimen/dp_24"-->
-                <!--android:layout_marginTop="@dimen/dp_85" />-->
 
-                <ImageView
-                    android:id="@+id/map_moviefragment"
-                    android:layout_width="@dimen/dp_40"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginTop="@dimen/dp_21"
-                    android:src="@mipmap/map1" />
 
-                <TextView
+                <com.bw.movie.mvp.view.LayoutBarMovie
+                    android:layout_marginTop="@dimen/dp_10"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_30"
-                    android:layout_toRightOf="@+id/map_moviefragment"
-                    android:text="北京"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/sp_16" />
-
-                <RelativeLayout
-                    android:layout_width="@dimen/dp_60"
-                    android:layout_height="@dimen/dp_33"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="@dimen/dp_30"
-                    android:background="@drawable/find_bg">
-
-                    <ImageView
-                        android:layout_width="@dimen/dp_20"
-                        android:layout_height="@dimen/dp_20"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/dp_6"
-                        android:background="@mipmap/find" />
-                </RelativeLayout>
-
+                    android:layout_height="wrap_content" />
 
                 <RelativeLayout
                     android:layout_centerHorizontal="true"
@@ -91,7 +55,6 @@
                         android:layout_height="@dimen/dp_3"></android.support.design.widget.TabLayout>
 
                 </RelativeLayout>
-
             </RelativeLayout>
 
             <RelativeLayout

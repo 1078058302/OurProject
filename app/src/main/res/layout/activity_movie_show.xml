@@ -6,50 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".activity.MovieShowActivity">
 
-    <RelativeLayout
-        android:id="@+id/movieshow_map_relative"
-        android:layout_width="@dimen/dp_40"
-        android:layout_height="@dimen/dp_40"
-        android:layout_marginLeft="@dimen/dp_24"
-        android:layout_marginTop="@dimen/dp_30">
-
-        <ImageView
-            android:id="@+id/movieshow_map"
-            android:layout_width="@dimen/dp_40"
-            android:layout_height="@dimen/dp_40"
-            android:src="@mipmap/map2" />
-    </RelativeLayout>
-
-    <TextView
+    <com.bw.movie.mvp.view.LayoutBar
+        android:layout_marginTop="@dimen/dp_10"
+        android:id="@+id/layout_bar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp_6"
-        android:layout_marginTop="@dimen/dp_39"
-        android:layout_toRightOf="@+id/movieshow_map_relative"
-        android:text="北京"
-        android:textColor="#333333"
-        android:textSize="@dimen/sp_14" />
+        android:layout_height="wrap_content" />
 
     <RelativeLayout
-        android:layout_width="@dimen/dp_50"
-        android:layout_height="@dimen/dp_24"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/dp_37"
-        android:background="@drawable/find_bg">
-
-        <ImageView
-            android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_20"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_6"
-            android:background="@mipmap/find" />
-    </RelativeLayout>
-
-    <RelativeLayout
+        android:layout_below="@+id/layout_bar"
         android:id="@+id/movieshow_but_relative"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_25"
-        android:layout_below="@+id/movieshow_map_relative"
         android:layout_marginLeft="@dimen/dp_24"
         android:layout_marginRight="@dimen/dp_24"
         android:layout_marginTop="@dimen/dp_16">
@@ -59,6 +26,8 @@
             android:layout_width="@dimen/dp_90"
             android:layout_height="match_parent"
             android:background="@drawable/edit_bg1"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
             android:text="热门电影"
             android:textSize="@dimen/sp_14" />
 
@@ -68,6 +37,8 @@
             android:layout_height="@dimen/dp_40"
             android:layout_centerInParent="true"
             android:background="@drawable/edit_bg1"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
             android:text="正在热映"
             android:textSize="@dimen/sp_14" />
 
@@ -78,18 +49,20 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:background="@drawable/edit_bg1"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
             android:text="即将上映"
             android:textSize="@dimen/sp_14" />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="@dimen/dp_20"
         android:id="@+id/recycle_movieshow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/movieshow_but_relative"
         android:layout_marginLeft="@dimen/dp_24"
-        android:layout_marginRight="@dimen/dp_24" />
+        android:layout_marginRight="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_20" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -98,10 +71,8 @@
         android:layout_marginBottom="@dimen/dp_20"
         android:layout_marginLeft="@dimen/dp_24">
 
-        <ImageView
-            android:id="@+id/movieshow_image_retreat"
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_60"
-            android:src="@mipmap/retreat_h" />
+        <com.bw.movie.mvp.view.LayoutBlank
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 </RelativeLayout>

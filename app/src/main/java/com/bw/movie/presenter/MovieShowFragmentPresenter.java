@@ -163,7 +163,6 @@ public class MovieShowFragmentPresenter extends AppDelegate implements View.OnCl
                 List<NextMovieBean.ResultBean> resultnext = nextMovieBean.getResult();
                 nextMovieAdapter.setList(resultnext, context);
             }
-
             @Override
             public void fail(String error) {
 
@@ -218,15 +217,21 @@ public class MovieShowFragmentPresenter extends AppDelegate implements View.OnCl
 
     @Override
     public void onClick(View view) {
+        String movie = "movie";
+        Intent intent = new Intent(context, MovieShowActivity.class);
         switch (view.getId()) {
-            case R.id.hotMovie_image_moviefragment:
-                context.startActivity(new Intent(context, MovieShowActivity.class));
+            case R.id.hotMovie_image_moviefragment://热门电影
+                intent.putExtra(movie, "1");
+                context.startActivity(intent);
                 break;
-            case R.id.Movieing_image_moviefragment:
-                context.startActivity(new Intent(context, MovieShowActivity.class));
+            case R.id.Movieing_image_moviefragment://正在上映
+                intent.putExtra(movie, "2");
+                context.startActivity(intent);
                 break;
-            case R.id.nextMovie_image_moviefragment:
-                context.startActivity(new Intent(context, MovieShowActivity.class));
+            case R.id.nextMovie_image_moviefragment://即将上映
+
+                intent.putExtra(movie, "3");
+                context.startActivity(intent);
                 break;
         }
     }
