@@ -2,6 +2,7 @@ package com.bw.movie.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import recycler.coverflow.CoverFlowLayoutManger;
 import recycler.coverflow.RecyclerCoverFlow;
 
 public class MovieShowFragmentPresenter extends AppDelegate implements View.OnClickListener {
@@ -42,6 +44,7 @@ public class MovieShowFragmentPresenter extends AppDelegate implements View.OnCl
 
     private ProgressBar progress_page;
     private RecyclerCoverFlow mList;
+    private TabLayout tab_main;
 
     @Override
     public int getLayoutId() {
@@ -56,7 +59,7 @@ public class MovieShowFragmentPresenter extends AppDelegate implements View.OnCl
         ImageView hotMovie = get(R.id.hotMovie_image_moviefragment);
         ImageView Movieing = get(R.id.Movieing_image_moviefragment);
         mList = get(R.id.list);
-
+        tab_main = (TabLayout) get(R.id.tab_main);
         hotRecycle = get(R.id.hotMovie_recycle);
         movieingRecycle = get(R.id.movieing_recycle);
         nextRecycle = get(R.id.nextmovie_recycle);
@@ -81,7 +84,36 @@ public class MovieShowFragmentPresenter extends AppDelegate implements View.OnCl
         nextRecycle.setLayoutManager(linearLayoutManager2);
         nextRecycle.setAdapter(nextMovieAdapter);
         doNextHttp();
+        tab_main.setTabMode(TabLayout.MODE_FIXED);
+        tab_main.setSelectedTabIndicatorHeight(10);
+
+        tab_main.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                mList.scrollToPosition(position);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        mList.setOnItemSelectedListener(new CoverFlowLayoutManger.OnSelected() {
+            @Override
+            public void onItemSelected(int position) {
+                tab_main.getTabAt(position).select();
+            }
+        });
     }
+
+
 
     //顶部图片轮播
     private void doHttp() {
@@ -90,9 +122,9 @@ public class MovieShowFragmentPresenter extends AppDelegate implements View.OnCl
             public void success(String data) {
                 BannerBean bannerBean = new Gson().fromJson(data, BannerBean.class);
                 List<BannerBean.ResultBean> result = bannerBean.getResult();
-//                for (int i = 0; i < result.size(); i++) {
-//                    images.add(result.get(i).getImageUrl());
-//                }
+                for (int i = 0; i < result.size(); i++) {
+                    tab_main.addTab(tab_main.newTab().setText(null));
+                }
                 initViews(result);
             }
 

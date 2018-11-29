@@ -4,25 +4,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-   <RelativeLayout
-       android:layout_width="@dimen/dp_158"
-       android:layout_height="@dimen/dp_223">
-       <ImageView
-           android:id="@+id/iv"
-           android:layout_width="@dimen/dp_158"
-           android:layout_height="@dimen/dp_223" />
+    <RelativeLayout
+        android:layout_width="@dimen/dp_158"
+        android:layout_height="@dimen/dp_223">
 
-       <RelativeLayout
-           android:layout_width="match_parent"
-           android:layout_height="@dimen/dp_30"
-           android:layout_alignParentBottom="true"
-           android:background="#80d0caca">
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="@dimen/dp_158"
+            android:layout_height="@dimen/dp_223"
+            android:scaleType="fitXY" />
 
-           <TextView
-               android:id="@+id/movie_name"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_centerInParent="true" />
-   </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="@dimen/dp_158"
+            android:layout_height="@dimen/dp_30"
+            android:layout_alignParentBottom="true"
+            android:background="#80d0caca">
+
+            <TextView
+                android:id="@+id/movie_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

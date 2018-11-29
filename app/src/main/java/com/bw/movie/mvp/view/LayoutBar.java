@@ -1,6 +1,7 @@
 package com.bw.movie.mvp.view;
 
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -65,6 +66,7 @@ public class LayoutBar extends RelativeLayout {
             public void onClick(View v) {
                 String find = find_cinema.getText().toString().trim();
                 Intent intent = new Intent(context, ShowFindActivity.class);
+                intent.putExtra("find", find);
                 context.startActivity(intent);
             }
         });

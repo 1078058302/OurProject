@@ -62,8 +62,8 @@
                     android:textSize="@dimen/sp_16" />
 
                 <RelativeLayout
-                    android:layout_width="@dimen/dp_50"
-                    android:layout_height="@dimen/dp_24"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="@dimen/dp_33"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="@dimen/dp_30"
                     android:background="@drawable/find_bg">
@@ -76,13 +76,22 @@
                         android:background="@mipmap/find" />
                 </RelativeLayout>
 
-                <ProgressBar
-                    android:layout_width="@dimen/dp_312"
-                    android:layout_height="@dimen/dp_3"
-                    android:layout_below="@+id/list"
+
+                <RelativeLayout
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/dp_20"
-                    android:background="#999999" />
+                    android:layout_below="@+id/list"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/progress_bg"
+                    android:layout_height="wrap_content">
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/tab_main"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="@dimen/dp_300"
+                        android:layout_height="@dimen/dp_3"></android.support.design.widget.TabLayout>
+
+                </RelativeLayout>
+
             </RelativeLayout>
 
             <RelativeLayout

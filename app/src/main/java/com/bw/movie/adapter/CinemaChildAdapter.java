@@ -1,6 +1,7 @@
 package com.bw.movie.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bw.movie.R;
+import com.bw.movie.activity.CinemaDetailActivity;
 import com.bw.movie.mvp.model.NearByBean;
 import com.bw.movie.mvp.model.RecommendBean;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -38,7 +40,7 @@ public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         viewHolder.image_cinema.setImageURI(list.get(i).getLogo());
         viewHolder.title.setText(list.get(i).getName());
         String address = list.get(i).getAddress();
@@ -48,18 +50,22 @@ public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.
             viewHolder.desc.setText(address);
         }
         viewHolder.away.setText(list.get(i).getDistance() + "km");
+        viewHolder.cinema_show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CinemaDetailActivity.class);
+                int id = list.get(i).getId();
+                intent.putExtra("cinemaId", id);
+                context.startActivity(intent);
+            }
+        });
         viewHolder.collection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
-        viewHolder.cinema_show.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "我是跳转", Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
 
     @Override
