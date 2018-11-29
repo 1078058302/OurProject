@@ -62,8 +62,8 @@
                     android:textSize="@dimen/sp_16" />
 
                 <RelativeLayout
-                    android:layout_width="@dimen/dp_50"
-                    android:layout_height="@dimen/dp_24"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="@dimen/dp_33"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="@dimen/dp_30"
                     android:background="@drawable/find_bg">

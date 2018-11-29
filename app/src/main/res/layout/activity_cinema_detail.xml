@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.CinemaDetailActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_200"
+            android:background="@mipmap/moviebackground1"></LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/details_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_6">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/cinema_details_image"
+                android:layout_width="@dimen/dp_50"
+                android:layout_height="@dimen/dp_50"
+                android:background="@mipmap/ic_launcher"
+                app:roundedCornerRadius="@dimen/dp_10" />
+
+            <LinearLayout
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_100"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="@dimen/dp_5">
+
+                <TextView
+                    android:id="@+id/cinema_details_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:text="影院名"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/dp_12" />
+
+                <TextView
+                    android:id="@+id/cinema_details_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:inputType="textMultiLine"
+                    android:maxEms="16"
+                    android:maxLines="2"
+                    android:scrollHorizontally="false"
+                    android:text="影院地址"
+                    android:textColor="#fff" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/dp_20"
+                android:background="@mipmap/chuan" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_233"
+            android:layout_below="@id/details_layout"
+            android:layout_marginTop="@dimen/dp_15"
+            android:padding="@dimen/dp_5">
+
+            <recycler.coverflow.RecyclerCoverFlow
+                android:id="@+id/details_cover"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_223"></recycler.coverflow.RecyclerCoverFlow>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/details_show"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_500"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/details"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_50"
+                android:layout_marginLeft="@dimen/dp_50"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="详情"
+                    android:textSize="@dimen/dp_16" />
+
+                <View
+                    android:id="@+id/details_down"
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_3"
+                    android:layout_below="@id/details"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:background="@drawable/edit_bg"></View>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_50"
+                android:layout_marginRight="@dimen/dp_30"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="@dimen/dp_40"
+                    android:text="评论"
+                    android:textSize="@dimen/dp_16" />
+
+                <View
+                    android:id="@+id/comment_down"
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_3"
+                    android:layout_below="@id/comment"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:background="@drawable/edit_bg"
+                    android:visibility="gone"></View>
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/down"
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/dp_15"
+                android:background="@mipmap/down" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
