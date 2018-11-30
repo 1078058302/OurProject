@@ -59,8 +59,7 @@ public class NiChengActivityPresenter extends AppDelegate implements View.OnClic
             case R.id.confim:
                 //确定
                 doHttp();
-                SharedPreferencesUtils.putString(context, "nickName", trim);
-                ((NiChengActivity) context).finish();
+
                 break;
         }
     }
@@ -84,10 +83,15 @@ public class NiChengActivityPresenter extends AppDelegate implements View.OnClic
                 NiChengBean niChengBean = gson.fromJson(data, NiChengBean.class);
                 if ("0000".equals(niChengBean.getStatus())) {
                     toast("修改成功");
+                    SharedPreferencesUtils.putString(context, "nickName", trim);
+                    ((NiChengActivity) context).finish();
                 } else {
                     toast("修改失败");
-                    return;
+                    SharedPreferencesUtils.putString(context, "nickName", "");
+                    ((NiChengActivity) context).finish();
+
                 }
+
             }
 
             @Override
