@@ -67,6 +67,7 @@
             android:layout_marginTop="@dimen/dp_60">
 
             <ImageView
+                android:id="@+id/collection_image"
                 android:layout_width="@dimen/dp_20"
                 android:layout_height="@dimen/dp_20"
                 android:background="@mipmap/collection_default" />
