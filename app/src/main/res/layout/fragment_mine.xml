@@ -25,11 +25,11 @@
             android:layout_centerInParent="true">
 
             <com.facebook.drawee.view.SimpleDraweeView
+                android:background="@mipmap/logo"
                 android:id="@+id/sd"
                 android:layout_width="@dimen/dp_72"
                 android:layout_height="@dimen/dp_72"
                 android:layout_centerInParent="true"
-                app:placeholderImage="@mipmap/bitmap2"
                 app:roundAsCircle="true" />
 
             <TextView
@@ -38,7 +38,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:text="冬天来了"
                 android:textColor="#ffffff"
                 android:textSize="18sp" />
         </RelativeLayout>
