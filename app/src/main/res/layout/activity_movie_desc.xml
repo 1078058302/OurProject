@@ -69,45 +69,45 @@
         android:layout_marginTop="@dimen/dp_30">
 
         <Button
-            android:textColor="#ffffff"
-            android:background="@drawable/shape_bt_moviedesc"
             android:id="@+id/movie_desc_bt_details"
             android:layout_width="@dimen/dp_58"
             android:layout_height="@dimen/dp_32"
+            android:background="@drawable/shape_bt_moviedesc"
             android:text="详情"
+            android:textColor="#ffffff"
             android:textSize="@dimen/sp_14" />
 
         <Button
-            android:textColor="#ffffff"
-            android:background="@drawable/shape_bt_moviedesc"
             android:id="@+id/movie_desc_bt_Notice"
             android:layout_width="@dimen/dp_58"
             android:layout_height="@dimen/dp_32"
             android:layout_marginLeft="@dimen/dp_24"
             android:layout_toRightOf="@+id/movie_desc_bt_details"
+            android:background="@drawable/shape_bt_moviedesc"
             android:text="预告"
+            android:textColor="#ffffff"
             android:textSize="@dimen/sp_14" />
 
         <Button
-            android:textColor="#ffffff"
-            android:background="@drawable/shape_bt_moviedesc"
             android:id="@+id/movie_desc_bt_Stills"
             android:layout_width="@dimen/dp_58"
             android:layout_height="@dimen/dp_32"
             android:layout_marginLeft="@dimen/dp_24"
             android:layout_toRightOf="@+id/movie_desc_bt_Notice"
+            android:background="@drawable/shape_bt_moviedesc"
             android:text="剧照"
+            android:textColor="#ffffff"
             android:textSize="@dimen/sp_14" />
 
         <Button
-            android:textColor="#ffffff"
-            android:background="@drawable/shape_bt_moviedesc"
             android:id="@+id/movie_desc_bt_evaluate"
             android:layout_width="@dimen/dp_58"
             android:layout_height="@dimen/dp_32"
             android:layout_marginLeft="@dimen/dp_24"
             android:layout_toRightOf="@+id/movie_desc_bt_Stills"
+            android:background="@drawable/shape_bt_moviedesc"
             android:text="影评"
+            android:textColor="#ffffff"
             android:textSize="@dimen/sp_14" />
     </RelativeLayout>
 
@@ -131,4 +131,151 @@
         android:textColor="#ffffff"
         android:textSize="@dimen/sp_20" />
 
+    <RelativeLayout
+        android:id="@+id/movie_desc_relative_details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp_70"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/dp_50"
+            android:background="@drawable/details"
+            android:clickable="true">
+
+            <TextView
+                android:id="@+id/details_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_151"
+                android:layout_marginTop="@dimen/dp_20"
+                android:text="AAA"
+                android:textSize="@dimen/sp_12" />
+
+            <TextView
+                android:id="@+id/details_director"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_151"
+                android:layout_marginTop="@dimen/dp_40"
+                android:text="AAA"
+                android:textSize="@dimen/sp_12" />
+
+            <TextView
+                android:id="@+id/details_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_151"
+                android:layout_marginTop="@dimen/dp_60"
+                android:text="AAA"
+                android:textSize="@dimen/sp_12" />
+
+            <TextView
+                android:id="@+id/details_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_151"
+                android:layout_marginTop="@dimen/dp_80"
+                android:text="AAA"
+                android:textSize="@dimen/sp_12" />
+
+            <ImageView
+                android:id="@+id/details_down_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_24"
+                android:layout_marginTop="@dimen/dp_10"
+                android:src="@mipmap/com_icon_down_default_xxhdpi" />
+
+            <TextView
+                android:id="@+id/movie_jianjie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_24"
+                android:layout_marginTop="@dimen/dp_120"
+                android:text="剧情简介"
+                android:textSize="@dimen/sp_16" />
+
+            <ImageView
+                android:id="@+id/image_bottom1"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_6"
+                android:layout_below="@+id/movie_jianjie"
+                android:layout_marginLeft="@dimen/dp_24"
+                android:layout_marginTop="@dimen/dp_6"
+                android:background="@drawable/shape_bt_moviedesc" />
+
+            <TextView
+                android:id="@+id/details_introduce"
+                android:layout_below="@+id/image_bottom1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_24"
+                android:layout_marginTop="@dimen/dp_10"
+                android:textSize="@dimen/sp_12"
+                android:layout_marginRight="@dimen/dp_24"
+                android:text="AAA" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/details_image_desc"
+            android:layout_width="@dimen/dp_111"
+            android:layout_height="@dimen/dp_149"
+            android:layout_marginLeft="@dimen/dp_24"
+            android:scaleType="fitXY"
+            android:src="@mipmap/movie_desc_xh" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/movie_desc_relative_Notice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/dp_120"
+        android:background="#FFFFFF"
+        android:clickable="true"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="预告" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/movie_desc_relative_Stills"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/dp_120"
+        android:background="#FFFFFF"
+        android:clickable="true"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="剧照" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/movie_desc_relative_evaluate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/dp_120"
+        android:background="#FFFFFF"
+        android:clickable="true"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="影评" />
+    </RelativeLayout>
 </RelativeLayout>

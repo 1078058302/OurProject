@@ -39,12 +39,15 @@ public class HttpHelper {
         return this;
     }
 
-    public HttpHelper post(String url, Map<String, String> map) {
+    public HttpHelper post(Map<String, String> m, String url, Map<String, String> map) {
+        if (m == null) {
+            m = new HashMap<>();
+        }
         if (map == null) {
             map = new HashMap<>();
         }
 
-        baseService.post(url, map)
+        baseService.post(m, url, map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);

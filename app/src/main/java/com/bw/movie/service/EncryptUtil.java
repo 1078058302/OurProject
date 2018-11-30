@@ -43,6 +43,7 @@ public class EncryptUtil {
      * @throws Exception
      */
     public static String decrypt(String password){
+
         try {
             byte [] byte1 = Base64.decode(password);
             IvParameterSpec ivSpec = new IvParameterSpec(IV.getBytes());
