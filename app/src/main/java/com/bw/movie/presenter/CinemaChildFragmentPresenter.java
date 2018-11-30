@@ -2,16 +2,22 @@ package com.bw.movie.presenter;
 
 import android.content.Context;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.bw.movie.R;
 import com.bw.movie.adapter.CinemaChildAdapter;
 import com.bw.movie.mvp.model.RecommendBean;
+import com.bw.movie.mvp.model.ShowBean;
+import com.bw.movie.mvp.model.TrueRecommendBean;
 import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
+import com.bw.movie.utils.SharedPreferencesUtils;
 import com.google.gson.Gson;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
