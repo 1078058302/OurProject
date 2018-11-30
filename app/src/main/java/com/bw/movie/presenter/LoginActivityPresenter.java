@@ -115,7 +115,9 @@ public class LoginActivityPresenter extends AppDelegate implements View.OnClickL
                         SharedPreferencesUtils.putString(context, "tv_phone", "");
                         SharedPreferencesUtils.putString(context, "tv_pwd", "");
                     }
+                    
                     SharedPreferencesUtils.putString(context, "tv_phone2", tvPhone);
+
                     SharedPreferencesUtils.putString(context, "headPic", loginBean.getResult().getUserInfo().getHeadPic());
                     SharedPreferencesUtils.putString(context, "nickName", loginBean.getResult().getUserInfo().getNickName());
                     SharedPreferencesUtils.putString(context, "sessionId", loginBean.getResult().getSessionId());

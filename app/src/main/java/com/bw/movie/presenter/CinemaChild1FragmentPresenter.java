@@ -54,6 +54,8 @@ public class CinemaChild1FragmentPresenter extends AppDelegate {
         Map map = new HashMap();
         map.put("page", 1);
         map.put("count", 21);
+        map.put("longitude", "116.30551391385724");
+        map.put("latitude", "40.04571807462411");
         new HttpHelper().get("/movieApi/cinema/v1/findRecommendCinemas", map).result(new HttpListener() {
             @Override
             public void success(String data) {

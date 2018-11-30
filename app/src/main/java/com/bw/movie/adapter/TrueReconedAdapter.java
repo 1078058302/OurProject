@@ -16,8 +16,8 @@ import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.CinemaDetailActivity;
-import com.bw.movie.mvp.model.NearByBean;
 import com.bw.movie.mvp.model.RecommendBean;
+import com.bw.movie.mvp.model.ShowBean;
 import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
 import com.bw.movie.utils.SharedPreferencesUtils;
@@ -28,13 +28,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.ViewHolder> {
-    private List<RecommendBean.ResultBean> list = new ArrayList<>();
+public class TrueReconedAdapter extends RecyclerView.Adapter<TrueReconedAdapter.ViewHolder> {
+    private List<ShowBean> list = new ArrayList<>();
     private Context context;
-    public boolean b = true;
     private String sessionId;
     private int userId;
+    private boolean followCinema;
     private int id;
+    public boolean b = true;
 
     @NonNull
     @Override
@@ -61,8 +62,12 @@ public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.
         } else {
             viewHolder.desc.setText(address);
         }
-        viewHolder.away.setText(list.get(i).getDistance() + "km");
-
+        double distance = list.get(i).getDistance();
+        double v = distance / 1000;
+        viewHolder.away.setText(v + "km");
+        id = list.get(i).getId();
+        sessionId = SharedPreferencesUtils.getString(context, "sessionId");
+        userId = SharedPreferencesUtils.getInt(context, "userId");
         viewHolder.cinema_show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,9 +77,6 @@ public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.
                 context.startActivity(intent);
             }
         });
-        sessionId = SharedPreferencesUtils.getString(context, "sessionId");
-        userId = SharedPreferencesUtils.getInt(context, "userId");
-        id = list.get(i).getId();
         boolean followCinema = list.get(i).isFollowCinema();
         if (followCinema) {
             viewHolder.collection_image.setImageResource(R.mipmap.collection_default);
@@ -96,12 +98,16 @@ public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.
         });
     }
 
+    private void doHttp() {
+
+    }
+
     @Override
     public int getItemCount() {
         return list.size();
     }
 
-    public void setList(List<RecommendBean.ResultBean> list) {
+    public void setList(List<ShowBean> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -133,6 +139,7 @@ public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.
         new HttpHelper().getHead("/movieApi/cinema/v1/verify/followCinema", map, mapHead).result(new HttpListener() {
             @Override
             public void success(String data) {
+                Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
                 list.get(i).setFollowCinema(false);
                 viewHolder.collection_image.setImageResource(R.mipmap.collection_selected);
             }
@@ -154,6 +161,7 @@ public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.
         new HttpHelper().getHead("/movieApi/cinema/v1/verify/cancelFollowCinema", map, mapHead).result(new HttpListener() {
             @Override
             public void success(String data) {
+                Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
                 list.get(i).setFollowCinema(true);
                 viewHolder.collection_image.setImageResource(R.mipmap.collection_default);
             }
@@ -165,3 +173,4 @@ public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.
         });
     }
 }
+
