@@ -59,7 +59,6 @@ public class NiChengActivityPresenter extends AppDelegate implements View.OnClic
             case R.id.confim:
                 //确定
                 doHttp();
-
                 break;
         }
     }
