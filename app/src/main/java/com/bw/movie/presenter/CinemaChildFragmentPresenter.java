@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.adapter.CinemaChildAdapter;
