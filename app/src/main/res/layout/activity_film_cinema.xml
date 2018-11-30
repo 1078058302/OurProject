@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".activity.FilmCinemaActivity">
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:layout_below="@+id/hean"
+        android:id="@+id/film_cinema_recycle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.jcodecraeer.xrecyclerview.XRecyclerView>
+    <LinearLayout
+        android:id="@+id/hean"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:textStyle="bold"
+            android:layout_marginLeft="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_35"
+            android:textSize="@dimen/dp_18"
+            android:id="@+id/film_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="强哥请跳转"
+            />
+        <TextView
+            android:layout_below="@+id/film_name"
+            android:layout_marginLeft="@dimen/dp_24"
+            android:textColor="#993399"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择合适的影院"
+            android:layout_marginTop="@dimen/dp_10"
+            />
+
+    </LinearLayout>
+    <com.bw.movie.mvp.view.LayoutBlank
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></com.bw.movie.mvp.view.LayoutBlank>
+
+</RelativeLayout>

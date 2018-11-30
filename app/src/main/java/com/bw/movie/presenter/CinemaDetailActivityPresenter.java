@@ -176,7 +176,7 @@ public class CinemaDetailActivityPresenter extends AppDelegate {
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(details_show, "translationY", heightPixels, 0);
         objectAnimator.setDuration(1000);
         objectAnimator.start();
-        details_show.setVisibility(View.VISIBLE);
+        details_show.setVisibility(View.GONE);
     }
 
     //关闭

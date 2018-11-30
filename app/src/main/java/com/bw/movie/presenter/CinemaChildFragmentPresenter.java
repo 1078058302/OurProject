@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.bw.movie.R;
+import com.bw.movie.activity.CinemaCityActivity;
 import com.bw.movie.adapter.CinemaChildAdapter;
 import com.bw.movie.mvp.model.RecommendBean;
 import com.bw.movie.mvp.view.AppDelegate;
@@ -22,7 +23,6 @@ public class CinemaChildFragmentPresenter extends AppDelegate {
 
     private XRecyclerView xRecyclerView;
     private CinemaChildAdapter adapter;
-
     @Override
     public int getLayoutId() {
         return R.layout.fragment_cinema_child;

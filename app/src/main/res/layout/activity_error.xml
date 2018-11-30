@@ -5,28 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/error_page"
-    android:orientation="vertical"
     android:gravity="bottom|center"
+    android:orientation="vertical"
     tools:context=".activity.ErrorActivity">
 
     <RelativeLayout
-        android:layout_marginBottom="200dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/dp_100"
         android:gravity="center">
 
         <TextView
-            android:layout_marginTop="20dp"
             android:id="@+id/tv_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#33FFFF"
             android:text="《《《请点击刷新"
+            android:textColor="#33FFFF"
             android:textSize="15sp" />
-
-
     </RelativeLayout>
 
 
