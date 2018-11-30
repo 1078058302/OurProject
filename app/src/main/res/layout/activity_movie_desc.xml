@@ -119,6 +119,7 @@
         android:layout_marginTop="@dimen/dp_12" />
 
     <TextView
+        android:id="@+id/buy_film"
         android:layout_width="@dimen/dp_52"
         android:layout_height="@dimen/dp_52"
         android:layout_alignParentRight="true"

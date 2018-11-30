@@ -3,24 +3,20 @@ package com.bw.movie.presenter;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.CinemaDetailActivity;
-import com.bw.movie.activity.MainActivity;
 import com.bw.movie.adapter.CinemaDetailsAdapter;
 import com.bw.movie.adapter.PageMovieingAdapter;
 import com.bw.movie.fragment.CommentFragment;
@@ -278,7 +274,7 @@ public class CinemaDetailActivityPresenter extends AppDelegate {
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(details_show, "translationY", heightPixels, 0);
         objectAnimator.setDuration(1000);
         objectAnimator.start();
-        details_show.setVisibility(View.VISIBLE);
+        details_show.setVisibility(View.GONE);
     }
 
     //关闭

@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bw.movie.R;
 import com.bw.movie.activity.MainActivity;
+import com.bw.movie.activity.MovieDescActivity;
+import com.bw.movie.activity.StartActivity;
 import com.bw.movie.activity.WelcomeActivity;
 import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.utils.SharedPreferencesUtils;
@@ -33,7 +35,8 @@ public class WelcomeActivityPresenter extends AppDelegate {
     @Override
     public void initData() {
         super.initData();
-        
+        UltimateBar.newImmersionBuilder().applyNav(false)
+                .build((WelcomeActivity) context).apply();
         mPics.add(R.mipmap.introducer1);
         mPics.add(R.mipmap.introducer2);
         mPics.add(R.mipmap.introducer3);

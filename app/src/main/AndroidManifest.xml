@@ -5,8 +5,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 
     <application
         android:name=".App"
@@ -33,6 +31,8 @@
         <activity android:name=".activity.MovieShowActivity"></activity>
         <activity android:name=".activity.MovieDescActivity"></activity>
         <activity android:name=".activity.CinemaDetailActivity"></activity>
+        <activity android:name=".activity.FilmCinemaActivity" />
+        <activity android:name=".activity.CinemaCityActivity"></activity>
         <activity android:name=".activity.NiChengActivity"></activity>
         <activity android:name=".activity.SexActivity"></activity>
     </application>
