@@ -12,8 +12,15 @@ public class DetailsShowFragment extends BaseFragmentPresenter<DetailsShowFragme
     }
 
     @Override
+    public void initView() {
+        super.initView();
+        delegate.setArguments(getArguments());
+    }
+
+    @Override
     public void getContext(Context context) {
         super.getContext(context);
-        delegate.setContext(context);
+        delegate.setContext(getActivity());
+
     }
 }
