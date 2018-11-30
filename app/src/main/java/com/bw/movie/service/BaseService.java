@@ -23,6 +23,9 @@ public interface BaseService {
     @GET
     Observable<ResponseBody> get(@Url String url, @QueryMap Map<String, String> map);
 
+    @GET
+    Observable<ResponseBody> getHead(@Url String url, @QueryMap Map<String, String> map, @HeaderMap Map<String, String> mapHead);
+
     //    @Headers({"ak=0110010010000", "Content-Type=application/x-www-form-urlencoded"})
     @FormUrlEncoded
     @POST
@@ -31,10 +34,10 @@ public interface BaseService {
             "Content-Type:application/x-www-form-urlencoded"
 
     })
-    Observable<ResponseBody> post(@HeaderMap Map<String, String> m,@Url String url, @FieldMap Map<String, String> map);
+    Observable<ResponseBody> post(@HeaderMap Map<String, String> m, @Url String url, @FieldMap Map<String, String> map);
 
 
     @Multipart
     @POST("/movieApi/user/v1/verify/uploadHeadPic")
-    Observable<ResponseBody> upload(@HeaderMap Map<String, String> m,@Part MultipartBody.Part part);
+    Observable<ResponseBody> upload(@HeaderMap Map<String, String> m, @Part MultipartBody.Part part);
 }
