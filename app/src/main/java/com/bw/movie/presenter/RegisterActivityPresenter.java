@@ -1,6 +1,7 @@
 package com.bw.movie.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -8,18 +9,21 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bw.movie.R;
+import com.bw.movie.activity.LoginActivity;
+import com.bw.movie.activity.RegisterActivity;
 import com.bw.movie.mvp.model.RegisterBean;
 import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
 import com.bw.movie.service.EncryptUtil;
+import com.bw.movie.utils.SharedPreferencesUtils;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterActivityPresenter extends AppDelegate implements View.OnClickListener {
-    private EditText et_nicheng, et_sex, et_date, et_phone, et_email, et_pwd;
+    private EditText et_nicheng, et_sex, et_date, et_phone, et_email, et_pwd, et_pwd2;
 
     @Override
     public int getLayoutId() {
@@ -35,6 +39,7 @@ public class RegisterActivityPresenter extends AppDelegate implements View.OnCli
         et_phone = (EditText) get(R.id.et_phone);
         et_email = (EditText) get(R.id.et_email);
         et_pwd = (EditText) get(R.id.et_pwd);
+        et_pwd2 = (EditText) get(R.id.et_pwd2);
         setClick(this, R.id.bt_register);
     }
 
@@ -77,7 +82,7 @@ public class RegisterActivityPresenter extends AppDelegate implements View.OnCli
             toast("手机号不能为空");
             return;
         }
-        String etEmail = et_email.getText().toString().trim();
+        final String etEmail = et_email.getText().toString().trim();
         if (TextUtils.isEmpty(etEmail)) {
             toast("请输入邮箱");
             return;
@@ -88,29 +93,37 @@ public class RegisterActivityPresenter extends AppDelegate implements View.OnCli
             toast("请输入登陆密码");
             return;
         }
+
+        String etPwd2 = et_pwd2.getText().toString().trim();
+        if (!etPwd2.equals(etPwd)) {
+            toast("请保持密码一致");
+            return;
+        }
         String encrypt = EncryptUtil.encrypt(etPwd);
-//        Log.i("杀杀杀", encrypt);
+
         Map<String, String> map = new HashMap<>();
         map.put("nickName", etNicheng);
-        map.put("sex",etSex);
+        if (etSex.equals("男")) {
+            map.put("sex", "1");
+        } else {
+            map.put("sex", "2");
+        }
         map.put("birthday", etDate);
         map.put("phone", etPhone);
         map.put("email", etEmail);
         map.put("pwd", encrypt);
-
-//        map.size();
-        Log.i("RegisterActivit", "doRegister: "+etNicheng+"="+etSex+"="+etDate+"="+etPhone+""+etEmail+"="+encrypt);
-
-        new HttpHelper().post("/movieApi/user/v1/registerUser", map).result(new HttpListener() {
+        map.put("pwd2", encrypt);
+        new HttpHelper().post(null, "/movieApi/user/v1/registerUser", map).result(new HttpListener() {
             @Override
             public void success(String data) {
-
-                Toast.makeText(context, data+"", Toast.LENGTH_SHORT).show();
                 Gson gson = new Gson();
                 RegisterBean registerBean = gson.fromJson(data, RegisterBean.class);
-                Log.i("面膜", "success: "+registerBean.getStatus());
                 if ("0000".equals(registerBean.getStatus())) {
                     toast("注册成功");
+                    SharedPreferencesUtils.putString(context, "email", etEmail);
+                    context.startActivity(new Intent(context, LoginActivity.class));
+                    ((RegisterActivity) context).finish();
+
                 } else {
                     toast("注册失败");
                 }
@@ -124,6 +137,6 @@ public class RegisterActivityPresenter extends AppDelegate implements View.OnCli
         });
 
 
-
     }
 }
+

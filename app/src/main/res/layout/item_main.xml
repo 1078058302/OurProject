@@ -21,10 +21,11 @@
             android:background="#80d0caca">
 
             <TextView
+                android:layout_centerInParent="true"
                 android:id="@+id/movie_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true" />
+                android:layout_marginLeft="@dimen/dp_10" />
 
         </RelativeLayout>
     </RelativeLayout>

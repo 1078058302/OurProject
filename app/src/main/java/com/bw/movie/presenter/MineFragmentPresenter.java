@@ -16,6 +16,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 public class MineFragmentPresenter extends AppDelegate implements View.OnClickListener {
     private SimpleDraweeView sd;
     private TextView tv_name;
+    private String nickName;
 
     @Override
     public int getLayoutId() {
@@ -25,10 +26,9 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
     @Override
     public void initData() {
         super.initData();
-
         sd = (SimpleDraweeView) get(R.id.sd);
         tv_name = (TextView) get(R.id.tv_name);
-        setClick(this, R.id.sd, R.id.tv_name);
+        setClick(this, R.id.sd, R.id.tv_name, R.id.rl1);
     }
 
     public void setContext(Context context) {
@@ -40,25 +40,34 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
         switch (view.getId()) {
             case R.id.sd:
                 //图片
-                goActivity();
+                context.startActivity(new Intent(context, LoginActivity.class));
                 break;
-
             case R.id.tv_name:
                 //文字
-                goActivity();
+                if (!TextUtils.isEmpty(nickName)) {
+                    toast("您已登录成功");
+                } else {
+                    context.startActivity(new Intent(context, LoginActivity.class));
+                }
+
+                break;
+            case R.id.rl1:
+                //我的信息
+                context.startActivity(new Intent(context, UserInfoActivity.class));
                 break;
 
         }
     }
 
-    private void goActivity() {
-        String phone = SharedPreferencesUtils.getString(context, "phone");
-        if (TextUtils.isEmpty(phone)) {
-            //如果手机号为空就跳转到登陆页面
-            context.startActivity(new Intent(context, LoginActivity.class));
-        } else {
-            //否则跳转到用户信息页面
-            context.startActivity(new Intent(context, UserInfoActivity.class));
+    public void onResume() {
+        nickName = SharedPreferencesUtils.getString(context, "nickName");
+        if (!TextUtils.isEmpty(nickName)) {
+            tv_name.setText(nickName);
         }
+        String headPath = SharedPreferencesUtils.getString(context, "headPath");
+        if (!TextUtils.isEmpty(headPath)) {
+            sd.setImageURI(headPath);
+        }
+
     }
 }

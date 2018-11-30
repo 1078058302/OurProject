@@ -33,6 +33,8 @@
         <activity android:name=".activity.CinemaDetailActivity" />
         <activity android:name=".activity.FilmCinemaActivity" />
         <activity android:name=".activity.CinemaCityActivity"></activity>
+        <activity android:name=".activity.NiChengActivity"></activity>
+        <activity android:name=".activity.SexActivity"></activity>
     </application>
 
 </manifest>

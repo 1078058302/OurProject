@@ -42,13 +42,14 @@ public abstract class BaseFragmentPresenter<T extends AppDelegate> extends Fragm
         super.onActivityCreated(savedInstanceState);
         initView();
         delegate.initData();
+
     }
 
     public void getContext(Context context) {
 
     }
 
-    public  void  initView(){
+    public void initView() {
     }
 
     @Override
