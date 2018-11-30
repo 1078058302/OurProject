@@ -17,4 +17,10 @@ public class CinemaChildFragment extends BaseFragmentPresenter<CinemaChildFragme
         super.getContext(context);
         delegate.setContext(context);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        delegate.onResume();
+    }
 }

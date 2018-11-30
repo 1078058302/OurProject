@@ -16,7 +16,6 @@ import com.bw.movie.utils.UltimateBar;
 public class ErrorActivityPresenter extends AppDelegate {
 
 
-
     @Override
     public int getLayoutId() {
         return R.layout.activity_error;
@@ -37,12 +36,12 @@ public class ErrorActivityPresenter extends AppDelegate {
                 if (connected) {
 
                     //获取当前的状态
-                    String a = SharedPreferencesUtils.getString(context, "wel");
-                    String b = SharedPreferencesUtils.getString(context, "main");
-                    toast("wel"+a);
-                    toast("main"+b);
+                    String wel = SharedPreferencesUtils.getString(context, "wel");
+                    String main = SharedPreferencesUtils.getString(context, "main");
+//                    toast("wel"+a);
+//                    toast("main"+b);
                     //0表示欢迎页的状态
-                    if ("0".equals(a)) {
+                    if ("0".equals(wel)) {
                         context.startActivity(new Intent(context, WelcomeActivity.class));
                         //重新将欢迎页的赋值 不然出现无法销毁当前的视图
                         SharedPreferencesUtils.putString(context, "wel", "1");
@@ -50,15 +49,12 @@ public class ErrorActivityPresenter extends AppDelegate {
                         SharedPreferencesUtils.putBoolean(context, "isJump", true);
                         ((ErrorActivity) context).finish();
                     }
-
                     Boolean isJump = SharedPreferencesUtils.getBoolean(context, "isJump");
-                    toast(isJump+"");
-                    if ("1".equals(b) && SharedPreferencesUtils.getBoolean(context, "isJump")) {
-
+//                    toast(isJump+"");
+                    if ("1".equals(main) && SharedPreferencesUtils.getBoolean(context, "isJump")) {
                         context.startActivity(new Intent(context, MainActivity.class));
                         ((ErrorActivity) context).finish();
                     }
-
                 } else {
                     toastData("亲,您没有连网");
                 }

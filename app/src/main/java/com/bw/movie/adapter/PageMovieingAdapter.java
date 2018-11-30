@@ -23,10 +23,11 @@ public class PageMovieingAdapter extends RecyclerView.Adapter<PageMovieingAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = View.inflate(context, R.layout.item_main, null);
+        View view = View.inflate(context, R.layout.item_main1, null);
         ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.imageView = view.findViewById(R.id.iv);
         viewHolder.movie_name = view.findViewById(R.id.movie_name);
+        viewHolder.time = view.findViewById(R.id.time);
         return viewHolder;
     }
 
@@ -34,6 +35,7 @@ public class PageMovieingAdapter extends RecyclerView.Adapter<PageMovieingAdapte
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         Glide.with(context).load(list.get(i).getImageUrl()).into(viewHolder.imageView);
         viewHolder.movie_name.setText(list.get(i).getName());
+        viewHolder.time.setText(list.get(i).getDuration());
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +66,7 @@ public class PageMovieingAdapter extends RecyclerView.Adapter<PageMovieingAdapte
 
         ImageView imageView;
         TextView movie_name;
+        TextView time;
     }
 
     private PageListener listener;

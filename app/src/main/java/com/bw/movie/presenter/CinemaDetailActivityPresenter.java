@@ -5,25 +5,35 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.CinemaDetailActivity;
-import com.bw.movie.activity.MainActivity;
+import com.bw.movie.adapter.CinemaDetailsAdapter;
 import com.bw.movie.adapter.PageMovieingAdapter;
+import com.bw.movie.fragment.CommentFragment;
+import com.bw.movie.fragment.DetailsShowFragment;
+import com.bw.movie.mvp.model.CinemaDetailsBean;
 import com.bw.movie.mvp.model.DetailsBean;
 import com.bw.movie.mvp.model.MovieingBean;
 import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
+import com.bw.movie.utils.SharedPreferencesUtils;
 import com.bw.movie.utils.UltimateBar;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +54,17 @@ public class CinemaDetailActivityPresenter extends AppDelegate {
     private LinearLayout details_show;
     private ImageView down;
     private TabLayout tab_detail_progress;
+    private FrameLayout show_details;
+    private TextView details;
+    private TextView comment;
+    private View details_down;
+    private View comment_down;
+    private DetailsShowFragment detailsShowFragment;
+    private int cinemaId;
+    private List<MovieingBean.ResultBean> result = new ArrayList<>();
+    private CinemaDetailsAdapter adapter1;
+    private XRecyclerView xRecyclerView;
+    private RelativeLayout relativeLayout;
 
     @Override
     public int getLayoutId() {
@@ -59,15 +80,23 @@ public class CinemaDetailActivityPresenter extends AppDelegate {
         details_desc = get(R.id.cinema_details_desc);
         details_cover = get(R.id.details_cover);
         details_show = get(R.id.details_show);
-        tab_detail_progress = (TabLayout)get(R.id.tab_detail_progress);
+        show_details = get(R.id.show_details);
+        xRecyclerView = get(R.id.cinema_recycler);
+        tab_detail_progress = (TabLayout) get(R.id.tab_detail_progress);
         down = get(R.id.down);
+        details = get(R.id.details);
+        comment = get(R.id.comment);
+        relativeLayout = get(R.id.none);
+        details_down = get(R.id.details_down);
+        comment_down = get(R.id.comment_down);
         Intent intent = ((CinemaDetailActivity) context).getIntent();
-        int cinemaId = intent.getIntExtra("cinemaId", 0);
-        Toast.makeText(context, cinemaId + "", Toast.LENGTH_SHORT).show();
+        cinemaId = intent.getIntExtra("cinemaId", 0);
+        SharedPreferencesUtils.putInt(context, "cinemaId", cinemaId);
         adapter = new PageMovieingAdapter();
         details_cover.setAdapter(adapter);
-        doHttp();
+        doHttp(cinemaId);
         doDetailsHttp(cinemaId);
+        detailsShowFragment = new DetailsShowFragment();
         adapter.result(new PageMovieingAdapter.PageListener() {
             @Override
             public void backId(int i) {
@@ -86,7 +115,29 @@ public class CinemaDetailActivityPresenter extends AppDelegate {
                 hintShopCar();
             }
         });
+        details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                details_down.setVisibility(View.VISIBLE);
+                comment_down.setVisibility(View.GONE);
+                SharedPreferencesUtils.putInt(context, "cinemaId", cinemaId);
+                showFragment(detailsShowFragment);
 
+            }
+        });
+        comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                comment_down.setVisibility(View.VISIBLE);
+                details_down.setVisibility(View.GONE);
+                SharedPreferencesUtils.putInt(context, "cinemaId", cinemaId);
+                CommentFragment commentFragment = new CommentFragment();
+                showFragment(commentFragment);
+            }
+        });
+
+
+        showFragment(detailsShowFragment);
         tab_detail_progress.setTabMode(TabLayout.MODE_FIXED);
         tab_detail_progress.setSelectedTabIndicatorHeight(10);
 
@@ -107,17 +158,64 @@ public class CinemaDetailActivityPresenter extends AppDelegate {
 
             }
         });
+//http://172.17.8.100/movieApi/movie/v1/findMovieScheduleList?cinemasId=2&movieId=3
 
         details_cover.setOnItemSelectedListener(new CoverFlowLayoutManger.OnSelected() {
             @Override
             public void onItemSelected(int position) {
                 tab_detail_progress.getTabAt(position).select();
+                final int id = result.get(position).getId();
+//                Toast.makeText(context, id + "", Toast.LENGTH_SHORT).show();
+                final int cinemaId = SharedPreferencesUtils.getInt(context, "cinemaId");
+                adapter1 = new CinemaDetailsAdapter();
+                StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+                xRecyclerView.setLayoutManager(manager);
+                xRecyclerView.setAdapter(adapter1);
+                doDetail(id, cinemaId);
+                xRecyclerView.setPullRefreshEnabled(true);
+                xRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
+                    @Override
+                    public void onRefresh() {
+                        doDetail(id, cinemaId);
+                    }
+
+                    @Override
+                    public void onLoadMore() {
+                        xRecyclerView.loadMoreComplete();
+                    }
+                });
             }
         });
 
 
+    }
 
+    private void doDetail(int id, int cinemaId) {
+        //?cinemasId=2&movieId=3
+        Map map = new HashMap();
+        map.put("cinemasId", cinemaId);
+        map.put("movieId", id);
+        new HttpHelper().get("/movieApi/movie/v1/findMovieScheduleList", map).result(new HttpListener() {
+            @Override
+            public void success(String data) {
+                CinemaDetailsBean cinemaDetailsBean = new Gson().fromJson(data, CinemaDetailsBean.class);
+                List<CinemaDetailsBean.ResultBean> result = cinemaDetailsBean.getResult();
+                adapter1.setList(result);
+                adapter1.setContext(context);
+                xRecyclerView.refreshComplete();
 
+            }
+
+            @Override
+            public void fail(String error) {
+
+            }
+        });
+    }
+
+    private void showFragment(Fragment fragment) {
+        FragmentManager sfm = ((CinemaDetailActivity) context).getSupportFragmentManager();
+        sfm.beginTransaction().replace(R.id.show_details, fragment).commit();
     }
 
     private void doDetailsHttp(int cinemaId) {
@@ -145,23 +243,23 @@ public class CinemaDetailActivityPresenter extends AppDelegate {
         });
     }
 
-    private void doHttp() {
+    private void doHttp(int cinemaId) {
         ///movieApi/movie/v1/findReleaseMovieList?page=1&count=100
-        Map<String, String> map = new HashMap<>();
-        map.put("page", "1");
-        map.put("count", "60");
-        new HttpHelper().get("/movieApi/movie/v1/findReleaseMovieList", map).result(new HttpListener() {
+        //http://172.17.8.100/movieApi/movie/v1/findMovieListByCinemaId?cinemaId=3
+        Map map = new HashMap<>();
+        map.put("cinemaId", cinemaId);
+        new HttpHelper().get("/movieApi/movie/v1/findMovieListByCinemaId", map).result(new HttpListener() {
             @Override
             public void success(String data) {
                 MovieingBean movieingBean = new Gson().fromJson(data, MovieingBean.class);
-                List<MovieingBean.ResultBean> result = movieingBean.getResult();
+                result = movieingBean.getResult();
                 int size = result.size();
-                for(int i=0;i<size;i++){
+                for (int i = 0; i < size; i++) {
                     tab_detail_progress.addTab(tab_detail_progress.newTab().setText(null));
                 }
                 adapter.setContext(context);
                 adapter.setList(result);
-                details_cover.scrollToPosition(7);
+                details_cover.scrollToPosition(result.size() / 2);
             }
 
             @Override

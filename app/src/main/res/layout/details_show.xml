@@ -10,13 +10,14 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_30"
+            android:layout_width="@dimen/dp_15"
+            android:layout_height="@dimen/dp_15"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/dp_25"
-            android:background="@mipmap/cinema_detail_icon_location_default_hdpi" />
+            android:background="@mipmap/cinema_detail_icon_location_default_xxhdpi" />
 
         <TextView
+            android:id="@+id/address_details"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_50"
             android:layout_marginLeft="@dimen/dp_20"
@@ -30,13 +31,14 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="@dimen/dp_30"
-            android:layout_height="@dimen/dp_30"
+            android:layout_width="@dimen/dp_15"
+            android:layout_height="@dimen/dp_15"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/dp_25"
-            android:background="@mipmap/cinema_detail_icon_phone_default_hdpi" />
+            android:background="@mipmap/cinema_detail_icon_phone_default_xxhdpi" />
 
         <TextView
+            android:id="@+id/phone_details"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_50"
             android:layout_marginLeft="@dimen/dp_20"
@@ -50,17 +52,31 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="@dimen/dp_30"
-            android:layout_height="@dimen/dp_30"
+            android:layout_width="@dimen/dp_15"
+            android:layout_height="@dimen/dp_15"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/dp_25"
-            android:background="@mipmap/cinema_detail_icon_route_default_hdpi" />
+            android:background="@mipmap/cinema_detail_icon_route_default_xxhdpi" />
 
         <TextView
+            android:id="@+id/line_details"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_50"
             android:layout_marginLeft="@dimen/dp_20"
             android:gravity="center_vertical"
             android:text="我是路线" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-30dp"
+        android:padding="@dimen/dp_20">
+
+        <TextView
+            android:id="@+id/show_lines"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/dp_12" />
     </LinearLayout>
 </LinearLayout>

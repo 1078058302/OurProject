@@ -42,4 +42,6 @@ public abstract class BaseActivityPresenter<T extends AppDelegate> extends AppCo
     public void getContext(Context context) {
         
     }
+
+
 }

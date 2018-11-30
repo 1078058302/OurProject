@@ -1,14 +1,18 @@
 package com.bw.movie.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bw.movie.R;
+import com.bw.movie.activity.CinemaDetailActivity;
 import com.bw.movie.mvp.model.NearByBean;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -28,11 +32,13 @@ public class CinemaChild1Adapter extends RecyclerView.Adapter<CinemaChild1Adapte
         viewHolder.title = view.findViewById(R.id.title_cinema);
         viewHolder.desc = view.findViewById(R.id.desc_cinema);
         viewHolder.away = view.findViewById(R.id.away_cinema);
+        viewHolder.collection = view.findViewById(R.id.collection);
+        viewHolder.cinema_show = view.findViewById(R.id.cinema_show);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         viewHolder.image_cinema.setImageURI(list.get(i).getLogo());
         viewHolder.title.setText(list.get(i).getName());
         String address = list.get(i).getAddress();
@@ -41,8 +47,22 @@ public class CinemaChild1Adapter extends RecyclerView.Adapter<CinemaChild1Adapte
         } else {
             viewHolder.desc.setText(address);
         }
-
         viewHolder.away.setText(list.get(i).getDistance() + "km");
+        viewHolder.cinema_show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CinemaDetailActivity.class);
+                int id = list.get(i).getId();
+                intent.putExtra("cinemaId", id);
+                context.startActivity(intent);
+            }
+        });
+        viewHolder.collection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
@@ -68,5 +88,7 @@ public class CinemaChild1Adapter extends RecyclerView.Adapter<CinemaChild1Adapte
         TextView title;
         TextView desc;
         TextView away;
+        LinearLayout cinema_show;
+        RelativeLayout collection;
     }
 }
