@@ -29,7 +29,8 @@
                 android:layout_width="@dimen/dp_72"
                 android:layout_height="@dimen/dp_72"
                 android:layout_centerInParent="true"
-                app:placeholderImage="@mipmap/bitmap2" />
+                app:placeholderImage="@mipmap/bitmap2"
+                app:roundAsCircle="true" />
 
             <TextView
                 android:id="@+id/tv_name"

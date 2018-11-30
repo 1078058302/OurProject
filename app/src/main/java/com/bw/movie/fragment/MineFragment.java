@@ -26,4 +26,10 @@ public class MineFragment extends BaseFragmentPresenter<MineFragmentPresenter> {
         super.getContext(context);
         delegate.setContext(context);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        delegate.onResume();
+    }
 }
