@@ -44,11 +44,10 @@ public class CinemaChildFragmentPresenter extends AppDelegate {
         sessionId = SharedPreferencesUtils.getString(context, "sessionId");
         userId = SharedPreferencesUtils.getInt(context, "userId");
         xRecyclerView = get(R.id.show_cinema);
-
+        adapter = new CinemaChildAdapter();
+        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        xRecyclerView.setLayoutManager(manager);
         if (TextUtils.isEmpty(sessionId)) {
-            adapter = new CinemaChildAdapter();
-            StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-            xRecyclerView.setLayoutManager(manager);
             xRecyclerView.setAdapter(adapter);
             doHttp();
         } else {
@@ -58,7 +57,11 @@ public class CinemaChildFragmentPresenter extends AppDelegate {
         xRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                doHttp();
+                if (TextUtils.isEmpty(sessionId)) {
+                    doHttp();
+                } else {
+                    doReconHttp();
+                }
             }
 
             @Override
@@ -141,7 +144,6 @@ public class CinemaChildFragmentPresenter extends AppDelegate {
                 adapter.setList(result);
                 adapter.setContext(context);
                 xRecyclerView.refreshComplete();
-
             }
 
             @Override
@@ -153,5 +155,18 @@ public class CinemaChildFragmentPresenter extends AppDelegate {
 
     public void setContext(Context context) {
         this.context = context;
+    }
+
+    public void onResume() {
+//        Toast.makeText(context, "123", Toast.LENGTH_SHORT).show();
+        String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
+        int userId = SharedPreferencesUtils.getInt(context, "userId");
+        if (TextUtils.isEmpty(sessionId)) {
+            doHttp();
+            Toast.makeText(context, "doHttp", Toast.LENGTH_SHORT).show();
+        } else {
+            doReconHttp();
+            Toast.makeText(context, "doReconHttp", Toast.LENGTH_SHORT).show();
+        }
     }
 }
