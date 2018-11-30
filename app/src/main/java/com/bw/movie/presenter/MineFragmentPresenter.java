@@ -3,6 +3,7 @@ package com.bw.movie.presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,6 +18,8 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
     private SimpleDraweeView sd;
     private TextView tv_name;
     private String nickName;
+    private String headPath;
+    private String headPic;
 
     @Override
     public int getLayoutId() {
@@ -40,12 +43,21 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
         switch (view.getId()) {
             case R.id.sd:
                 //图片
-                context.startActivity(new Intent(context, LoginActivity.class));
+                String tv_phone2 = SharedPreferencesUtils.getString(context, "tv_phone2");
+                if (!TextUtils.isEmpty(tv_phone2)) {
+                    toast("您已登录成功");
+                    return;
+                } else {
+                    context.startActivity(new Intent(context, LoginActivity.class));
+                }
+
+
                 break;
             case R.id.tv_name:
                 //文字
+                String nickName = SharedPreferencesUtils.getString(context, "nickName");
                 if (!TextUtils.isEmpty(nickName)) {
-                    toast("您已登录成功");
+                    toast("您已登录过了");
                 } else {
                     context.startActivity(new Intent(context, LoginActivity.class));
                 }
@@ -60,14 +72,25 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
     }
 
     public void onResume() {
+
+//        toast("竟来");
         nickName = SharedPreferencesUtils.getString(context, "nickName");
         if (!TextUtils.isEmpty(nickName)) {
             tv_name.setText(nickName);
+        } else {
+            tv_name.setText("未登录");
         }
-        String headPath = SharedPreferencesUtils.getString(context, "headPath");
+        headPic = SharedPreferencesUtils.getString(context, "headPic");
+        headPath = SharedPreferencesUtils.getString(context, "headPath");
         if (!TextUtils.isEmpty(headPath)) {
             sd.setImageURI(headPath);
-        }
+        } else {
+            if(!TextUtils.isEmpty(headPic)){
+                sd.setImageURI(headPic);
+            }else{
+                sd.setImageURI(String.valueOf(R.mipmap.logo));
+            }
 
+        }
     }
 }

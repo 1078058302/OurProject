@@ -30,4 +30,6 @@ public class UserInfoActivity extends BaseActivityPresenter<UserInfoActivityPres
         super.onResume();
         delegate.onResume();
     }
+
+
 }

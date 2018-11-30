@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.NiChengActivity;
+import com.bw.movie.activity.SexActivity;
 import com.bw.movie.activity.UserInfoActivity;
 import com.bw.movie.mvp.model.UpdateBean;
 import com.bw.movie.mvp.view.AppDelegate;
@@ -63,13 +64,15 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
     public void initData() {
         super.initData();
         path = Environment.getExternalStorageDirectory().getAbsolutePath();
-        setClick(this, R.id.rl_01, R.id.rl_02);
+        setClick(this, R.id.rl_01, R.id.rl_02, R.id.rl_03, R.id.tuichuLogin);
         sd2 = (SimpleDraweeView) get(R.id.sd2);
         userNickName = (TextView) get(R.id.userNickname);
         userSex = (TextView) get(R.id.userSex);
         dataOfbirth = (TextView) get(R.id.dataOfbirth);
         phoneNumber = (TextView) get(R.id.phoneNumber);
         tvEmail = (TextView) get(R.id.tvEmail);
+
+
     }
 
     public void setContext(Context context) {
@@ -86,28 +89,40 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
             case R.id.rl_02:
                 //昵称
                 Intent intent = new Intent(context, NiChengActivity.class);
-                intent.putExtra("nickName", nickName);
-                intent.putExtra("sex",sex+"");
-                intent.putExtra("email", emaila);
                 context.startActivity(intent);
                 break;
+            case R.id.rl_03:
+                //性别
+                context.startActivity(new Intent(context, SexActivity.class));
+                break;
+            case R.id.tuichuLogin:
+                //退出登录
+                tuichu();
+                ((UserInfoActivity) context).finish();
+                break;
+
         }
     }
 
 
     public void onResume() {
-
+        String headPic = SharedPreferencesUtils.getString(context, "headPic");
         String headPath = SharedPreferencesUtils.getString(context, "headPath");
         if (!TextUtils.isEmpty(headPath)) {
             sd2.setImageURI(headPath);
+
+        } else {
+            if (!TextUtils.isEmpty(headPic)) {
+                sd2.setImageURI(headPic);
+
+            } else {
+                sd2.setImageResource(R.mipmap.logo);
+            }
         }
-//        String headPic = SharedPreferencesUtils.getString(context, "headPic");
-
-         nickName = SharedPreferencesUtils.getString(context, "nickName");
-
+        nickName = SharedPreferencesUtils.getString(context, "nickName");
         if (!TextUtils.isEmpty(nickName)) {
             userNickName.setText(nickName);
-        }else{
+        } else {
             userNickName.setText(nickName);
         }
 
@@ -125,10 +140,42 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
         if (!TextUtils.isEmpty(tv_phone2)) {
             phoneNumber.setText(tv_phone2);
         }
+
         emaila = SharedPreferencesUtils.getString(context, "email");
         if (!TextUtils.isEmpty(emaila)) {
             tvEmail.setText(emaila);
         }
+        // 清除信息
+        String tv_phone = SharedPreferencesUtils.getString(context, "tv_phone2");
+        if (TextUtils.isEmpty(tv_phone)) {
+            phoneNumber.setText(tv_phone);
+        }
+        int sex = SharedPreferencesUtils.getInt(context, "sex");
+        if (sex == 0) {
+            userSex.setText("");
+        }
+//        String headPic = SharedPreferencesUtils.getString(context, "headPic");
+//        if (TextUtils.isEmpty(headPic)) {
+//            sd2.setImageURI(String.valueOf(R.mipmap.logo));
+//        }
+//        String headPath1 = SharedPreferencesUtils.getString(context, "headPath");
+//        if (TextUtils.isEmpty(headPath1)) {
+//            sd2.setImageURI(String.valueOf(R.mipmap.logo));
+//        }
+        String birthday1 = SharedPreferencesUtils.getString(context, "birthday");
+        if (TextUtils.isEmpty(birthday1)) {
+            dataOfbirth.setText(birthday1);
+
+        }
+        String email1 = SharedPreferencesUtils.getString(context, "email");
+        if (TextUtils.isEmpty(email1)) {
+            tvEmail.setText(email1);
+        }
+        String tv_phones = SharedPreferencesUtils.getString(context, "tv_phone");
+        if (TextUtils.isEmpty(tv_phone)) {
+            tvEmail.setText(tv_phones);
+        }
+
 
     }
 
@@ -221,15 +268,14 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
                         if ("0000".equals(updateBean.getStatus())) {
                             toast("上传成功");
                             String headPath = updateBean.getHeadPath();
-                            Log.i("sssa",headPath);
-                            //上传头像
                             SharedPreferencesUtils.putString(context, "headPath", headPath);
+                            Log.i("sssa", headPath);
+                            //上传头像
+                            sd2.setImageURI(headPath);
                             onResume();
                         } else {
                             toast("上传失败");
                         }
-
-
                     }
                 });
     }
@@ -282,4 +328,21 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
             }
         }
     }
+
+    private void tuichu() {
+        SharedPreferencesUtils.putString(context, "tv_phone2", "");
+        SharedPreferencesUtils.putString(context, "tv_phone", "");
+        SharedPreferencesUtils.putString(context, "tv_pwd", "");
+        SharedPreferencesUtils.putString(context, "headPic", "");
+        SharedPreferencesUtils.putString(context, "headPath", "");
+        SharedPreferencesUtils.putString(context, "nickName", "");
+        SharedPreferencesUtils.putString(context, "sessionId", "");
+        SharedPreferencesUtils.putInt(context, "userId", 0);
+        SharedPreferencesUtils.putInt(context, "sex", 0);
+        SharedPreferencesUtils.putString(context, "birthday", "");
+        SharedPreferencesUtils.putString(context, "email", "");
+        onResume();
+    }
+
+
 }
