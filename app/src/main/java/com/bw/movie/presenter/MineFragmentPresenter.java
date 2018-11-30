@@ -26,7 +26,6 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
     @Override
     public void initData() {
         super.initData();
-
         sd = (SimpleDraweeView) get(R.id.sd);
         tv_name = (TextView) get(R.id.tv_name);
         setClick(this, R.id.sd, R.id.tv_name, R.id.rl1);

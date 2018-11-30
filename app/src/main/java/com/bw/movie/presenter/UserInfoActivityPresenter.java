@@ -96,16 +96,21 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
 
 
     public void onResume() {
+
         String headPath = SharedPreferencesUtils.getString(context, "headPath");
-        Log.i("sss",headPath);
-//        String headPic = SharedPreferencesUtils.getString(context, "headPic");
         if (!TextUtils.isEmpty(headPath)) {
             sd2.setImageURI(headPath);
         }
-        String nickName = SharedPreferencesUtils.getString(context, "nickName");
+//        String headPic = SharedPreferencesUtils.getString(context, "headPic");
+
+         nickName = SharedPreferencesUtils.getString(context, "nickName");
+
         if (!TextUtils.isEmpty(nickName)) {
             userNickName.setText(nickName);
+        }else{
+            userNickName.setText(nickName);
         }
+
         sex = SharedPreferencesUtils.getInt(context, "sex");
         if (sex == 1) {
             userSex.setText("男");
@@ -216,8 +221,10 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
                         if ("0000".equals(updateBean.getStatus())) {
                             toast("上传成功");
                             String headPath = updateBean.getHeadPath();
-                            Log.i("sss",headPath);
+                            Log.i("sssa",headPath);
+                            //上传头像
                             SharedPreferencesUtils.putString(context, "headPath", headPath);
+                            onResume();
                         } else {
                             toast("上传失败");
                         }
