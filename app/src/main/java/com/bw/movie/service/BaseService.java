@@ -29,10 +29,8 @@ public interface BaseService {
     @Headers({
             "ak:0110010010000",
             "Content-Type:application/x-www-form-urlencoded"
-
     })
     Observable<ResponseBody> post(@HeaderMap Map<String, String> m, @Url String url, @FieldMap Map<String, String> map);
-
 
     @Multipart
     @POST("/movieApi/user/v1/verify/uploadHeadPic")

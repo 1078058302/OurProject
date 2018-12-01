@@ -4,10 +4,12 @@ import android.content.Context;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.adapter.CinemaChildAdapter;
+import com.bw.movie.adapter.TrueReconedAdapter;
 import com.bw.movie.mvp.model.RecommendBean;
 import com.bw.movie.mvp.model.ShowBean;
 import com.bw.movie.mvp.model.TrueRecommendBean;
@@ -30,6 +32,7 @@ public class CinemaChildFragmentPresenter extends AppDelegate {
     private String sessionId;
     private int userId;
     private List<ShowBean> showBeans = new ArrayList<>();
+    private TrueReconedAdapter reconedAdapter;
 
     @Override
     public int getLayoutId() {
@@ -42,11 +45,7 @@ public class CinemaChildFragmentPresenter extends AppDelegate {
         sessionId = SharedPreferencesUtils.getString(context, "sessionId");
         userId = SharedPreferencesUtils.getInt(context, "userId");
         xRecyclerView = get(R.id.show_cinema);
-        adapter = new CinemaChildAdapter();
-        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-        xRecyclerView.setLayoutManager(manager);
         if (TextUtils.isEmpty(sessionId)) {
-            xRecyclerView.setAdapter(adapter);
             doHttp();
         } else {
             doReconHttp();
@@ -71,7 +70,6 @@ public class CinemaChildFragmentPresenter extends AppDelegate {
 
     private void doReconHttp() {
         //http://172.17.8.100/movieApi/cinema/v1/findRecommendCinemas
-        Log.i("CinemaChildFragment", userId + "……" + sessionId);
         Map map = new HashMap();
         map.put("page", 1);
         map.put("count", 60);
@@ -88,35 +86,40 @@ public class CinemaChildFragmentPresenter extends AppDelegate {
                 List<TrueRecommendBean.ResultBean.FollowCinemasBean> followCinemas = trueRecommendBean.getResult().getFollowCinemas();
                 List<TrueRecommendBean.ResultBean.NearbyCinemaListBean> nearbyCinemaList = trueRecommendBean.getResult().getNearbyCinemaList();
                 ShowBean showBean = null;
-                if (!followCinemas.isEmpty()) {
-                    for (int i = 0; i < followCinemas.size(); i++) {
-                        showBean = new ShowBean();
-                        showBean.setAddress(followCinemas.get(i).getAddress());
-                        showBean.setCommentTotal(followCinemas.get(i).getCommentTotal());
-                        showBean.setDistance(followCinemas.get(i).getDistance());
-                        showBean.setFollowCinema(followCinemas.get(i).isFollowCinema());
-                        showBean.setId(followCinemas.get(i).getId());
-                        showBean.setLogo(followCinemas.get(i).getLogo());
-                        showBean.setName(followCinemas.get(i).getName());
-                        showBeans.add(showBean);
-                        Log.i("CinemaChildFragment", showBeans.get(i) + "");
-                    }
-                    for (int i = 0; i < nearbyCinemaList.size(); i++) {
-                        showBean = new ShowBean();
-                        int distance = nearbyCinemaList.get(i).getDistance();
-                        if (distance < 5000) {
-                            showBean.setAddress(nearbyCinemaList.get(i).getAddress());
-                            showBean.setCommentTotal(nearbyCinemaList.get(i).getCommentTotal());
-                            showBean.setDistance(nearbyCinemaList.get(i).getDistance());
-                            showBean.setFollowCinema(nearbyCinemaList.get(i).isFollowCinema());
-                            showBean.setId(nearbyCinemaList.get(i).getId());
-                            showBean.setLogo(nearbyCinemaList.get(i).getLogo());
-                            showBean.setName(nearbyCinemaList.get(i).getName());
-                            showBeans.add(showBean);
-                        }
-                    }
-
+                showBeans = new ArrayList<>();
+                for (int i = 0; i < followCinemas.size(); i++) {
+                    showBean = new ShowBean();
+                    showBean.setAddress(followCinemas.get(i).getAddress());
+                    showBean.setCommentTotal(followCinemas.get(i).getCommentTotal());
+                    showBean.setDistance(followCinemas.get(i).getDistance());
+                    showBean.setFollowCinema(followCinemas.get(i).isFollowCinema());
+                    showBean.setId(followCinemas.get(i).getId());
+                    showBean.setLogo(followCinemas.get(i).getLogo());
+                    showBean.setName(followCinemas.get(i).getName());
+                    showBeans.add(showBean);
                 }
+                for (int i = 0; i < nearbyCinemaList.size(); i++) {
+                    showBean = new ShowBean();
+                    int distance = nearbyCinemaList.get(i).getDistance();
+                    if (distance < 5000) {
+                        showBean.setAddress(nearbyCinemaList.get(i).getAddress());
+                        showBean.setCommentTotal(nearbyCinemaList.get(i).getCommentTotal());
+                        showBean.setDistance(nearbyCinemaList.get(i).getDistance());
+                        showBean.setFollowCinema(nearbyCinemaList.get(i).isFollowCinema());
+                        showBean.setId(nearbyCinemaList.get(i).getId());
+                        showBean.setLogo(nearbyCinemaList.get(i).getLogo());
+                        showBean.setName(nearbyCinemaList.get(i).getName());
+                        showBeans.add(showBean);
+                    }
+                }
+
+                reconedAdapter = new TrueReconedAdapter();
+                reconedAdapter.setContext(context);
+                reconedAdapter.setList(showBeans);
+                StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+                xRecyclerView.setLayoutManager(manager);
+                xRecyclerView.setAdapter(reconedAdapter);
+                xRecyclerView.refreshComplete();
             }
 
             @Override
@@ -139,8 +142,12 @@ public class CinemaChildFragmentPresenter extends AppDelegate {
                 }
                 RecommendBean recommendBean = new Gson().fromJson(data, RecommendBean.class);
                 List<RecommendBean.ResultBean> result = recommendBean.getResult();
+                adapter = new CinemaChildAdapter();
                 adapter.setList(result);
                 adapter.setContext(context);
+                StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+                xRecyclerView.setLayoutManager(manager);
+                xRecyclerView.setAdapter(adapter);
                 xRecyclerView.refreshComplete();
             }
 
@@ -157,14 +164,12 @@ public class CinemaChildFragmentPresenter extends AppDelegate {
 
     public void onResume() {
 //        Toast.makeText(context, "123", Toast.LENGTH_SHORT).show();
-        String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
-        int userId = SharedPreferencesUtils.getInt(context, "userId");
+        sessionId = SharedPreferencesUtils.getString(context, "sessionId");
+        userId = SharedPreferencesUtils.getInt(context, "userId");
         if (TextUtils.isEmpty(sessionId)) {
             doHttp();
-            Toast.makeText(context, "doHttp", Toast.LENGTH_SHORT).show();
         } else {
             doReconHttp();
-            Toast.makeText(context, "doReconHttp", Toast.LENGTH_SHORT).show();
         }
     }
 }

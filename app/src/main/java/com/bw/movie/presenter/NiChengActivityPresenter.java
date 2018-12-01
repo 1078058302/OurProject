@@ -36,7 +36,6 @@ public class NiChengActivityPresenter extends AppDelegate implements View.OnClic
         super.initData();
         et_shuru = (EditText) get(R.id.et_shuru);
         setClick(this, R.id.iv_fanhui, R.id.confim);
-        Intent intent = ((NiChengActivity) context).getIntent();
         nickName = SharedPreferencesUtils.getString(context, "nickName");
         sex = SharedPreferencesUtils.getInt(context, "sex");
         email = SharedPreferencesUtils.getString(context, "email");
@@ -78,6 +77,7 @@ public class NiChengActivityPresenter extends AppDelegate implements View.OnClic
         new HttpHelper().post(m, "/movieApi/user/v1/verify/modifyUserInfo", map).result(new HttpListener() {
             @Override
             public void success(String data) {
+                toast(data);
                 Gson gson = new Gson();
                 NiChengBean niChengBean = gson.fromJson(data, NiChengBean.class);
                 if ("0000".equals(niChengBean.getStatus())) {
