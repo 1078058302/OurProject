@@ -120,6 +120,7 @@
         android:layout_marginTop="@dimen/dp_12" />
 
     <TextView
+        android:id="@+id/buy_film"
         android:layout_width="@dimen/dp_52"
         android:layout_height="@dimen/dp_52"
         android:layout_alignParentRight="true"
@@ -314,8 +315,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/dp_120"
-        android:clickable="true"
         android:background="@drawable/details"
+        android:clickable="true"
         android:visibility="gone">
 
         <TextView
@@ -346,6 +347,14 @@
             android:layout_marginTop="@dimen/dp_10"
             android:src="@mipmap/com_icon_down_default_xxhdpi" />
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/Notice_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/notice_down_image"
+            android:layout_marginLeft="@dimen/dp_24"
+            android:layout_marginRight="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_17" />
 
     </RelativeLayout>
     <!--剧照-->

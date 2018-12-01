@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,8 +17,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bw.movie.R;
+import com.bw.movie.activity.FilmCinemaActivity;
 import com.bw.movie.activity.MovieDescActivity;
 import com.bw.movie.adapter.MovieDetailsAdapter;
+import com.bw.movie.adapter.MovieDonoticeAdapter;
 import com.bw.movie.adapter.MovieEvaluateAdapter;
 import com.bw.movie.adapter.MovieStillsAdapter;
 import com.bw.movie.mvp.model.EvaluateBean;
@@ -25,6 +28,7 @@ import com.bw.movie.mvp.model.MovieDescBean;
 import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
+import com.bw.movie.utils.SharedPreferencesUtils;
 import com.bw.movie.utils.UltimateBar;
 import com.google.gson.Gson;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -59,6 +63,10 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
     private ImageView evaluate_down_image;
     private ImageView notice_down_image;
     private MovieEvaluateAdapter movieEvaluateAdapter;
+    private TextView buy_film;
+    private MovieDescBean.ResultBean result = null;
+    private RecyclerView notice_recycle;
+
 
     @Override
     public int getLayoutId() {
@@ -68,6 +76,7 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
     @Override
     public void initData() {
         super.initData();
+        buy_film = (TextView) get(R.id.buy_film);
         moviename = get(R.id.movie_desc_name);
         movienameimage = get(R.id.movie_image_name);
         //详情
@@ -99,6 +108,7 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
 
         //预告id
         notice_down_image = get(R.id.notice_down_image);
+        notice_recycle = get(R.id.Notice_recycle);
 
         //影评id
         evaluate_recycle = get(R.id.evaluate_recycle);
@@ -114,11 +124,14 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
         //影评
         movie_desc_relative_evaluate = get(R.id.movie_desc_relative_evaluate);
         //点击事件
-        setClick(this, R.id.movie_desc_bt_details, R.id.movie_desc_bt_Notice, R.id.movie_desc_bt_Stills, R.id.movie_desc_bt_evaluate, R.id.details_down_image, R.id.stills_down_image, R.id.evaluate_down_image, R.id.notice_down_image);
+        setClick(this, R.id.movie_desc_bt_details, R.id.movie_desc_bt_Notice, R.id.movie_desc_bt_Stills, R.id.movie_desc_bt_evaluate, R.id.details_down_image, R.id.notice_down_image, R.id.stills_down_image, R.id.evaluate_down_image);
         ChenJinShi();
         Intent intent = ((MovieDescActivity) context).getIntent();
         movie_id = intent.getIntExtra("movie_id", 0);
         //展示电影详情
+        if (!TextUtils.isEmpty(movie_id + "")) {
+            SharedPreferencesUtils.putInt(context, "movice_ids", movie_id);
+        }
         doMovieDescHttp();
         //展示影评
         doevaluate();
@@ -128,6 +141,26 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
         linearLayoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
         evaluate_recycle.setLayoutManager(linearLayoutManager1);
         evaluate_recycle.setAdapter(movieEvaluateAdapter);
+        buy_film.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, FilmCinemaActivity.class);
+                if (result != null) {
+                    if (result.getName() != null) {
+                        intent.putExtra("name", result.getName());
+                    } else {
+                        intent.putExtra("name", "请购买");
+
+                    }
+                    ((MovieDescActivity) context).startActivity(intent);
+
+                }
+
+            }
+
+        });
+
+
     }
 
     private void ChenJinShi() {
@@ -144,14 +177,15 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
             @Override
             public void success(String data) {
                 MovieDescBean movieDescBean = new Gson().fromJson(data, MovieDescBean.class);
-                MovieDescBean.ResultBean result = movieDescBean.getResult();
+                result = movieDescBean.getResult();
                 moviename.setText(result.getName());
                 Glide.with(context).load(result.getImageUrl()).into(movienameimage);
                 //详情
                 dodetails(result);
                 //剧照
                 dostills(result);
-
+                //预告
+                donotice(result);
             }
 
             @Override
@@ -160,17 +194,27 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
             }
         });
     }
+    //预告片
+    private void donotice(MovieDescBean.ResultBean result) {
+        List<MovieDescBean.ResultBean.ShortFilmListBean> shortFilmList = result.getShortFilmList();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        notice_recycle.setLayoutManager(linearLayoutManager);
+        MovieDonoticeAdapter movieDonoticeAdapter = new MovieDonoticeAdapter(context);
+        movieDonoticeAdapter.setList(shortFilmList);
+        notice_recycle.setAdapter(movieDonoticeAdapter);
+    }
 
     //影评layout赋值
     private void doevaluate() {
         Map<String, String> map = new HashMap<>();
         map.put("movieId", movie_id + "");
         map.put("page", 1 + "");
-        map.put("count", 10 +"");
+        map.put("count", 10 + "");
         new HttpHelper().get("movieApi/movie/v1/findAllMovieComment", map).result(new HttpListener() {
             @Override
             public void success(String data) {
-                Log.i("TAG","data................."+data.toString());
+                Log.i("TAG", "data................." + data.toString());
                 EvaluateBean evaluateBean = new Gson().fromJson(data, EvaluateBean.class);
                 List<EvaluateBean.ResultBean> result = evaluateBean.getResult();
                 movieEvaluateAdapter.setList(result);
@@ -181,6 +225,8 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
 
             }
         });
+
+
     }
 
     //剧照layout赋值
@@ -264,7 +310,6 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
         }
     }
 
-    //开启
     private void showShopCar(RelativeLayout relative) {
         int heightPixels = context.getResources().getDisplayMetrics().heightPixels;
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(relative, "translationY", heightPixels, 0);
@@ -287,4 +332,5 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
         }, 400);
 
     }
+
 }

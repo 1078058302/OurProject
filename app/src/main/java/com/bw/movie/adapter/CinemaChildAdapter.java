@@ -24,7 +24,7 @@ import java.util.List;
 public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.ViewHolder> {
     private List<RecommendBean.ResultBean> list = new ArrayList<>();
     private Context context;
-
+   
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {

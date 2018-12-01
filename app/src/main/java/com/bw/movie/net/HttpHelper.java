@@ -39,12 +39,29 @@ public class HttpHelper {
         return this;
     }
 
-    public HttpHelper post(String url, Map<String, String> map) {
+    public HttpHelper getHead(String url, Map<String, String> map, Map<String, String> mapHead) {
+        if (map == null) {
+            map = new HashMap<>();
+        }
+        if (mapHead == null) {
+            mapHead = new HashMap<>();
+        }
+        baseService.getHead(url, map, mapHead)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+        return this;
+    }
+
+    public HttpHelper post(Map<String, String> m, String url, Map<String, String> map) {
+        if (m == null) {
+            m = new HashMap<>();
+        }
         if (map == null) {
             map = new HashMap<>();
         }
 
-        baseService.post(url, map)
+        baseService.post(m, url, map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);

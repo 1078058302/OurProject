@@ -68,13 +68,14 @@
                 android:background="@mipmap/chuan" />
         </LinearLayout>
 
+
         <LinearLayout
             android:id="@+id/dall"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_233"
             android:layout_below="@id/details_layout"
-            android:orientation="vertical"
             android:layout_marginTop="@dimen/dp_15"
+            android:orientation="vertical"
             android:padding="@dimen/dp_5">
 
             <recycler.coverflow.RecyclerCoverFlow
@@ -85,21 +86,48 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/progress_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/dall"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp_20"
-            android:layout_width="wrap_content"
-            android:background="@drawable/progress_bg"
-            android:layout_height="wrap_content">
+            android:background="@drawable/progress_bg">
+
             <android.support.design.widget.TabLayout
                 android:id="@+id/tab_detail_progress"
-                android:layout_centerHorizontal="true"
                 android:layout_width="@dimen/dp_300"
-                android:layout_height="@dimen/dp_3"></android.support.design.widget.TabLayout>
+                android:layout_height="@dimen/dp_3"
+                android:layout_centerHorizontal="true"></android.support.design.widget.TabLayout>
 
         </RelativeLayout>
 
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
+            android:id="@+id/cinema_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/progress_layout"
+            android:layout_marginTop="@dimen/dp_20"></com.jcodecraeer.xrecyclerview.XRecyclerView>
+
+        <RelativeLayout
+            android:id="@+id/none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/progress_layout"
+            android:layout_marginTop="@dimen/dp_20"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/dp_20"
+                android:background="@drawable/edit_bg"
+                android:text="暂未上线"
+                android:textSize="@dimen/dp_50" />
+        </RelativeLayout>
     </RelativeLayout>
+
 
     <LinearLayout
         android:id="@+id/details_show"
@@ -108,7 +136,8 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/details"
         android:clickable="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -181,4 +210,6 @@
 
         </FrameLayout>
     </LinearLayout>
+
+
 </RelativeLayout>

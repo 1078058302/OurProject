@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.bw.movie"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -49,7 +49,7 @@ dependencies {
 
     implementation 'com.tapadoo.android:alerter:1.0.8'
     implementation 'com.chenlittleping:recyclercoverflow:1.0.6'
-    implementation'com.android.support:design:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
     // add library
-
+    implementation 'cn.jzvd:jiaozivideoplayer:6.2.4'
 }
