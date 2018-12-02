@@ -3,9 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:id="@+id/show_cinema"
+    <cn.jzvd.JZVideoPlayerStandard
+        android:id="@+id/mJC"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"></com.jcodecraeer.xrecyclerview.XRecyclerView>
+        android:layout_marginBottom="@dimen/dp_20"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_launcher_round" />
 </RelativeLayout>

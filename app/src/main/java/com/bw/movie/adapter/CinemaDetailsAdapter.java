@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.mvp.model.CinemaDetailsBean;
@@ -31,6 +30,7 @@ public class CinemaDetailsAdapter extends XRecyclerView.Adapter<CinemaDetailsAda
         viewHolder.end_time = view.findViewById(R.id.end_time);
         viewHolder.price = view.findViewById(R.id.price);
         viewHolder.jump = view.findViewById(R.id.jump);
+
         return viewHolder;
     }
 
@@ -42,6 +42,9 @@ public class CinemaDetailsAdapter extends XRecyclerView.Adapter<CinemaDetailsAda
         double price = list.get(i).getPrice();
         String s = doubleToString(price);
         viewHolder.price.setText(30 + i + "");
+
+
+
     }
 
     @Override
@@ -50,6 +53,7 @@ public class CinemaDetailsAdapter extends XRecyclerView.Adapter<CinemaDetailsAda
     }
 
     public void setList(List<CinemaDetailsBean.ResultBean> list) {
+
         this.list = list;
         notifyDataSetChanged();
     }
@@ -80,4 +84,6 @@ public class CinemaDetailsAdapter extends XRecyclerView.Adapter<CinemaDetailsAda
         //使用0.00不足位补0，#.##仅保留有效位
         return new DecimalFormat("0.00").format(num);
     }
+
+
 }

@@ -41,7 +41,9 @@
         <activity android:name=".activity.ErrorActivity"></activity>
         <activity android:name=".activity.ShowFindActivity"></activity>
         <activity android:name=".activity.MovieShowActivity"></activity>
-        <activity android:name=".activity.MovieDescActivity"></activity>
+        <activity android:name=".activity.MovieDescActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.CinemaDetailActivity"></activity>
         <activity android:name=".activity.FilmCinemaActivity" />
         <activity android:name=".activity.CinemaCityActivity"></activity>
