@@ -2,6 +2,7 @@ package com.bw.movie.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.bw.movie.mvp.basepresenter.BaseActivityPresenter;

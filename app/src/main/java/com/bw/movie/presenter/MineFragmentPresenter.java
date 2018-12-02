@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bw.movie.R;
+import com.bw.movie.activity.AttentionActivity;
 import com.bw.movie.activity.LoginActivity;
 import com.bw.movie.activity.UserInfoActivity;
 import com.bw.movie.mvp.view.AppDelegate;
@@ -31,7 +32,7 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
         super.initData();
         sd = (SimpleDraweeView) get(R.id.sd);
         tv_name = (TextView) get(R.id.tv_name);
-        setClick(this, R.id.sd, R.id.tv_name, R.id.rl1);
+        setClick(this, R.id.sd, R.id.tv_name, R.id.rl1, R.id.rl2);
     }
 
     public void setContext(Context context) {
@@ -67,6 +68,10 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
                 //我的信息
                 context.startActivity(new Intent(context, UserInfoActivity.class));
                 break;
+            case R.id.rl2:
+                //我的关注
+                context.startActivity(new Intent(context, AttentionActivity.class));
+                break;
 
         }
     }
@@ -85,9 +90,9 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
         if (!TextUtils.isEmpty(headPath)) {
             sd.setImageURI(headPath);
         } else {
-            if(!TextUtils.isEmpty(headPic)){
+            if (!TextUtils.isEmpty(headPic)) {
                 sd.setImageURI(headPic);
-            }else{
+            } else {
                 sd.setImageURI(String.valueOf(R.mipmap.logo));
             }
 

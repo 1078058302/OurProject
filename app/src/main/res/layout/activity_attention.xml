@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginTop="@dimen/dp_45"
+        android:orientation="horizontal"
+        android:gravity="center_vertical|center_horizontal"
+        android:padding="@dimen/dp_5">
+
+        <Button
+            android:id="@+id/bt_film"
+            android:layout_width="@dimen/dp_83"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginLeft="@dimen/dp_55"
+            android:layout_marginRight="@dimen/dp_35"
+            android:background="@drawable/edit_bg"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="电影"
+            android:textSize="@dimen/sp_14" />
+
+        <Button
+            android:id="@+id/bt_cinema"
+            android:layout_width="@dimen/dp_83"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:layout_marginRight="@dimen/dp_55"
+            android:background="@drawable/edit_bg1"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="影院"
+            android:textSize="@dimen/sp_14" />
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ll_1"
+        android:layout_marginTop="@dimen/dp_26"></android.support.v4.view.ViewPager>
+</RelativeLayout>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_148"
+        android:layout_marginLeft="@dimen/dp_24"
+        android:layout_marginRight="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_30"
+        android:background="@drawable/background_bg">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sd_photo"
+            android:layout_width="@dimen/dp_103"
+            android:layout_height="@dimen/dp_128"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_10" />
+
+        <TextView
+            android:id="@+id/tv_filmName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_toRightOf="@id/sd_photo"
+            android:text="sss"
+            android:textColor="#333333"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_filmContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_filmName"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_toRightOf="@id/sd_photo"
+            android:ellipsize="end"
+            android:lines="5"
+            android:text="s"
+            android:textSize="@dimen/sp_12" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_filmContent"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_12"
+            android:layout_toRightOf="@id/sd_photo"
+            android:text="ssss" />
+    </RelativeLayout>
+</LinearLayout>
