@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.CinemaDetailActivity;
-import com.bw.movie.mvp.model.RecommendBean;
 import com.bw.movie.mvp.model.ShowBean;
 import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
@@ -84,18 +83,28 @@ public class TrueReconedAdapter extends RecyclerView.Adapter<TrueReconedAdapter.
             viewHolder.collection_image.setImageResource(R.mipmap.collection_selected);
         }
         Log.i("TrueReconedAdapter", followCinema + "");
-        viewHolder.collection_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (b) {
-                    doHttpYes(id, i, viewHolder);
-                    b = false;
-                } else {
-                    doHttpNo(id, i, viewHolder);
-                    b = true;
+
+            viewHolder.collection_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(sessionId)) {
+                        if (b) {
+                            doHttpYes(id, i, viewHolder);
+                            b = false;
+                        } else {
+                            doHttpNo(id, i, viewHolder);
+                            b = true;
+                        }
+                    }else{
+                        Toast.makeText(context, "亲,您还没有登录哦", Toast.LENGTH_SHORT).show();
+
+                    }
+
                 }
-            }
-        });
+            });
+
+
+
     }
 
     private void doHttp() {

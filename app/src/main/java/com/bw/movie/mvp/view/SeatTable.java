@@ -168,7 +168,7 @@ public class SeatTable extends View {
     /**
      * 是否是第一次缩放
      */
-    boolean firstScale = false;
+    boolean firstScale = true;
 
     /**
      * 最多可以选择的座位数量
@@ -259,12 +259,12 @@ public class SeatTable extends View {
     /**
      * 默认的座位图宽度,如果使用的自己的座位图片比这个尺寸大或者小,会缩放到这个大小
      */
-    private float defaultImgW = 56;
+    private float defaultImgW = 66;
 
     /**
      * 默认的座位图高度
      */
-    private float defaultImgH = 50;
+    private float defaultImgH = 60;
 
     /**
      * 座位图片的宽度
@@ -311,8 +311,8 @@ public class SeatTable extends View {
     float yScale1 = 1;
 
     private void init() {
-        spacing = (int) dip2Px(5);
-        verSpacing = (int) dip2Px(10);
+        spacing = (int) dip2Px(15);
+        verSpacing = (int) dip2Px(20);
         defaultScreenWidth = (int) dip2Px(80);
 
         seatBitmap = BitmapFactory.decodeResource(getResources(), seatAvailableResID);
@@ -328,13 +328,13 @@ public class SeatTable extends View {
         checkedSeatBitmap = BitmapFactory.decodeResource(getResources(), seatCheckedResID);
         seatSoldBitmap = BitmapFactory.decodeResource(getResources(), seatSoldResID);
 
-        seatBitmapWidth = (int) (column * seatBitmap.getWidth() * xScale1 + (column - 1) * spacing );
-        seatBitmapHeight = (int) (row * seatBitmap.getHeight() * yScale1 + (row - 1) * verSpacing );
+        seatBitmapWidth = (int) (column * seatBitmap.getWidth() * xScale1 + (column - 1) * spacing);
+        seatBitmapHeight = (int) (row * seatBitmap.getHeight() * yScale1 + (row - 1) * verSpacing);
         paint.setColor(Color.RED);
         numberWidth = (int) dip2Px(20);
 
         screenHeight = dip2Px(20);
-        headHeight = dip2Px(30);
+        headHeight = dip2Px(5);
 
         headPaint = new Paint();
         headPaint.setStyle(Paint.Style.FILL);

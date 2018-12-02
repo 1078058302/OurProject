@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.FilmCinemaActivity;
-import com.bw.movie.activity.MovieDescActivity;
 import com.bw.movie.adapter.FilmCinemaAdapter;
 import com.bw.movie.mvp.model.FilmCinemaBean;
 import com.bw.movie.mvp.view.AppDelegate;

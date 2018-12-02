@@ -4,30 +4,192 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFF"
     tools:context=".activity.BuyTicketActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_200">
+    <ImageView
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_160"
+        android:background="@drawable/rectangle_bg" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_200"
-            android:background="@mipmap/moviebackground1" />
+    <RelativeLayout
+        android:id="@+id/ablive_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_200"
+        android:background="@mipmap/moviebackground1">
 
         <RelativeLayout
+            android:id="@+id/mean_layout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_50"
-            android:layout_marginTop="@dimen/dp_50"
+            android:layout_height="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_30"
             android:background="@drawable/layout_bg">
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:text="我是时间"
+                android:textColor="#FFFF" />
+
+            <TextView
+                android:id="@+id/begin_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_toRightOf="@id/time"
+                android:text="开始时间"
+                android:textColor="#FFFF" />
+
+            <TextView
+                android:id="@+id/xia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_toRightOf="@id/begin_time"
+                android:text="——"
+                android:textColor="#FFFF" />
+
+            <TextView
+
+                android:id="@+id/end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_toRightOf="@id/xia"
+                android:text="结束时间"
+                android:textColor="#FFFF" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="我是信息"
-                android:textColor="#d43c3c" />
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_toLeftOf="@id/cinema"
+                android:text="国语3D"
+                android:textColor="#FFFF" />
+
+            <TextView
+                android:id="@+id/cinema"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="影城"
+                android:textColor="#FFFF" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/seat_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/mean_layout"
+            android:layout_marginBottom="@dimen/dp_80">
+
+            <LinearLayout
+                android:id="@+id/one_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_22"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    android:background="@drawable/seat_gray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="可选"
+                    android:textColor="#FFF" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/two_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_22"
+                android:layout_toRightOf="@id/one_layout"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    android:background="@drawable/seat_green" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="选中"
+                    android:textColor="#FFF" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/three_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_22"
+                android:layout_toRightOf="@id/two_layout"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    android:background="@drawable/seat_sold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="已售"
+                    android:textColor="#FFF" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_22"
+                android:layout_toRightOf="@id/three_layout"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    android:background="@drawable/best" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="最佳观影区"
+                    android:textColor="#FFF" />
+            </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
+
+    <com.bw.movie.mvp.view.SeatTable
+        android:id="@+id/seat_table"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_300"
+        android:layout_below="@id/ablive_layout" />
 
 </RelativeLayout>
