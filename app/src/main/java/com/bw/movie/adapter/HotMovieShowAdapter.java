@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.MovieDescActivity;
@@ -38,6 +39,11 @@ public class HotMovieShowAdapter extends RecyclerView.Adapter<HotMovieShowAdapte
         myViewHolder.text_title.setText(result.get(i).getName());
         myViewHolder.text_desc.setText("简介:" + result.get(i).getSummary());
         String imageUrl = result.get(i).getImageUrl();
+        if(result.get(i).isFollowMovie()){
+            myViewHolder.movie_show_Collection.setImageResource(R.mipmap.collection_selected);
+        }else{
+            myViewHolder.movie_show_Collection.setImageResource(R.mipmap.collection_default);
+        }
         myViewHolder.image_movie.setImageURI(imageUrl);
         myViewHolder.image_movie.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,16 +56,16 @@ public class HotMovieShowAdapter extends RecyclerView.Adapter<HotMovieShowAdapte
         });
 
         myViewHolder.movie_show_Collection.setOnClickListener(new View.OnClickListener() {
-            boolean isCheck = true;
             @Override
             public void onClick(View view) {
-                if (isCheck) {
-                    myViewHolder.movie_show_Collection.setImageResource(R.mipmap.collection_selected);
-                    isCheck = false;
+                boolean followMovie = result.get(i).isFollowMovie();
+                Toast.makeText(context, ""+followMovie, Toast.LENGTH_SHORT).show();
+                if (followMovie) {
+                    result.get(i).setCheck(false);
                 } else {
-                    myViewHolder.movie_show_Collection.setImageResource(R.mipmap.collection_default);
-                    isCheck = true;
+                    result.get(i).setCheck(true);
                 }
+                notifyItemChanged(i);
             }
         });
     }

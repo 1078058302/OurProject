@@ -34,6 +34,7 @@
             android:textSize="@dimen/sp_14" />
 
         <ImageView
+            android:id="@+id/movie_desc_image_collection"
             android:layout_width="@dimen/dp_24"
             android:layout_height="@dimen/dp_24"
             android:layout_alignParentRight="true"
@@ -273,28 +274,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/juese"
-                android:layout_marginTop="@dimen/dp_12">
+                android:layout_marginTop="@dimen/dp_20">
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
 
-                    <com.jcodecraeer.xrecyclerview.XRecyclerView
-                        android:id="@+id/details_xrecycle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_24"
-                        android:layout_marginRight="@dimen/dp_24" />
+                <com.jcodecraeer.xrecyclerview.XRecyclerView
+                    android:id="@+id/details_xrecycle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_24"
+                    android:layout_marginRight="@dimen/dp_24"
+                    android:layout_marginTop="@dimen/dp_10" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/details_xrecycle"
-                        android:layout_marginLeft="@dimen/dp_24"
-                        android:layout_marginRight="@dimen/dp_24"
-                        android:gravity="center"
-                        android:text="下滑查看更多" />
-                </RelativeLayout>
             </ScrollView>
         </RelativeLayout>
 

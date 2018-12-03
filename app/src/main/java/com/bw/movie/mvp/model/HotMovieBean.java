@@ -57,6 +57,15 @@ public class HotMovieBean {
         private String name;
         private int rank;
         private String summary;
+        private boolean isCheck;
+
+        public boolean isCheck() {
+            return isCheck;
+        }
+
+        public void setCheck(boolean check) {
+            isCheck = check;
+        }
 
         public boolean isFollowMovie() {
             return followMovie;

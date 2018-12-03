@@ -80,7 +80,7 @@
             android:text="DDD" />
 
         <ImageView
-            android:id="@+id/evaluate_good_"
+            android:id="@+id/evaluate_good_image"
             android:layout_width="@dimen/sp_16"
             android:layout_height="@dimen/sp_16"
             android:layout_centerVertical="true"

@@ -1,7 +1,6 @@
 package com.bw.movie.mvp.view;
 
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -11,7 +10,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.ShowFindActivity;
@@ -80,7 +78,6 @@ public class LayoutBar extends RelativeLayout {
         objectAnimator.start();
         find_tan.setVisibility(View.VISIBLE);
     }
-
     //关闭
     private void hintShopCar() {
         int width = this.getResources().getDisplayMetrics().widthPixels;
