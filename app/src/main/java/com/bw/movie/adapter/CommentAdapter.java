@@ -3,14 +3,19 @@ package com.bw.movie.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.mvp.model.CommentBean;
+import com.bw.movie.net.HttpHelper;
+import com.bw.movie.net.HttpListener;
 import com.bw.movie.utils.DateUtils;
+import com.bw.movie.utils.SharedPreferencesUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -19,7 +24,9 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommentAdapter extends XRecyclerView.Adapter<CommentAdapter.ViewHolder> {
     private List<CommentBean.ResultBean> list = new ArrayList<>();
@@ -35,11 +42,12 @@ public class CommentAdapter extends XRecyclerView.Adapter<CommentAdapter.ViewHol
         viewHolder.mean = view.findViewById(R.id.mean_comment);
         viewHolder.date = view.findViewById(R.id.date);
         viewHolder.praise_num = view.findViewById(R.id.praise_num);
+        viewHolder.good = view.findViewById(R.id.good);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         viewHolder.head_logo.setImageURI(list.get(i).getCommentHeadPic());
         viewHolder.name.setText(list.get(i).getCommentUserName());
         viewHolder.mean.setText(list.get(i).getCommentContent());
@@ -47,8 +55,57 @@ public class CommentAdapter extends XRecyclerView.Adapter<CommentAdapter.ViewHol
         long commentTime = list.get(i).getCommentTime();
         String format = DateUtils.format(commentTime, "MM-dd HH:mm");
         viewHolder.date.setText(format);
+        int isGreat = list.get(i).getIsGreat();
+//        if (isGreat == 1) {
+//            viewHolder.good.setImageResource(R.mipmap.praise_selected);
+//        } else {
+//            viewHolder.good.setImageResource(R.mipmap.praise_default);
+//        }\
+        final int commentId = list.get(i).getCommentId();
 
+        viewHolder.good.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                int userId = SharedPreferencesUtils.getInt(context, "userId");
+                String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
+                if (!TextUtils.isEmpty(sessionId)) {
+                    doHttp(commentId, userId, sessionId, viewHolder, i);
+                } else {
+                    Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+    }
+
+    private void doHttp(int commentId, int userId, String sessionId, final ViewHolder viewHolder, final int i) {
+        ///movieApi/cinema/v1/verify/cinemaCommentGreat
+
+        Map map = new HashMap();
+        map.put("commentId", commentId);
+        Map mapHead = new HashMap();
+        mapHead.put("userId", userId);
+        mapHead.put("sessionId", sessionId);
+        new HttpHelper().post(mapHead, "/movieApi/cinema/v1/verify/cinemaCommentGreat", map).result(new HttpListener() {
+            @Override
+            public void success(String data) {
+//                Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
+                if (data.contains("点赞成功")) {
+                    Toast.makeText(context, "点赞成功", Toast.LENGTH_SHORT).show();
+                    list.get(i).setIsGreat(1);
+                    viewHolder.good.setImageResource(R.mipmap.praise_selected);
+//                    notifyItemChanged(i + 1);
+                    viewHolder.praise_num.setText(list.get(i).getGreatNum() + 1 + "");
+                }
+            }
+
+            @Override
+            public void fail(String error) {
+
+            }
+        });
     }
 
     @Override
@@ -75,6 +132,7 @@ public class CommentAdapter extends XRecyclerView.Adapter<CommentAdapter.ViewHol
         TextView mean;
         TextView date;
         TextView praise_num;
+        ImageView good;
     }
 
     // currentTime要转换的long类型的时间
@@ -104,4 +162,6 @@ public class CommentAdapter extends XRecyclerView.Adapter<CommentAdapter.ViewHol
         date = formatter.parse(strTime);
         return date;
     }
+
+
 }

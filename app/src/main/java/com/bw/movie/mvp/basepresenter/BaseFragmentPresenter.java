@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.bw.movie.mvp.view.AppDelegate;
 
@@ -41,7 +42,13 @@ public abstract class BaseFragmentPresenter<T extends AppDelegate> extends Fragm
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
+        Window window = getActivity().getWindow();
+        setWindow(window);
         delegate.initData();
+
+    }
+
+    public void setWindow(Window window) {
 
     }
 

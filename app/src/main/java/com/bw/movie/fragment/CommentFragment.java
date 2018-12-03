@@ -1,6 +1,7 @@
 package com.bw.movie.fragment;
 
 import android.content.Context;
+import android.view.Window;
 
 import com.bw.movie.mvp.basepresenter.BaseFragmentPresenter;
 import com.bw.movie.presenter.CommentFragmentPresenter;
@@ -15,5 +16,11 @@ public class CommentFragment extends BaseFragmentPresenter<CommentFragmentPresen
     public void getContext(Context context) {
         super.getContext(context);
         delegate.setContext(context);
+    }
+
+    @Override
+    public void setWindow(Window window) {
+        super.setWindow(window);
+        delegate.getWindow(window);
     }
 }

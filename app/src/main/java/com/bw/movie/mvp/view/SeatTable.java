@@ -251,7 +251,7 @@ public class SeatTable extends View {
     RectF rectF;
 
     /**
-     * 头部下面横线的高度
+     * 头部下面横线的高度-
      */
     int borderHeight = 1;
     Paint redBorderPaint;
@@ -259,12 +259,12 @@ public class SeatTable extends View {
     /**
      * 默认的座位图宽度,如果使用的自己的座位图片比这个尺寸大或者小,会缩放到这个大小
      */
-    private float defaultImgW = 66;
+    private float defaultImgW = 75;
 
     /**
      * 默认的座位图高度
      */
-    private float defaultImgH = 60;
+    private float defaultImgH = 69;
 
     /**
      * 座位图片的宽度

@@ -53,6 +53,7 @@ public class CinemaDetailsAdapter extends XRecyclerView.Adapter<CinemaDetailsAda
                 String beginTime = list.get(i).getBeginTime();
                 String endTime = list.get(i).getEndTime();
                 int seatsTotal = list.get(i).getSeatsTotal();
+                int status = list.get(i).getId();
                 int seatsUseCount = list.get(i).getSeatsUseCount();
                 String screeningHall = list.get(i).getScreeningHall();
                 String duration = list.get(i).getDuration();
@@ -63,7 +64,8 @@ public class CinemaDetailsAdapter extends XRecyclerView.Adapter<CinemaDetailsAda
                         .putExtra("seatsUseCount", seatsUseCount)
                         .putExtra("screeningHall", screeningHall)
                         .putExtra("duration", duration)
-                        .putExtra("price", price_one);
+                        .putExtra("price", price_one)
+                        .putExtra("status", status);
                 context.startActivity(intent);
             }
         });

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:id="@+id/movie_show_relative"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="@dimen/dp_25"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/dp_25">
 
     <RelativeLayout
         android:id="@+id/relative"
@@ -14,12 +13,13 @@
         android:background="@mipmap/movie_bg_h"></RelativeLayout>
 
     <com.facebook.drawee.view.SimpleDraweeView
+
         android:id="@+id/movieshow_image_movie"
         android:layout_width="@dimen/dp_103"
         android:layout_height="@dimen/dp_129"
         android:layout_marginLeft="@dimen/dp_10"
         android:scaleType="fitXY"
-        fresco:roundedCornerRadius="@dimen/dp_8"/>
+        fresco:roundedCornerRadius="@dimen/dp_8" />
 
     <TextView
         android:id="@+id/movieshow_text_title"
@@ -33,14 +33,14 @@
         android:textSize="@dimen/sp_14" />
 
     <TextView
-        android:maxEms="20"
-        android:lines="5"
         android:id="@+id/movieshow_text_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_45"
         android:layout_toRightOf="@+id/movieshow_image_movie"
+        android:lines="5"
+        android:maxEms="20"
         android:text="AAA"
         android:textColor="#ffffff"
         android:textSize="@dimen/sp_12" />
@@ -52,4 +52,12 @@
         android:layout_marginTop="@dimen/dp_10"
         android:src="@mipmap/group2" />
 
+    <ImageView
+        android:id="@+id/movie_show_Collection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_27"
+        android:src="@mipmap/collection_default" />
 </RelativeLayout>

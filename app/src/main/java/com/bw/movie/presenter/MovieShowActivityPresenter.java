@@ -32,6 +32,7 @@ public class MovieShowActivityPresenter extends AppDelegate implements View.OnCl
     private Button hot_bt;
     private Button ing_bt;
     private Button next_bt;
+    private ImageView movieshow_image_movie;
 
     @Override
     public int getLayoutId() {
@@ -49,6 +50,7 @@ public class MovieShowActivityPresenter extends AppDelegate implements View.OnCl
         ing_bt = get(R.id.moviing_bt_movieshow);
         next_bt = get(R.id.next_bt_movieshow);
         recycle_movieshow = get(R.id.recycle_movieshow);
+        movieshow_image_movie = get(R.id.movieshow_image_movie);
         setClick(this, R.id.movieshow_image_retreat, R.id.movieshow_image_retreat, R.id.hot_bt_movieshow, R.id.moviing_bt_movieshow, R.id.next_bt_movieshow);
         ChenJinShi();
         hotMovieShowAdapter = new HotMovieShowAdapter();

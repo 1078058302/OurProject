@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/movie_evaluate_title_relative"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_30">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/evaluate_image_movie"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            fresco:roundAsCircle="true" />
+
+        <TextView
+            android:id="@+id/evaluate_username_movie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_toRightOf="@+id/evaluate_image_movie"
+            android:text="AAAA"
+            android:textColor="#333333"
+            android:textSize="@dimen/sp_14" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/evaluate_username_evaluate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/movie_evaluate_title_relative"
+        android:layout_marginTop="@dimen/sp_12"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="BBBBB" />
+
+    <RelativeLayout
+        android:id="@+id/evaluate_middle_evaluate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/evaluate_username_evaluate"
+        android:layout_marginTop="@dimen/dp_10">
+
+
+        <TextView
+            android:id="@+id/evaluate_time_movie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AAA"
+            android:textColor="#999999"
+            android:textSize="@dimen/sp_12" />
+
+        <TextView
+            android:id="@+id/evaluate_news_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="CCC" />
+
+        <ImageView
+            android:id="@+id/evaluate_news_image"
+            android:layout_width="@dimen/sp_16"
+            android:layout_height="@dimen/sp_16"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_6"
+            android:layout_toLeftOf="@+id/evaluate_news_text"
+            android:src="@mipmap/news" />
+
+        <TextView
+            android:id="@+id/evaluate_good_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_18"
+            android:layout_toLeftOf="@+id/evaluate_news_image"
+            android:text="DDD" />
+
+        <ImageView
+            android:id="@+id/evaluate_good_"
+            android:layout_width="@dimen/sp_16"
+            android:layout_height="@dimen/sp_16"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_6"
+            android:layout_toLeftOf="@+id/evaluate_good_text"
+            android:src="@mipmap/praise_default" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/evaluate_middle_evaluate"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="#c2c2c2" />
+</RelativeLayout>

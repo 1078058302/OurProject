@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bw.movie.R;
@@ -24,34 +24,49 @@ public class HotMovieShowAdapter extends RecyclerView.Adapter<HotMovieShowAdapte
     @NonNull
     @Override
     public HotMovieShowAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = View.inflate(context, R.layout.movieshow_movie_item,null);
+        View view = View.inflate(context, R.layout.movieshow_movie_item, null);
         MyViewHolder myViewHolder = new MyViewHolder(view);
         myViewHolder.image_movie = view.findViewById(R.id.movieshow_image_movie);
         myViewHolder.text_title = view.findViewById(R.id.movieshow_text_title);
         myViewHolder.text_desc = view.findViewById(R.id.movieshow_text_desc);
-        myViewHolder.movie_show_relative = view.findViewById(R.id.movie_show_relative);
+        myViewHolder.movie_show_Collection = view.findViewById(R.id.movie_show_Collection);
         return myViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HotMovieShowAdapter.MyViewHolder myViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull final HotMovieShowAdapter.MyViewHolder myViewHolder, final int i) {
         myViewHolder.text_title.setText(result.get(i).getName());
-        myViewHolder.text_desc.setText("简介:"+result.get(i).getSummary());
+        myViewHolder.text_desc.setText("简介:" + result.get(i).getSummary());
         String imageUrl = result.get(i).getImageUrl();
         myViewHolder.image_movie.setImageURI(imageUrl);
-        myViewHolder.movie_show_relative.setOnClickListener(new View.OnClickListener() {
+        myViewHolder.image_movie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int movie_id = result.get(i).getId();
                 Intent intent = new Intent(context, MovieDescActivity.class);
-                intent.putExtra("movie_id",movie_id);
+                intent.putExtra("movie_id", movie_id);
                 context.startActivity(intent);
             }
         });
+
+        myViewHolder.movie_show_Collection.setOnClickListener(new View.OnClickListener() {
+            boolean isCheck = true;
+            @Override
+            public void onClick(View view) {
+                if (isCheck) {
+                    myViewHolder.movie_show_Collection.setImageResource(R.mipmap.collection_selected);
+                    isCheck = false;
+                } else {
+                    myViewHolder.movie_show_Collection.setImageResource(R.mipmap.collection_default);
+                    isCheck = true;
+                }
+            }
+        });
     }
+
     @Override
     public int getItemCount() {
-        return  result.size();
+        return result.size();
     }
 
     public void setlist(Context context, List<HotMovieBean.ResultBean> result) {
@@ -64,9 +79,10 @@ public class HotMovieShowAdapter extends RecyclerView.Adapter<HotMovieShowAdapte
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
         }
+
         SimpleDraweeView image_movie;
         TextView text_title;
         TextView text_desc;
-        RelativeLayout movie_show_relative;
+        ImageView movie_show_Collection;
     }
 }
