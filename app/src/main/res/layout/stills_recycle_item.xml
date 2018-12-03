@@ -8,10 +8,10 @@
         android:layout_height="wrap_content">
 
         <ImageView
-    android:id="@+id/stills_item_image"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:scaleType="fitXY"
-    android:layout_margin="@dimen/dp_5" />
-</RelativeLayout>
+            android:id="@+id/stills_item_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_5"
+            android:scaleType="fitXY" />
+    </RelativeLayout>
 </RelativeLayout>
