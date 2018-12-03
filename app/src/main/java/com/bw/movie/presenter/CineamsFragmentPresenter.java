@@ -38,6 +38,25 @@ public class CineamsFragmentPresenter extends AppDelegate {
         xRecyclerView2.setLayoutManager(linearLayoutManager);
         cineamsAdapter = new CineamsAdapter(context);
         xRecyclerView2.setAdapter(cineamsAdapter);
+        xRecyclerView2.setPullRefreshEnabled(true);
+        xRecyclerView2.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                doHttp();
+            }
+
+            @Override
+            public void onLoadMore() {
+                xRecyclerView2.loadMoreComplete();
+            }
+        });
+        //接口回调
+        cineamsAdapter.setOnItemClickListener(new CineamsAdapter.OnItemClickListener() {
+            @Override
+            public void setItem() {
+                doHttp();
+            }
+        });
     }
 
     private void doHttp() {
@@ -52,13 +71,12 @@ public class CineamsFragmentPresenter extends AppDelegate {
         new HttpHelper().getHead("/movieApi/cinema/v1/verify/findCinemaPageList", map, mapHead).result(new HttpListener() {
             @Override
             public void success(String data) {
-                toast(data);
                 Gson gson = new Gson();
                 GuanZhu2Bean guanZhu2Bean = gson.fromJson(data, GuanZhu2Bean.class);
                 if ("0000".equals(guanZhu2Bean.getStatus())) {
-                    toast("查询成功");
                     result = guanZhu2Bean.getResult();
                     cineamsAdapter.setList(result);
+                    xRecyclerView2.refreshComplete();
                 }
             }
 

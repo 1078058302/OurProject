@@ -64,7 +64,9 @@ public class TrueReconedAdapter extends RecyclerView.Adapter<TrueReconedAdapter.
         double distance = list.get(i).getDistance();
         double v = distance / 1000;
         viewHolder.away.setText(v + "km");
-        id = list.get(i).getId();
+        if (i != 0) {
+            id = list.get(i - 1).getId();
+        }
         sessionId = SharedPreferencesUtils.getString(context, "sessionId");
         userId = SharedPreferencesUtils.getInt(context, "userId");
         viewHolder.cinema_show.setOnClickListener(new View.OnClickListener() {
@@ -84,25 +86,24 @@ public class TrueReconedAdapter extends RecyclerView.Adapter<TrueReconedAdapter.
         }
         Log.i("TrueReconedAdapter", followCinema + "");
 
-            viewHolder.collection_image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!TextUtils.isEmpty(sessionId)) {
-                        if (b) {
-                            doHttpYes(id, i, viewHolder);
-                            b = false;
-                        } else {
-                            doHttpNo(id, i, viewHolder);
-                            b = true;
-                        }
-                    }else{
-                        Toast.makeText(context, "亲,您还没有登录哦", Toast.LENGTH_SHORT).show();
-
+        viewHolder.collection_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(sessionId)) {
+                    if (b) {
+                        doHttpYes(id, i, viewHolder);
+                        b = false;
+                    } else {
+                        doHttpNo(id, i, viewHolder);
+                        b = true;
                     }
+                } else {
+                    Toast.makeText(context, "亲,您还没有登录哦", Toast.LENGTH_SHORT).show();
 
                 }
-            });
 
+            }
+        });
 
 
     }

@@ -3,16 +3,21 @@ package com.bw.movie.presenter;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.NiChengActivity;
@@ -57,6 +62,7 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
     private String nickName;
     private int sex;
     private String emaila;
+    private int REQUEST_TAKE_PHOTO_PERMISSION = 1;
 
     @Override
     public int getLayoutId() {
@@ -183,15 +189,38 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
 
     }
 
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        if (requestCode == REQUEST_TAKE_PHOTO_PERMISSION) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                //申请成功，可以拍照
+//                show();
+//            } else {
+//                Toast.makeText(((UserInfoActivity) context), "你拒绝了权限，该功能不可用\n可在应用设置里授权拍照哦", Toast.LENGTH_SHORT).show();
+//            }
+//            return;
+//        }
+
+   // }
+
     private void show() {
         new PhotoPopwindow(context, get(R.id.layout_parent), new PhotoPopwindow.OnSelectPictureListener() {
             @Override
             public void onTakePhoto() {
                 //拍照
                 //动态权限
-                Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent2.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "heads.png")));
-                ((UserInfoActivity) context).startActivityForResult(intent2, 2);
+                //6.0以上动态获取权限
+                if (ContextCompat.checkSelfPermission(((UserInfoActivity) context), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    //申请权限，REQUEST_TAKE_PHOTO_PERMISSION是自定义的常量
+                    ActivityCompat.requestPermissions(((UserInfoActivity) context),
+                            new String[]{Manifest.permission.CAMERA},
+                            REQUEST_TAKE_PHOTO_PERMISSION);
+                    Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent2.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "heads.png")));
+                    ((UserInfoActivity) context).startActivityForResult(intent2, 2);
+
+                }
+
 
             }
 
@@ -352,6 +381,18 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
         SharedPreferencesUtils.putString(context, "email", "");
         onResume();
     }
+
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        if (requestCode == REQUEST_TAKE_PHOTO_PERMISSION) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                //申请成功，可以拍照
+//                show();
+//            } else {
+//                Toast.makeText(((UserInfoActivity) context), "你拒绝了权限，该功能不可用\n可在应用设置里授权拍照哦", Toast.LENGTH_SHORT).show();
+//            }
+//            return;
+//        }
+//    }
 
 }
 

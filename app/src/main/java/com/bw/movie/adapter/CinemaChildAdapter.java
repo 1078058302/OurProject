@@ -73,7 +73,9 @@ public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.
         });
         sessionId = SharedPreferencesUtils.getString(context, "sessionId");
         userId = SharedPreferencesUtils.getInt(context, "userId");
-        id = list.get(i).getId();
+        if (i != 0) {
+            id = list.get(i - 1).getId();
+        }
         boolean followCinema = list.get(i).isFollowCinema();
         if (followCinema) {
             viewHolder.collection_image.setImageResource(R.mipmap.collection_default);
@@ -82,23 +84,23 @@ public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.
         }
         Log.i("TrueReconedAdapter", followCinema + "");
 
-            viewHolder.collection_image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!TextUtils.isEmpty(sessionId)) {
-                        if (b) {
-                            doHttpYes(id, i, viewHolder);
-                            b = false;
-                        } else {
-                            doHttpNo(id, i, viewHolder);
-                            b = true;
-                        }
-                    }else{
-                        Toast.makeText(context, "亲,您还没有登录哦", Toast.LENGTH_SHORT).show();
-
+        viewHolder.collection_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(sessionId)) {
+                    if (b) {
+                        doHttpYes(id, i, viewHolder);
+                        b = false;
+                    } else {
+                        doHttpNo(id, i, viewHolder);
+                        b = true;
                     }
+                } else {
+                    Toast.makeText(context, "亲,您还没有登录哦", Toast.LENGTH_SHORT).show();
+
                 }
-            });
+            }
+        });
 
     }
 
