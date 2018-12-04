@@ -1,26 +1,29 @@
 package com.bw.movie.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bw.movie.R;
+import com.bw.movie.activity.LoginActivity;
 import com.bw.movie.activity.MainActivity;
 import com.bw.movie.adapter.ViewPagerAdapter;
 import com.bw.movie.fragment.CinemaFragment;
 import com.bw.movie.fragment.MineFragment;
 import com.bw.movie.fragment.MovieShowFragment;
 import com.bw.movie.mvp.view.AppDelegate;
+import com.bw.movie.utils.SharedPreferencesUtils;
 import com.bw.movie.utils.UltimateBar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivityPresenter extends AppDelegate implements View.OnClickListener {
-
+    public static MainActivityPresenter instance;
     private List<Fragment> fragments = new ArrayList<>();
     private ViewPager main_vp;
     private ImageView movie_main;
@@ -35,7 +38,16 @@ public class MainActivityPresenter extends AppDelegate implements View.OnClickLi
     @Override
     public void initData() {
         super.initData();
+        //判断是否登录过
+        String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
+        if (TextUtils.isEmpty(sessionId)) {
+            //跳转到登录
+            context.startActivity(new Intent(context, LoginActivity.class));
+//            ((MainActivity)context).finish();
+        }
+
         UltimateBar.newImmersionBuilder().applyNav(false).build((MainActivity) context).apply();
+        this.instance=this;
         main_vp = get(R.id.main_vp);
         //加入三个fragment
         fragments.add(new MovieShowFragment());
@@ -58,6 +70,7 @@ public class MainActivityPresenter extends AppDelegate implements View.OnClickLi
 
             @Override
             public void onPageSelected(int i) {
+
                 switch (i) {
                     case 0:
                         movie_main.setImageResource(R.drawable.icon_film_selected_xhdpi);
@@ -115,4 +128,7 @@ public class MainActivityPresenter extends AppDelegate implements View.OnClickLi
                 break;
         }
     }
+
+
+
 }

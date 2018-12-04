@@ -22,6 +22,7 @@ public class StartActivityPresenter extends AppDelegate {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
             switch (msg.what) {
                 case 0:
                     //判断是否有网
@@ -29,11 +30,13 @@ public class StartActivityPresenter extends AppDelegate {
                         //存储当前有网时的状态
                         SharedPreferencesUtils.putBoolean(context, "isJump", true);
                         context.startActivity(new Intent(context, WelcomeActivity.class));
+                        handler.removeCallbacksAndMessages(null);
                         ((StartActivity) context).finish();
                     } else {
                         //没有网跳无网页面并保存当前的状态
-                        SharedPreferencesUtils.putString(context,"wel","0");
+                        SharedPreferencesUtils.putString(context, "wel", "0");
                         context.startActivity(new Intent(context, ErrorActivity.class));
+                        handler.removeCallbacksAndMessages(null);
                         ((StartActivity) context).finish();
                     }
                     break;
@@ -41,14 +44,15 @@ public class StartActivityPresenter extends AppDelegate {
                     //判断是否有网
                     if (NetworkUtils.isConnected(context)) {
                         context.startActivity(new Intent(context, MainActivity.class));
+                        handler.removeCallbacksAndMessages(null);
                         ((StartActivity) context).finish();
                     } else {
                         //没有网跳无网页面并保存当前的状态
-                        SharedPreferencesUtils.putString(context,"main","1");
+                        SharedPreferencesUtils.putString(context, "main", "1");
                         context.startActivity(new Intent(context, ErrorActivity.class));
+                        handler.removeCallbacksAndMessages(null);
                         ((StartActivity) context).finish();
                     }
-
                     break;
             }
         }

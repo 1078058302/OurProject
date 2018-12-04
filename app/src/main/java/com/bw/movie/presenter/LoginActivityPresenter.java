@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
@@ -60,6 +59,8 @@ public class LoginActivityPresenter extends AppDelegate implements View.OnClickL
         eye = (ImageView) get(R.id.eye);
         //图标监听事件
         eye.setOnTouchListener(this);
+
+
     }
 
     public void setContext(Context context) {
@@ -115,7 +116,7 @@ public class LoginActivityPresenter extends AppDelegate implements View.OnClickL
                         SharedPreferencesUtils.putString(context, "tv_phone", "");
                         SharedPreferencesUtils.putString(context, "tv_pwd", "");
                     }
-                    
+
                     SharedPreferencesUtils.putString(context, "tv_phone2", tvPhone);
 
                     SharedPreferencesUtils.putString(context, "headPic", loginBean.getResult().getUserInfo().getHeadPic());
@@ -125,7 +126,15 @@ public class LoginActivityPresenter extends AppDelegate implements View.OnClickL
                     SharedPreferencesUtils.putInt(context, "sex", loginBean.getResult().getUserInfo().getSex());
                     SharedPreferencesUtils.putString(context, "birthday", loginBean.getResult().getUserInfo().getBirthday());
                     toast(loginBean.getMessage() + "");
+//
+//                    boolean isloginout=SharedPreferencesUtils.getBoolean(context, "isloginout");
+//                    if (!isloginout) {
+//                        context.startActivity(new Intent(context, MainActivity.class));
+////                       ((LoginActivity) context).finish();
+//                    }
+//                    context.startActivity(new Intent(context, MainActivity.class));
                     ((LoginActivity) context).finish();
+
                 } else {
                     toast("手机号密码不正确");
                     return;
@@ -160,5 +169,6 @@ public class LoginActivityPresenter extends AppDelegate implements View.OnClickL
         }
         return true;//这里要返回true，不然抬起事件会不响应，应该是事件分发机制的原因
     }
+
 
 }

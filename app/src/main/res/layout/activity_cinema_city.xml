@@ -16,6 +16,7 @@
         android:background="@drawable/local_sp">
 
         <ImageView
+            android:id="@+id/show_map_local"
             android:layout_width="@dimen/dp_12"
             android:layout_height="@dimen/dp_12"
             android:layout_centerHorizontal="true"
