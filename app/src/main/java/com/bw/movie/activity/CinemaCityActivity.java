@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.bw.movie.mvp.basepresenter.BaseActivityPresenter;
 import com.bw.movie.presenter.CinemaCityActivityPresenter;
-
+//33
 public class CinemaCityActivity extends BaseActivityPresenter <CinemaCityActivityPresenter>{
 
 
