@@ -60,7 +60,9 @@ public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.
         } else {
             viewHolder.desc.setText(address);
         }
-        viewHolder.away.setText(list.get(i).getDistance() + "km");
+        double distance = list.get(i).getDistance();
+        double v = distance / 1000;
+        viewHolder.away.setText(v + "km");
 
         viewHolder.cinema_show.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,23 +84,23 @@ public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.
         }
         Log.i("TrueReconedAdapter", followCinema + "");
 
-            viewHolder.collection_image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!TextUtils.isEmpty(sessionId)) {
-                        if (b) {
-                            doHttpYes(id, i, viewHolder);
-                            b = false;
-                        } else {
-                            doHttpNo(id, i, viewHolder);
-                            b = true;
-                        }
-                    }else{
-                        Toast.makeText(context, "亲,您还没有登录哦", Toast.LENGTH_SHORT).show();
-
+        viewHolder.collection_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(sessionId)) {
+                    if (b) {
+                        doHttpYes(id, i, viewHolder);
+                        b = false;
+                    } else {
+                        doHttpNo(id, i, viewHolder);
+                        b = true;
                     }
+                } else {
+                    Toast.makeText(context, "亲,您还没有登录哦", Toast.LENGTH_SHORT).show();
+
                 }
-            });
+            }
+        });
 
     }
 
