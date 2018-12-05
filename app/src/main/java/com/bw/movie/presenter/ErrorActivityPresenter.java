@@ -38,6 +38,7 @@ public class ErrorActivityPresenter extends AppDelegate {
                     //获取当前的状态
                     String wel = SharedPreferencesUtils.getString(context, "wel");
                     String main = SharedPreferencesUtils.getString(context, "main");
+                    String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
 //                    toast("wel"+a);
 //                    toast("main"+b);
                     //0表示欢迎页的状态
@@ -52,6 +53,14 @@ public class ErrorActivityPresenter extends AppDelegate {
                     Boolean isJump = SharedPreferencesUtils.getBoolean(context, "isJump");
 //                    toast(isJump+"");
                     if ("1".equals(main) && SharedPreferencesUtils.getBoolean(context, "isJump")) {
+//                        if (TextUtils.isEmpty(sessionId)) {
+//                            context.startActivity(new Intent(context, LoginActivity.class));
+//                            ((ErrorActivity) context).finish();
+//                        }else{
+//                            context.startActivity(new Intent(context, MainActivity.class));
+//                            ((ErrorActivity) context).finish();
+//                        }
+
                         context.startActivity(new Intent(context, MainActivity.class));
                         ((ErrorActivity) context).finish();
                     }
