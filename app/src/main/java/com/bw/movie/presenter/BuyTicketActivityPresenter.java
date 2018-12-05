@@ -15,12 +15,15 @@ import android.widget.Toast;
 import com.bw.movie.R;
 import com.bw.movie.activity.BuyTicketActivity;
 import com.bw.movie.activity.MainActivity;
+import com.bw.movie.activity.SuccessShowActivity;
+import com.bw.movie.mvp.model.OrderBean;
 import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.mvp.view.SeatTable;
 import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
 import com.bw.movie.utils.SharedPreferencesUtils;
 import com.bw.movie.utils.UltimateBar;
+import com.google.gson.Gson;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -43,6 +46,10 @@ public class BuyTicketActivityPresenter extends AppDelegate {
     private RelativeLayout alpha_layout;
     private TextView pay_price;
     private ImageView close;
+    private RelativeLayout weixin_layout;
+    private RelativeLayout zhifubao_layout;
+    private String sessionId;
+    private int userId;
 
 
     @Override
@@ -53,6 +60,8 @@ public class BuyTicketActivityPresenter extends AppDelegate {
     @Override
     public void initData() {
         super.initData();
+        sessionId = SharedPreferencesUtils.getString(context, "sessionId");
+        userId = SharedPreferencesUtils.getInt(context, "userId");
         UltimateBar.newImmersionBuilder().applyNav(false).build((BuyTicketActivity) context).apply();
         TextView begin_tiem = get(R.id.begin_time);
         TextView end_time = get(R.id.end_time);
@@ -74,6 +83,8 @@ public class BuyTicketActivityPresenter extends AppDelegate {
         String screeningHall = intent.getStringExtra("screeningHall");
         String duration = intent.getStringExtra("duration");
         price = intent.getIntExtra("price", 0);
+        weixin_layout = get(R.id.weixin_layout);
+        zhifubao_layout = get(R.id.zhifubao_layout);
         begin_tiem.setText(beginTime);
         end_time.setText(endTime);
         cinema.setText(screeningHall);
@@ -154,8 +165,7 @@ public class BuyTicketActivityPresenter extends AppDelegate {
     }
 
     private void doHttp() {
-        String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
-        int userId = SharedPreferencesUtils.getInt(context, "userId");
+
         String userIds = userId + "";
         String num1 = num + "";
         String status1 = status + "";
@@ -172,13 +182,57 @@ public class BuyTicketActivityPresenter extends AppDelegate {
         new HttpHelper().post(mapHead, "/movieApi/movie/v1/verify/buyMovieTicket", map).result(new HttpListener() {
             @Override
             public void success(String data) {
-                if (data.contains("下单成功")) {
+                final OrderBean orderBean = new Gson().fromJson(data, OrderBean.class);
+                String message = orderBean.getMessage();
+                if (message.equals("下单成功")) {
                     int price_a = price * num;
                     alpha_layout.setVisibility(View.VISIBLE);
                     alpha_layout.setBackgroundResource(R.drawable.black_bg);
                     pay_price.setText(price_a + ".00");
                     showShopCar();
+                    weixin_layout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+//                            Toast.makeText(context, "微信支付", Toast.LENGTH_SHORT).show();
+                            String orderId = orderBean.getOrderId();
+                            doHttpPay(orderId);
+                        }
+                    });
+                    zhifubao_layout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(context, "暂不支持支付宝支付", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
 
+            @Override
+            public void fail(String error) {
+
+            }
+        });
+    }
+
+    private void doHttpPay(String orderId) {
+        ///movieApi/movie/v1/verify/pay
+        Map map = new HashMap();
+        map.put("payType", 1);
+        map.put("orderId", orderId);
+        Map mapHead = new HashMap();
+        mapHead.put("userId", userId);
+        mapHead.put("sessionId", sessionId);
+        new HttpHelper().post(mapHead, "/movieApi/movie/v1/verify/pay", map).result(new HttpListener() {
+            @Override
+            public void success(String data) {
+                if (data.contains("支付成功")) {
+                    alpha_layout.setVisibility(View.GONE);
+                    hintShopCar();
+                    Intent intent = new Intent(context, SuccessShowActivity.class);
+                    int i = price * num;
+                    intent.putExtra("price", i);
+                    context.startActivity(intent);
+                    ((BuyTicketActivity) context).finish();
                 }
             }
 
