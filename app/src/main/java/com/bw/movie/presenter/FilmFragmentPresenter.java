@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 
 import com.bw.movie.R;
+import com.bw.movie.adapter.CineamsAdapter;
 import com.bw.movie.adapter.FilmAdapter;
 import com.bw.movie.mvp.model.GuanZhuBean;
 import com.bw.movie.mvp.view.AppDelegate;
@@ -39,6 +40,25 @@ public class FilmFragmentPresenter extends AppDelegate {
         xRecyclerView1.setLayoutManager(linearLayoutManager);
         filmAdapter = new FilmAdapter(context);
         xRecyclerView1.setAdapter(filmAdapter);
+        //接口回调
+        filmAdapter.setOnItemClickListener(new CineamsAdapter.OnItemClickListener() {
+            @Override
+            public void setItem() {
+                doHttp();
+            }
+        });
+        xRecyclerView1.setPullRefreshEnabled(true);
+        xRecyclerView1.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                doHttp();
+            }
+
+            @Override
+            public void onLoadMore() {
+                xRecyclerView1.loadMoreComplete();
+            }
+        });
     }
 
     private void doHttp() {
@@ -59,6 +79,7 @@ public class FilmFragmentPresenter extends AppDelegate {
                     toast("查询成功");
                     result = guanZhuBean.getResult();
                     filmAdapter.setList(result);
+                    xRecyclerView1.refreshComplete();
                 }
 
             }

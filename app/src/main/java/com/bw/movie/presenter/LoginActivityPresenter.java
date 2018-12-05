@@ -20,6 +20,7 @@ import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
 import com.bw.movie.service.EncryptUtil;
+import com.bw.movie.utils.DateUtils;
 import com.bw.movie.utils.SharedPreferencesUtils;
 import com.google.gson.Gson;
 
@@ -115,15 +116,16 @@ public class LoginActivityPresenter extends AppDelegate implements View.OnClickL
                         SharedPreferencesUtils.putString(context, "tv_phone", "");
                         SharedPreferencesUtils.putString(context, "tv_pwd", "");
                     }
-                    
-                    SharedPreferencesUtils.putString(context, "tv_phone2", tvPhone);
 
+                    SharedPreferencesUtils.putString(context, "tv_phone2", tvPhone);
                     SharedPreferencesUtils.putString(context, "headPic", loginBean.getResult().getUserInfo().getHeadPic());
                     SharedPreferencesUtils.putString(context, "nickName", loginBean.getResult().getUserInfo().getNickName());
                     SharedPreferencesUtils.putString(context, "sessionId", loginBean.getResult().getSessionId());
                     SharedPreferencesUtils.putInt(context, "userId", loginBean.getResult().getUserId());
                     SharedPreferencesUtils.putInt(context, "sex", loginBean.getResult().getUserInfo().getSex());
-                    SharedPreferencesUtils.putString(context, "birthday", loginBean.getResult().getUserInfo().getBirthday());
+                    long birthday = loginBean.getResult().getUserInfo().getBirthday();
+                    String format = DateUtils.format(birthday, "yyyy-MM-dd");
+                    SharedPreferencesUtils.putString(context, "birthday", format);
                     toast(loginBean.getMessage() + "");
                     ((LoginActivity) context).finish();
                 } else {
@@ -160,5 +162,6 @@ public class LoginActivityPresenter extends AppDelegate implements View.OnClickL
         }
         return true;//这里要返回true，不然抬起事件会不响应，应该是事件分发机制的原因
     }
+
 
 }

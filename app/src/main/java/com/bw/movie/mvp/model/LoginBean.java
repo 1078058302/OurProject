@@ -82,7 +82,7 @@ public class LoginBean {
              * headPic : http://172.17.8.100/images/head_pic/bwjy.jpg
              */
 
-            private String birthday;
+            private long birthday;
             private int id;
             private long lastLoginTime;
             private String nickName;
@@ -90,11 +90,11 @@ public class LoginBean {
             private int sex;
             private String headPic;
 
-            public String getBirthday() {
+            public long getBirthday() {
                 return birthday;
             }
 
-            public void setBirthday(String birthday) {
+            public void setBirthday(long birthday) {
                 this.birthday = birthday;
             }
 

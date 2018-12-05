@@ -26,13 +26,13 @@ public class MovieStillsAdapter extends RecyclerView.Adapter<MovieStillsAdapter.
     public MovieStillsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = View.inflate(context, R.layout.stills_recycle_item,null);
         MyViewHolder myViewHolder = new MyViewHolder(view);
-        myViewHolder.stillsimage = view.findViewById(R.id.stills_item_image);
+        myViewHolder.simpleDraweeView = view.findViewById(R.id.stills_item_image);
         return myViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull MovieStillsAdapter.MyViewHolder myViewHolder, int i) {
-        Glide.with(context).load(list.get(i)).into(myViewHolder.stillsimage);
+        Glide.with(context).load(list.get(i)).into(myViewHolder.simpleDraweeView);
     }
 
     @Override
@@ -50,6 +50,6 @@ public class MovieStillsAdapter extends RecyclerView.Adapter<MovieStillsAdapter.
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
         }
-        ImageView stillsimage;
+        ImageView simpleDraweeView;
     }
 }

@@ -7,13 +7,14 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bw.movie.R;
@@ -23,6 +24,7 @@ import com.bw.movie.adapter.MovieDetailsAdapter;
 import com.bw.movie.adapter.MovieDonoticeAdapter;
 import com.bw.movie.adapter.MovieEvaluateAdapter;
 import com.bw.movie.adapter.MovieStillsAdapter;
+import com.bw.movie.mvp.model.CollectonBena;
 import com.bw.movie.mvp.model.EvaluateBean;
 import com.bw.movie.mvp.model.MovieDescBean;
 import com.bw.movie.mvp.view.AppDelegate;
@@ -66,6 +68,10 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
     private TextView buy_film;
     private MovieDescBean.ResultBean result = null;
     private RecyclerView notice_recycle;
+    private ImageView image_collection;
+    private ImageView evaluate_movie_image;
+    private List<EvaluateBean.ResultBean> resultevaluate;
+    private MovieDescBean movieDescBean;
 
 
     @Override
@@ -78,6 +84,7 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
         super.initData();
         buy_film = (TextView) get(R.id.buy_film);
         moviename = get(R.id.movie_desc_name);
+        image_collection = get(R.id.movie_desc_image_collection);
         movienameimage = get(R.id.movie_image_name);
         //详情
         Button details = get(R.id.movie_desc_bt_details);
@@ -109,6 +116,8 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
         //预告id
         notice_down_image = get(R.id.notice_down_image);
         notice_recycle = get(R.id.Notice_recycle);
+        evaluate_movie_image = get(R.id.evaluate_movie_image);
+
 
         //影评id
         evaluate_recycle = get(R.id.evaluate_recycle);
@@ -124,14 +133,26 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
         //影评
         movie_desc_relative_evaluate = get(R.id.movie_desc_relative_evaluate);
         //点击事件
-        setClick(this, R.id.movie_desc_bt_details, R.id.movie_desc_bt_Notice, R.id.movie_desc_bt_Stills, R.id.movie_desc_bt_evaluate, R.id.details_down_image, R.id.notice_down_image, R.id.stills_down_image, R.id.evaluate_down_image);
+        setClick(this, R.id.movie_desc_bt_details,
+                R.id.movie_desc_bt_Notice,
+                R.id.movie_desc_bt_Stills,
+                R.id.movie_desc_bt_evaluate,
+                R.id.details_down_image,
+                R.id.notice_down_image,
+                R.id.stills_down_image,
+                R.id.evaluate_down_image,
+                R.id.movie_desc_image_collection);
+
         ChenJinShi();
         Intent intent = ((MovieDescActivity) context).getIntent();
         movie_id = intent.getIntExtra("movie_id", 0);
-        //展示电影详情
+
+        Log.i("MovieDescActivity", "" + movie_id);
+        SharedPreferencesUtils.putInt(context, "movie_id", movie_id);
         if (!TextUtils.isEmpty(movie_id + "")) {
             SharedPreferencesUtils.putInt(context, "movice_ids", movie_id);
         }
+        //展示电影详情
         doMovieDescHttp();
         //展示影评
         doevaluate();
@@ -159,9 +180,10 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
             }
 
         });
-
-
+        ;
     }
+
+
 
     private void ChenJinShi() {
         UltimateBar.newImmersionBuilder()
@@ -173,12 +195,25 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
     private void doMovieDescHttp() {
         Map<String, String> map = new HashMap<>();
         map.put("movieId", movie_id + "");
-        new HttpHelper().get("movieApi/movie/v1/findMoviesDetail", map).result(new HttpListener() {
+        Map<String, String> mapHead = new HashMap<>();
+        int userId = SharedPreferencesUtils.getInt(context, "userId");
+        String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
+        mapHead.put("userId", userId + "");
+        mapHead.put("sessionId", sessionId);
+        new HttpHelper().getHead("movieApi/movie/v1/findMoviesDetail", map, mapHead).result(new HttpListener() {
             @Override
             public void success(String data) {
-                MovieDescBean movieDescBean = new Gson().fromJson(data, MovieDescBean.class);
+                movieDescBean = new Gson().fromJson(data, MovieDescBean.class);
                 result = movieDescBean.getResult();
                 moviename.setText(result.getName());
+                Log.d("Tagger", movieDescBean.getResult().isFollowMovie() + "");
+
+                if (movieDescBean.getResult().isFollowMovie()) {
+                    image_collection.setImageResource(R.mipmap.collection_default);
+                } else {
+                    image_collection.setImageResource(R.mipmap.collection_selected);
+                }
+
                 Glide.with(context).load(result.getImageUrl()).into(movienameimage);
                 //详情
                 dodetails(result);
@@ -194,6 +229,7 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
             }
         });
     }
+
     //预告片
     private void donotice(MovieDescBean.ResultBean result) {
         List<MovieDescBean.ResultBean.ShortFilmListBean> shortFilmList = result.getShortFilmList();
@@ -216,8 +252,8 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
             public void success(String data) {
                 Log.i("TAG", "data................." + data.toString());
                 EvaluateBean evaluateBean = new Gson().fromJson(data, EvaluateBean.class);
-                List<EvaluateBean.ResultBean> result = evaluateBean.getResult();
-                movieEvaluateAdapter.setList(result);
+                resultevaluate = evaluateBean.getResult();
+                movieEvaluateAdapter.setList(resultevaluate);
             }
 
             @Override
@@ -307,7 +343,71 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
                 relative = movie_desc_relative_evaluate;
                 hintShopCar(relative);
                 break;
+            //收藏
+            case R.id.movie_desc_image_collection:
+                initCollection();
+                break;
         }
+    }
+
+    //点击收藏
+    private void initCollection() {
+        if (movieDescBean.getResult().isFollowMovie()) {
+            image_collection.setImageResource(R.mipmap.collection_selected);
+            doHttpSelected();
+        } else {
+            image_collection.setImageResource(R.mipmap.collection_default);
+            doHttpDeafult();
+        }
+    }
+
+    //取消收藏
+    private void doHttpDeafult() {
+        Map<String, String> map = new HashMap<>();
+        map.put("movieId", movie_id + "");
+        Map<String, String> mapHead = new HashMap<>();
+        int userId = SharedPreferencesUtils.getInt(context, "userId");
+        String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
+        mapHead.put("userId", userId + "");
+        mapHead.put("sessionId", sessionId);
+        new HttpHelper().getHead("movieApi/movie/v1/verify/cancelFollowMovie", map, mapHead).result(new HttpListener() {
+            @Override
+            public void success(String data) {
+                CollectonBena collectonBena = new Gson().fromJson(data, CollectonBena.class);
+                Toast.makeText(context, "" + collectonBena.getMessage(), Toast.LENGTH_SHORT).show();
+                doMovieDescHttp();
+            }
+
+            @Override
+            public void fail(String error) {
+
+            }
+        });
+    }
+
+    //收藏
+    private void doHttpSelected() {
+        Map<String, String> map = new HashMap<>();
+        map.put("movieId", movie_id + "");
+        Map<String, String> mapHead = new HashMap<>();
+        int userId = SharedPreferencesUtils.getInt(context, "userId");
+        String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
+        Log.i("TAG", "userId=" + userId + "---------sessionId" + sessionId);
+        mapHead.put("userId", userId + "");
+        mapHead.put("sessionId", sessionId);
+        new HttpHelper().getHead("movieApi/movie/v1/verify/followMovie", map, mapHead).result(new HttpListener() {
+            @Override
+            public void success(String data) {
+                CollectonBena collectonBena = new Gson().fromJson(data, CollectonBena.class);
+                Toast.makeText(context, "" + collectonBena.getMessage(), Toast.LENGTH_SHORT).show();
+                doMovieDescHttp();
+            }
+
+            @Override
+            public void fail(String error) {
+
+            }
+        });
     }
 
     private void showShopCar(RelativeLayout relative) {

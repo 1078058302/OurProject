@@ -12,6 +12,7 @@ import com.bw.movie.activity.AttentionActivity;
 import com.bw.movie.activity.FeedBackActivity;
 import com.bw.movie.activity.LoginActivity;
 import com.bw.movie.activity.MessagesActivity;
+import com.bw.movie.activity.TicketRecordActivity;
 import com.bw.movie.activity.UserInfoActivity;
 import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.net.HttpHelper;
@@ -39,7 +40,7 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
         super.initData();
         sd = (SimpleDraweeView) get(R.id.sd);
         tv_name = (TextView) get(R.id.tv_name);
-        setClick(this, R.id.sd, R.id.tv_name, R.id.rl1, R.id.rl2, R.id.rl4, R.id.rl5, R.id.iv_messages);
+        setClick(this, R.id.sd, R.id.tv_name, R.id.rl1, R.id.rl2, R.id.rl4, R.id.rl5, R.id.iv_messages, R.id.rl3);
     }
 
     public void setContext(Context context) {
@@ -78,6 +79,10 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
             case R.id.rl2:
                 //我的关注
                 context.startActivity(new Intent(context, AttentionActivity.class));
+                break;
+            case R.id.rl3:
+                context.startActivity(new Intent(context, TicketRecordActivity.class));
+                //购票记录
                 break;
             case R.id.rl4:
                 //意见反馈

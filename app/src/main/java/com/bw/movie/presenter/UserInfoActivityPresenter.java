@@ -1,37 +1,36 @@
 package com.bw.movie.presenter;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bw.movie.R;
+import com.bw.movie.activity.EmailActivity;
 import com.bw.movie.activity.NiChengActivity;
+import com.bw.movie.activity.ResetPwdActivity;
 import com.bw.movie.activity.SexActivity;
 import com.bw.movie.activity.UserInfoActivity;
+import com.bw.movie.mvp.model.NiChengBean;
 import com.bw.movie.mvp.model.UpdateBean;
 import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.mvp.view.PhotoPopwindow;
+import com.bw.movie.net.HttpHelper;
+import com.bw.movie.net.HttpListener;
 import com.bw.movie.service.BaseService;
+import com.bw.movie.utils.DateUtils;
+import com.bw.movie.utils.PermissionUtils;
 import com.bw.movie.utils.SharedPreferencesUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
-import com.tbruyelle.rxpermissions2.Permission;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -51,7 +50,6 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import static android.app.Activity.RESULT_OK;
-import static com.bw.movie.net.NetWorkInterceptor.TAG;
 
 public class UserInfoActivityPresenter extends AppDelegate implements View.OnClickListener {
     private RelativeLayout rl_01;
@@ -64,6 +62,7 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
     private String emaila;
     private int REQUEST_TAKE_PHOTO_PERMISSION = 1;
 
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_userinfo;
@@ -74,7 +73,7 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
     public void initData() {
         super.initData();
         path = Environment.getExternalStorageDirectory().getAbsolutePath();
-        setClick(this, R.id.rl_01, R.id.rl_02, R.id.rl_03, R.id.tuichuLogin);
+        setClick(this, R.id.rl_01, R.id.rl_02, R.id.rl_03, R.id.tuichuLogin, R.id.rl_06, R.id.rl_07);
         sd2 = (SimpleDraweeView) get(R.id.sd2);
         userNickName = (TextView) get(R.id.userNickname);
         userSex = (TextView) get(R.id.userSex);
@@ -110,6 +109,15 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
                 tuichu();
                 ((UserInfoActivity) context).finish();
                 break;
+            case R.id.rl_06:
+                //邮箱
+                context.startActivity(new Intent(context, EmailActivity.class));
+                break;
+            case R.id.rl_07:
+                //重置密码
+                context.startActivity(new Intent(context, ResetPwdActivity.class));
+                break;
+
 
         }
     }
@@ -120,7 +128,6 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
         String headPath = SharedPreferencesUtils.getString(context, "headPath");
         if (!TextUtils.isEmpty(headPath)) {
             sd2.setImageURI(headPath);
-
         } else {
             if (!TextUtils.isEmpty(headPic)) {
                 sd2.setImageURI(headPic);
@@ -129,12 +136,6 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
                 sd2.setImageResource(R.mipmap.logo);
             }
         }
-        nickName = SharedPreferencesUtils.getString(context, "nickName");
-        if (!TextUtils.isEmpty(nickName)) {
-            userNickName.setText(nickName);
-        } else {
-            userNickName.setText(nickName);
-        }
 
         sex = SharedPreferencesUtils.getInt(context, "sex");
         if (sex == 1) {
@@ -142,7 +143,16 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
         } else {
             userSex.setText("女");
         }
+        nickName = SharedPreferencesUtils.getString(context, "nickName");
+        if (!TextUtils.isEmpty(nickName)) {
+            userNickName.setText(nickName);
+        } else {
+            userNickName.setText(nickName);
+        }
+
+
         String birthday = SharedPreferencesUtils.getString(context, "birthday");
+//        toast(birthday);
         if (!TextUtils.isEmpty(birthday)) {
             dataOfbirth.setText(birthday);
         }
@@ -154,6 +164,8 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
         emaila = SharedPreferencesUtils.getString(context, "email");
         if (!TextUtils.isEmpty(emaila)) {
             tvEmail.setText(emaila);
+        } else {
+            tvEmail.setText(emaila);
         }
         // 清除信息
         String tv_phone = SharedPreferencesUtils.getString(context, "tv_phone2");
@@ -164,14 +176,6 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
         if (sex == 0) {
             userSex.setText("");
         }
-//        String headPic = SharedPreferencesUtils.getString(context, "headPic");
-//        if (TextUtils.isEmpty(headPic)) {
-//            sd2.setImageURI(String.valueOf(R.mipmap.logo));
-//        }
-//        String headPath1 = SharedPreferencesUtils.getString(context, "headPath");
-//        if (TextUtils.isEmpty(headPath1)) {
-//            sd2.setImageURI(String.valueOf(R.mipmap.logo));
-//        }
         String birthday1 = SharedPreferencesUtils.getString(context, "birthday");
         if (TextUtils.isEmpty(birthday1)) {
             dataOfbirth.setText(birthday1);
@@ -185,23 +189,44 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
         if (TextUtils.isEmpty(tv_phone)) {
             tvEmail.setText(tv_phones);
         }
-
-
     }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        if (requestCode == REQUEST_TAKE_PHOTO_PERMISSION) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                //申请成功，可以拍照
-//                show();
-//            } else {
-//                Toast.makeText(((UserInfoActivity) context), "你拒绝了权限，该功能不可用\n可在应用设置里授权拍照哦", Toast.LENGTH_SHORT).show();
+//    private void doGet() {
+//        int userId = SharedPreferencesUtils.getInt(context, "userId");
+//        String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
+//        Map<String, String> m = new HashMap<>();
+//        m.put("userId", userId + "");
+//        m.put("sessionId", sessionId);
+//        Map<String, String> map = new HashMap<>();
+//        map.put("nickName", nickName);
+//        map.put("sex", sex + "");
+//        map.put("email", email);
+//        new HttpHelper().post(m, "/movieApi/user/v1/verify/modifyUserInfo", map).result(new HttpListener() {
+//            @Override
+//            public void success(String data) {
+//                Gson gson = new Gson();
+//                NiChengBean niChengBean = gson.fromJson(data, NiChengBean.class);
+//                if (niChengBean != null) {
+//                    int sex = niChengBean.getResult().getSex();
+//                    switch (sex) {
+//                        case 1:
+//                            userSex.setText("男");
+//                            break;
+//                        case 2:
+//                            userSex.setText("女");
+//                            break;
+//                    }
+//                }
+//
+//
 //            }
-//            return;
-//        }
 
-   // }
+//            @Override
+//            public void fail(String error) {
+//
+//            }
+//        });
+//    }
 
     private void show() {
         new PhotoPopwindow(context, get(R.id.layout_parent), new PhotoPopwindow.OnSelectPictureListener() {
@@ -210,16 +235,28 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
                 //拍照
                 //动态权限
                 //6.0以上动态获取权限
-                if (ContextCompat.checkSelfPermission(((UserInfoActivity) context), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    //申请权限，REQUEST_TAKE_PHOTO_PERMISSION是自定义的常量
-                    ActivityCompat.requestPermissions(((UserInfoActivity) context),
-                            new String[]{Manifest.permission.CAMERA},
-                            REQUEST_TAKE_PHOTO_PERMISSION);
-                    Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    intent2.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "heads.png")));
-                    ((UserInfoActivity) context).startActivityForResult(intent2, 2);
+                PermissionUtils.permission(context, new PermissionUtils.PermissionListener() {
+                    @Override
+                    public void success() {
+//                        Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                        intent2.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "heads.png")));
+//                        ((UserInfoActivity) context).startActivityForResult(intent2, 2);
+                        Intent intentPhote = new Intent();
+                        Intent intent_camera = context.getPackageManager()
+                                .getLaunchIntentForPackage("com.android.camera");
+                        if (intent_camera != null) {
+                            intentPhote.setPackage("com.android.camera");
+                        }
+                        intentPhote.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                        File out = new File(Environment.getExternalStorageDirectory(), "heads.png");
+                        Uri uri = Uri.fromFile(out);
+// 获取拍照后未压缩的原图片，并保存在uri路径中
+                        intentPhote.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                        ((UserInfoActivity) context).startActivityForResult(intentPhote, 2);
 
-                }
+
+                    }
+                });
 
 
             }
@@ -228,9 +265,15 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
             public void onSelectPicture() {
                 //相册选择
                 //动态权限
-                Intent intent1 = new Intent(Intent.ACTION_PICK, null);
-                intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                ((UserInfoActivity) context).startActivityForResult(intent1, 1);
+                PermissionUtils.permission(context, new PermissionUtils.PermissionListener() {
+                    @Override
+                    public void success() {
+                        Intent intent1 = new Intent(Intent.ACTION_PICK, null);
+                        intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                        ((UserInfoActivity) context).startActivityForResult(intent1, 1);
+
+                    }
+                });
 
             }
 
@@ -299,8 +342,6 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
                 .subscribe(new Consumer<ResponseBody>() {
                     @Override
                     public void accept(ResponseBody responseBody) throws Exception {
-//                        Log.i("ResponseBody", responseBody.string());
-//                        toast("上传成功");
                         Gson gson = new Gson();
                         UpdateBean updateBean = gson.fromJson(responseBody.string(), UpdateBean.class);
                         if ("0000".equals(updateBean.getStatus())) {
@@ -382,17 +423,6 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
         onResume();
     }
 
-//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-//        if (requestCode == REQUEST_TAKE_PHOTO_PERMISSION) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                //申请成功，可以拍照
-//                show();
-//            } else {
-//                Toast.makeText(((UserInfoActivity) context), "你拒绝了权限，该功能不可用\n可在应用设置里授权拍照哦", Toast.LENGTH_SHORT).show();
-//            }
-//            return;
-//        }
-//    }
 
 }
 

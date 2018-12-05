@@ -67,6 +67,7 @@ public class MovieDescBean {
         private String starring;
         private String summary;
         private List<String> posterList;
+
         private List<ShortFilmListBean> shortFilmList;
 
         public String getDirector() {
