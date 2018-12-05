@@ -3,7 +3,6 @@ package com.bw.movie.presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -38,6 +37,7 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
     @Override
     public void initData() {
         super.initData();
+//        SharedPreferencesUtils.putBoolean(context, "isloginout", false);
         sd = (SimpleDraweeView) get(R.id.sd);
         tv_name = (TextView) get(R.id.tv_name);
         setClick(this, R.id.sd, R.id.tv_name, R.id.rl1, R.id.rl2, R.id.rl4, R.id.rl5, R.id.iv_messages, R.id.rl3);
@@ -107,6 +107,7 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
             tv_name.setText(nickName);
         } else {
             tv_name.setText("未登录");
+
         }
         headPic = SharedPreferencesUtils.getString(context, "headPic");
         headPath = SharedPreferencesUtils.getString(context, "headPath");

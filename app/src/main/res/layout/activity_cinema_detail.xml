@@ -211,5 +211,10 @@
         </FrameLayout>
     </LinearLayout>
 
+    <com.bw.movie.mvp.view.LayoutBlank
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dp_50"></com.bw.movie.mvp.view.LayoutBlank>
 
 </RelativeLayout>

@@ -420,6 +420,7 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
         SharedPreferencesUtils.putInt(context, "sex", 0);
         SharedPreferencesUtils.putString(context, "birthday", "");
         SharedPreferencesUtils.putString(context, "email", "");
+//        SharedPreferencesUtils.putBoolean(context,"isloginout",true);
         onResume();
     }
 

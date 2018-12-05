@@ -61,6 +61,8 @@ public class LoginActivityPresenter extends AppDelegate implements View.OnClickL
         eye = (ImageView) get(R.id.eye);
         //图标监听事件
         eye.setOnTouchListener(this);
+
+
     }
 
     public void setContext(Context context) {
@@ -128,6 +130,7 @@ public class LoginActivityPresenter extends AppDelegate implements View.OnClickL
                     SharedPreferencesUtils.putString(context, "birthday", format);
                     toast(loginBean.getMessage() + "");
                     ((LoginActivity) context).finish();
+
                 } else {
                     toast("手机号密码不正确");
                     return;

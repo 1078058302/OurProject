@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.CinemaCityActivity;
+import com.bw.movie.activity.MapActivity;
 import com.bw.movie.adapter.CinemaDetailsAdapter;
 import com.bw.movie.mvp.model.CinemaDetailsBean;
 import com.bw.movie.mvp.model.MovieDescBean;
@@ -54,6 +56,12 @@ public class CinemaCityActivityPresenter extends AppDelegate {
                 .applyNav(true)
                 .build((CinemaCityActivity) context)
                 .apply();
+        get(R.id.show_map_local).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 context.startActivity(new Intent(context, MapActivity.class));
+            }
+        });
         film_city_name = (TextView) get(R.id.film_city_name);
         film_city = (TextView) get(R.id.film_city);
         img2 = (SimpleDraweeView) get(R.id.img2);

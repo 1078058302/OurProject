@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.bw.movie.mvp.view.AppDelegate;
 
@@ -33,6 +34,8 @@ public abstract class BaseActivityPresenter<T extends AppDelegate> extends AppCo
         setContentView(delegate.rootView());
         initView();
         delegate.initData();
+
+
     }
 
     public void initView() {
@@ -40,7 +43,7 @@ public abstract class BaseActivityPresenter<T extends AppDelegate> extends AppCo
     }
 
     public void getContext(Context context) {
-        
+
     }
 
 

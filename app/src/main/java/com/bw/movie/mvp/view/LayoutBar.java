@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bw.movie.R;
+import com.bw.movie.activity.MapActivity;
 import com.bw.movie.activity.ShowFindActivity;
 
 public class LayoutBar extends RelativeLayout {
@@ -57,6 +58,12 @@ public class LayoutBar extends RelativeLayout {
             @Override
             public void onClick(View v) {
                 hintShopCar();
+            }
+        });
+        view.findViewById(R.id.localcation).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, MapActivity.class));
             }
         });
         find_sou.setOnClickListener(new OnClickListener() {

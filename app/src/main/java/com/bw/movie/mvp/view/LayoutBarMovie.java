@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bw.movie.R;
+import com.bw.movie.activity.MapActivity;
 import com.bw.movie.activity.ShowFindActivity;
 
 public class LayoutBarMovie extends RelativeLayout{
@@ -38,6 +39,12 @@ public class LayoutBarMovie extends RelativeLayout{
     private void init(final Context context) {
         this.context = context;
         View view = View.inflate(context, R.layout.layout_bar_movie, null);
+        view.findViewById(R.id.show_map).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, MapActivity.class));
+            }
+        });
         find_item = view.findViewById(R.id.find_item);
         find_tan = view.findViewById(R.id.find_tan);
         find_image = view.findViewById(R.id.find_image);
