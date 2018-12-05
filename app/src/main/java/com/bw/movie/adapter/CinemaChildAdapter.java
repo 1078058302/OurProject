@@ -139,8 +139,11 @@ public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.
         new HttpHelper().getHead("/movieApi/cinema/v1/verify/followCinema", map, mapHead).result(new HttpListener() {
             @Override
             public void success(String data) {
-                list.get(i).setFollowCinema(false);
-                viewHolder.collection_image.setImageResource(R.mipmap.collection_selected);
+                if (data.contains("关注成功")) {
+                    Toast.makeText(context, "关注成功", Toast.LENGTH_SHORT).show();
+                    list.get(i).setFollowCinema(false);
+                    viewHolder.collection_image.setImageResource(R.mipmap.collection_selected);
+                }
             }
 
             @Override
@@ -151,7 +154,7 @@ public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.
     }
 
     private void doHttpNo(int id, final int i, final ViewHolder viewHolder) {
-        Toast.makeText(context, userId + "" + sessionId, Toast.LENGTH_SHORT).show();
+
         Map map = new HashMap();
         map.put("cinemaId", id);
         Map mapHead = new HashMap();
@@ -160,8 +163,11 @@ public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.
         new HttpHelper().getHead("/movieApi/cinema/v1/verify/cancelFollowCinema", map, mapHead).result(new HttpListener() {
             @Override
             public void success(String data) {
-                list.get(i).setFollowCinema(true);
-                viewHolder.collection_image.setImageResource(R.mipmap.collection_default);
+                if (data.contains("取消关注成功")) {
+                    Toast.makeText(context, "取消关注成功", Toast.LENGTH_SHORT).show();
+                    list.get(i).setFollowCinema(true);
+                    viewHolder.collection_image.setImageResource(R.mipmap.collection_default);
+                }
             }
 
             @Override

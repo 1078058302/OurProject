@@ -56,11 +56,6 @@ public class CommentAdapter extends XRecyclerView.Adapter<CommentAdapter.ViewHol
         String format = DateUtils.format(commentTime, "MM-dd HH:mm");
         viewHolder.date.setText(format);
         int isGreat = list.get(i).getIsGreat();
-//        if (isGreat == 1) {
-//            viewHolder.good.setImageResource(R.mipmap.praise_selected);
-//        } else {
-//            viewHolder.good.setImageResource(R.mipmap.praise_default);
-//        }\
         final int commentId = list.get(i).getCommentId();
 
         viewHolder.good.setOnClickListener(new View.OnClickListener() {
@@ -91,13 +86,13 @@ public class CommentAdapter extends XRecyclerView.Adapter<CommentAdapter.ViewHol
         new HttpHelper().post(mapHead, "/movieApi/cinema/v1/verify/cinemaCommentGreat", map).result(new HttpListener() {
             @Override
             public void success(String data) {
-//                Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
                 if (data.contains("点赞成功")) {
                     Toast.makeText(context, "点赞成功", Toast.LENGTH_SHORT).show();
                     list.get(i).setIsGreat(1);
                     viewHolder.good.setImageResource(R.mipmap.praise_selected);
-//                    notifyItemChanged(i + 1);
                     viewHolder.praise_num.setText(list.get(i).getGreatNum() + 1 + "");
+                } else {
+                    Toast.makeText(context, "您已点赞", Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/all_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFF"
@@ -194,6 +195,7 @@
         android:layout_marginTop="@dimen/dp_10" />
 
     <RelativeLayout
+        android:id="@+id/show_price"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_80"
         android:layout_alignParentBottom="true"
@@ -225,7 +227,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/rmb"
-            android:text="53.9"
+            android:text="0.00"
             android:textColor="#b11450"
             android:textSize="@dimen/dp_30" />
 
@@ -246,4 +248,133 @@
             android:layout_toRightOf="@id/sure"
             android:background="@drawable/group2" />
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/alpha_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:visibility="gone"></RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/show_pay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_280"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/background1_bg"
+        android:clickable="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/close" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_3"
+            android:layout_marginTop="@dimen/dp_58"
+            android:layout_toLeftOf="@id/pay_price"
+            android:text="¥"
+            android:textColor="#000"
+            android:textSize="@dimen/dp_20"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/pay_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_50"
+            android:text="10.00"
+            android:textColor="#000"
+            android:textSize="@dimen/dp_40"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/pay_price"
+            android:layout_marginTop="@dimen/dp_20">
+
+            <RelativeLayout
+                android:id="@+id/weixin_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50">
+
+                <ImageView
+                    android:id="@+id/weixin_logo"
+                    android:layout_width="@dimen/dp_45"
+                    android:layout_height="@dimen/dp_45"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:background="@drawable/pay_icon_weixin_default_xxhdpi" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_toRightOf="@id/weixin_logo"
+                    android:text="微信支付"
+                    android:textColor="#000" />
+
+                <ImageView
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/right_down" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.75dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#e8e8e8"></View>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/zhifubao_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:layout_below="@id/weixin_layout">
+
+                <ImageView
+                    android:id="@+id/zhifubao_logo"
+                    android:layout_width="@dimen/dp_45"
+                    android:layout_height="@dimen/dp_45"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:background="@drawable/pay_icon_zhifubao_default_xxhdpi" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_toRightOf="@id/zhifubao_logo"
+                    android:text="支付宝支付"
+                    android:textColor="#000" />
+
+                <ImageView
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/right_down" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.75dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#e8e8e8"></View>
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
 </RelativeLayout>

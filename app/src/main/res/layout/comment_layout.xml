@@ -1,37 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llRoot"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:id="@+id/comment_xrecycler"
+    <FrameLayout
+        android:id="@+id/contentView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/submit"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:layout_alignParentBottom="true"
-        android:background="#e8e8e8"
-        android:padding="@dimen/dp_5">
-
-        <EditText
-            android:id="@+id/ping"
-            android:layout_width="@dimen/dp_300"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerVertical="true" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/sure_ping"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_15"
-            android:layout_toRightOf="@id/ping"
-            android:text="评论"
-            android:textColor="#000"
-            android:textSize="@dimen/dp_15" />
-    </RelativeLayout>
+            <com.jcodecraeer.xrecyclerview.XRecyclerView
+                android:id="@+id/comment_xrecycler"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/ping"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:hint="请输入标题内容" />
+
+                <TextView
+                    android:id="@+id/sure_ping"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="发布" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
 </RelativeLayout>

@@ -42,15 +42,13 @@ public abstract class BaseFragmentPresenter<T extends AppDelegate> extends Fragm
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
-        Window window = getActivity().getWindow();
-        setWindow(window);
+
+
         delegate.initData();
 
     }
 
-    public void setWindow(Window window) {
 
-    }
 
     public void getContext(Context context) {
 

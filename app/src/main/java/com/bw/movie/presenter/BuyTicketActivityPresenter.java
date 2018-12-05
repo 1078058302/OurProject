@@ -1,9 +1,14 @@
 package com.bw.movie.presenter;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Handler;
+import android.text.TextPaint;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +37,13 @@ public class BuyTicketActivityPresenter extends AppDelegate {
     private ImageView sure;
     private ImageView no;
     private int status;
+    private TextView price_all;
+    private int price;
+    private RelativeLayout show_pay;
+    private RelativeLayout alpha_layout;
+    private TextView pay_price;
+    private ImageView close;
+
 
     @Override
     public int getLayoutId() {
@@ -46,8 +58,13 @@ public class BuyTicketActivityPresenter extends AppDelegate {
         TextView end_time = get(R.id.end_time);
         TextView cinema = get(R.id.cinema);
         TextView time = get(R.id.time);
+        price_all = get(R.id.price);
         sure = get(R.id.sure);
         no = get(R.id.no);
+        pay_price = get(R.id.pay_price);
+        alpha_layout = get(R.id.alpha_layout);
+        show_pay = get(R.id.show_pay);
+        close = get(R.id.close);
         Intent intent = ((BuyTicketActivity) context).getIntent();
         String beginTime = intent.getStringExtra("beginTime");
         String endTime = intent.getStringExtra("endTime");
@@ -56,7 +73,7 @@ public class BuyTicketActivityPresenter extends AppDelegate {
         seatsUseCount = intent.getIntExtra("seatsUseCount", 0);
         String screeningHall = intent.getStringExtra("screeningHall");
         String duration = intent.getStringExtra("duration");
-        int price = intent.getIntExtra("price", 0);
+        price = intent.getIntExtra("price", 0);
         begin_tiem.setText(beginTime);
         end_time.setText(endTime);
         cinema.setText(screeningHall);
@@ -64,6 +81,7 @@ public class BuyTicketActivityPresenter extends AppDelegate {
         seatTable = get(R.id.seat_table);
         int i = seatsTotal / 8;
         seatTable.setData(7, i);
+
         seatTable.setSeatChecker(new SeatTable.SeatChecker() {
 
             @Override
@@ -96,11 +114,15 @@ public class BuyTicketActivityPresenter extends AppDelegate {
             @Override
             public void checked(int row, int column) {
                 num++;
+                int price_a = price * num;
+                price_all.setText(price_a + "");
             }
 
             @Override
             public void unCheck(int row, int column) {
                 num--;
+                int price_a = price * num;
+                price_all.setText(price_a + "");
             }
 
 
@@ -122,6 +144,13 @@ public class BuyTicketActivityPresenter extends AppDelegate {
                 }
             }
         });
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alpha_layout.setVisibility(View.GONE);
+                hintShopCar();
+            }
+        });
     }
 
     private void doHttp() {
@@ -137,13 +166,20 @@ public class BuyTicketActivityPresenter extends AppDelegate {
         map.put("scheduleId", status);
         map.put("amount", num);
         map.put("sign", sign);
-        Toast.makeText(context, all + "....." + status + "......" + num + "....." + userId, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, all + "....." + status + "......" + num + "....." + userId, Toast.LENGTH_SHORT).show();
         mapHead.put("userId", userId);
         mapHead.put("sessionId", sessionId);
         new HttpHelper().post(mapHead, "/movieApi/movie/v1/verify/buyMovieTicket", map).result(new HttpListener() {
             @Override
             public void success(String data) {
-                Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
+                if (data.contains("下单成功")) {
+                    int price_a = price * num;
+                    alpha_layout.setVisibility(View.VISIBLE);
+                    alpha_layout.setBackgroundResource(R.drawable.black_bg);
+                    pay_price.setText(price_a + ".00");
+                    showShopCar();
+
+                }
             }
 
             @Override
@@ -170,5 +206,29 @@ public class BuyTicketActivityPresenter extends AppDelegate {
             md5code = "0" + md5code;
         }
         return md5code;
+    }
+
+    private void showShopCar() {
+        int height = context.getResources().getDisplayMetrics().heightPixels;
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(show_pay, "translationY", height, 0);
+        objectAnimator.setDuration(500);
+        objectAnimator.start();
+        show_pay.setVisibility(View.VISIBLE);
+
+    }
+
+    //关闭
+    private void hintShopCar() {
+        int height = context.getResources().getDisplayMetrics().heightPixels;
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(show_pay, "translationY", 0, height);
+        objectAnimator.setDuration(0);
+        objectAnimator.start();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                show_pay.setVisibility(View.GONE);
+            }
+        }, 0);
+
     }
 }

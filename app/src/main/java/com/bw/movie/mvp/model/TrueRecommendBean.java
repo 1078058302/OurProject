@@ -147,11 +147,20 @@ public class TrueRecommendBean {
 
             private String address;
             private int commentTotal;
-            private int distance;
+            private double distance;
             private boolean followCinema;
             private int id;
             private String logo;
             private String name;
+            private boolean isContine;
+
+            public boolean isContine() {
+                return isContine;
+            }
+
+            public void setContine(boolean contine) {
+                isContine = contine;
+            }
 
             public String getAddress() {
                 return address;
@@ -169,11 +178,11 @@ public class TrueRecommendBean {
                 this.commentTotal = commentTotal;
             }
 
-            public int getDistance() {
+            public double getDistance() {
                 return distance;
             }
 
-            public void setDistance(int distance) {
+            public void setDistance(double distance) {
                 this.distance = distance;
             }
 

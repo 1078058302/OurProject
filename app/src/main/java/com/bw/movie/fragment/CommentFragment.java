@@ -18,9 +18,5 @@ public class CommentFragment extends BaseFragmentPresenter<CommentFragmentPresen
         delegate.setContext(context);
     }
 
-    @Override
-    public void setWindow(Window window) {
-        super.setWindow(window);
-        delegate.getWindow(window);
-    }
+
 }

@@ -20,6 +20,7 @@ import com.bw.movie.utils.SharedPreferencesUtils;
 import com.google.gson.Gson;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -89,29 +90,59 @@ public class CinemaChildFragmentPresenter extends AppDelegate {
                 showBeans = new ArrayList<>();
                 for (int i = 0; i < followCinemas.size(); i++) {
                     showBean = new ShowBean();
-                    showBean.setAddress(followCinemas.get(i).getAddress());
-                    showBean.setCommentTotal(followCinemas.get(i).getCommentTotal());
-                    showBean.setDistance(followCinemas.get(i).getDistance());
-                    showBean.setFollowCinema(followCinemas.get(i).isFollowCinema());
-                    showBean.setId(followCinemas.get(i).getId());
-                    showBean.setLogo(followCinemas.get(i).getLogo());
-                    showBean.setName(followCinemas.get(i).getName());
-                    showBeans.add(showBean);
-                }
-                for (int i = 0; i < nearbyCinemaList.size(); i++) {
-                    showBean = new ShowBean();
-                    int distance = nearbyCinemaList.get(i).getDistance();
+                    double distance = nearbyCinemaList.get(i).getDistance();
+                    BigDecimal data1 = new BigDecimal("5000");
+                    BigDecimal data2 = new BigDecimal(distance + "");
                     if (distance < 5000) {
-                        showBean.setAddress(nearbyCinemaList.get(i).getAddress());
-                        showBean.setCommentTotal(nearbyCinemaList.get(i).getCommentTotal());
-                        showBean.setDistance(nearbyCinemaList.get(i).getDistance());
-                        showBean.setFollowCinema(nearbyCinemaList.get(i).isFollowCinema());
-                        showBean.setId(nearbyCinemaList.get(i).getId());
-                        showBean.setLogo(nearbyCinemaList.get(i).getLogo());
-                        showBean.setName(nearbyCinemaList.get(i).getName());
+                        showBean.setAddress(followCinemas.get(i).getAddress());
+                        showBean.setCommentTotal(followCinemas.get(i).getCommentTotal());
+                        showBean.setDistance(followCinemas.get(i).getDistance());
+                        showBean.setFollowCinema(followCinemas.get(i).isFollowCinema());
+                        showBean.setId(followCinemas.get(i).getId());
+                        showBean.setLogo(followCinemas.get(i).getLogo());
+                        showBean.setName(followCinemas.get(i).getName());
                         showBeans.add(showBean);
                     }
                 }
+
+                for (int i = 0; i < nearbyCinemaList.size(); i++) {
+                    showBean = new ShowBean();
+                    if (!followCinemas.isEmpty()) {
+                        for (int j = 0; j < followCinemas.size(); j++) {
+                            if (nearbyCinemaList.get(i).getId() == followCinemas.get(j).getId()) {
+                                break;
+                            } else {
+                                if (!nearbyCinemaList.get(i).isContine()) {
+                                    showBean.setAddress(nearbyCinemaList.get(i).getAddress());
+                                    showBean.setCommentTotal(nearbyCinemaList.get(i).getCommentTotal());
+                                    showBean.setDistance(nearbyCinemaList.get(i).getDistance());
+                                    showBean.setFollowCinema(nearbyCinemaList.get(i).isFollowCinema());
+                                    showBean.setId(nearbyCinemaList.get(i).getId());
+                                    showBean.setLogo(nearbyCinemaList.get(i).getLogo());
+                                    showBean.setName(nearbyCinemaList.get(i).getName());
+                                    nearbyCinemaList.get(i).setFollowCinema(followCinemas.get(j).isFollowCinema());
+                                    nearbyCinemaList.get(i).setContine(true);
+                                    showBeans.add(showBean);
+                                }
+
+                            }
+                        }
+                    } else {
+                        if (!nearbyCinemaList.get(i).isContine()) {
+
+                            showBean.setAddress(nearbyCinemaList.get(i).getAddress());
+                            showBean.setCommentTotal(nearbyCinemaList.get(i).getCommentTotal());
+                            showBean.setDistance(nearbyCinemaList.get(i).getDistance());
+                            showBean.setFollowCinema(nearbyCinemaList.get(i).isFollowCinema());
+                            showBean.setId(nearbyCinemaList.get(i).getId());
+                            showBean.setLogo(nearbyCinemaList.get(i).getLogo());
+                            showBean.setName(nearbyCinemaList.get(i).getName());
+                            nearbyCinemaList.get(i).setContine(true);
+                            showBeans.add(showBean);
+                        }
+                    }
+                }
+
 
                 reconedAdapter = new TrueReconedAdapter();
                 reconedAdapter.setContext(context);

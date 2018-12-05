@@ -1,10 +1,12 @@
 package com.bw.movie.presenter;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
@@ -28,15 +30,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CommentFragmentPresenter extends AppDelegate{
+public class CommentFragmentPresenter extends AppDelegate {
 
     private CommentAdapter adapter;
     private XRecyclerView xRecyclerView;
     private EditText ping;
     private TextView sure_ping;
-    private Window window;
-    private RelativeLayout mLayoutEdit;
-    private int windowHeight;
+    private View mContentView;
 
     @Override
     public int getLayoutId() {
@@ -49,12 +49,12 @@ public class CommentFragmentPresenter extends AppDelegate{
         //http://172.17.8.100/movieApi/cinema/v1/findAllCinemaComment?page=1&count=60&cinemaId=2
         final int cinemaId = SharedPreferencesUtils.getInt(context, "cinemaId");
         xRecyclerView = get(R.id.comment_xrecycler);
-        mLayoutEdit = (RelativeLayout) get(R.id.submit);
         DisplayMetrics dm = new DisplayMetrics();
-        windowHeight = dm.heightPixels;
+        mContentView = get(R.id.contentView);
 
         ping = get(R.id.ping);
         sure_ping = get(R.id.sure_ping);
+        buttonBeyondKeyboardLayout(mContentView, sure_ping);
         adapter = new CommentAdapter();
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         xRecyclerView.setLayoutManager(manager);
@@ -72,6 +72,8 @@ public class CommentFragmentPresenter extends AppDelegate{
                 xRecyclerView.loadMoreComplete();
             }
         });
+
+
         sure_ping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,17 +86,7 @@ public class CommentFragmentPresenter extends AppDelegate{
                 }
             }
         });
-//        ping.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (hasFocus) {
-//                    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-//                } else {
-////                    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-//                }
-//
-//            }
-//        });
+
     }
 
     private void doPing(final int cinemaId, String trim) {
@@ -109,10 +101,8 @@ public class CommentFragmentPresenter extends AppDelegate{
         new HttpHelper().post(mapHead, "/movieApi/cinema/v1/verify/cinemaComment", map).result(new HttpListener() {
             @Override
             public void success(String data) {
-//                Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
                 if (data.contains("评论成功")) {
                     Toast.makeText(context, "评论成功", Toast.LENGTH_SHORT).show();
-//                    adapter.notifyDataSetChanged();
                     doHttp(cinemaId);
                     ping.setText("");
                 }
@@ -133,7 +123,6 @@ public class CommentFragmentPresenter extends AppDelegate{
         new HttpHelper().get("/movieApi/cinema/v1/findAllCinemaComment", map).result(new HttpListener() {
             @Override
             public void success(String data) {
-//                Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
                 CommentBean commentBean = new Gson().fromJson(data, CommentBean.class);
                 List<CommentBean.ResultBean> result = commentBean.getResult();
                 adapter.setList(result);
@@ -152,24 +141,32 @@ public class CommentFragmentPresenter extends AppDelegate{
         this.context = context;
     }
 
-    public void getWindow(Window window) {
-        this.window = window;
+    private void buttonBeyondKeyboardLayout(final View root, final View button) {
+        // 监听根布局的视图变化
+        root.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        Rect rect = new Rect();
+                        // 获取内容布局在窗体的可视区域
+                        root.getWindowVisibleDisplayFrame(rect);
+                        // 获取内容布局在窗体的不可视区域高度(被其他View遮挡的区域高度)
+                        int rootInvisibleHeight = root.getHeight() - rect.bottom;
+                        // 若不可视区域高度大于100，则键盘显示
+                        if (rootInvisibleHeight > 100) {
+                            int[] location = new int[2];
+                            // 获取须顶上去的控件在窗体的坐标
+                            button.getLocationInWindow(location);
+                            // 计算内容滚动高度，使button在可见区域
+                            int buttonHeight = (location[1]
+                                    + button.getHeight()) - rect.bottom;
+                            root.scrollTo(0, buttonHeight);
+                        } else {
+                            // 键盘隐藏
+                            root.scrollTo(0, 0);
+                        }
+                    }
+                });
     }
-//
-//    @Override
-//    public void onLayoutChange(View v, int left, int top, int right,
-//                               int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-//        //现在认为只要控件将Activity向上推的高度超过了1/3屏幕高，就认为软键盘弹起
-//        if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > windowHeight / 3)) {
-//            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mLayoutEdit.getLayoutParams();
-//            params.bottomMargin = windowHeight / 3;
-//            mLayoutEdit.setLayoutParams(params);
-//
-//        } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > windowHeight / 3)) {
-//            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mLayoutEdit.getLayoutParams();
-//            params.bottomMargin = 0;
-//            mLayoutEdit.setLayoutParams(params);
-//
-//        }
-//    }
+
 }
