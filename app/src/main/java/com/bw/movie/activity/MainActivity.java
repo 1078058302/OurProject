@@ -7,10 +7,14 @@ import android.support.v7.app.AlertDialog;
 import com.bw.movie.R;
 import com.bw.movie.mvp.basepresenter.BaseActivityPresenter;
 import com.bw.movie.presenter.MainActivityPresenter;
+import com.bw.movie.utils.SharedPreferencesUtils;
 //主Activity
 
 
 public class MainActivity extends BaseActivityPresenter<MainActivityPresenter> {
+
+
+
 
     @Override
     public Class<MainActivityPresenter> getClassDelegate() {
@@ -26,6 +30,7 @@ public class MainActivity extends BaseActivityPresenter<MainActivityPresenter> {
     @Override
     public void getContext(Context context) {
         super.getContext(context);
+
         delegate.setContext(context);
     }
     @Override
@@ -37,7 +42,7 @@ public class MainActivity extends BaseActivityPresenter<MainActivityPresenter> {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // 点击“确认”后的操作
-                        MainActivity.this.finish();
+                       MainActivity.this.finish();
 
                     }
                 })
@@ -51,5 +56,16 @@ public class MainActivity extends BaseActivityPresenter<MainActivityPresenter> {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //判断是否点击返回键
+       boolean isback= SharedPreferencesUtils.getBoolean(this,"isback");
+       if(isback){
+           //如果是false的话就不让他finish()
+           SharedPreferencesUtils.putBoolean(this,"isback",false);
+           finish();
+       }
 
+    }
 }

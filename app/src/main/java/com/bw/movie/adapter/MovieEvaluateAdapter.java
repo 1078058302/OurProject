@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ public class MovieEvaluateAdapter extends RecyclerView.Adapter<MovieEvaluateAdap
         myViewHolder.evaluate_good_image = view.findViewById(R.id.evaluate_good_image);
         myViewHolder.evaluate_news_text = view.findViewById(R.id.evaluate_news_text);
         myViewHolder.evaluate_news_image = view.findViewById(R.id.evaluate_news_image);
+        myViewHolder.relativeLayout = view.findViewById(R.id.comment_item_Relative);
         return myViewHolder;
     }
 
@@ -63,16 +65,13 @@ public class MovieEvaluateAdapter extends RecyclerView.Adapter<MovieEvaluateAdap
         myViewHolder.evaluate_news_text.setText(list.get(i).getReplyNum() + "");
         final int commentId = list.get(i).getCommentId();
         SharedPreferencesUtils.putInt(context, "commentId", commentId);
-        myViewHolder.evaluate_news_text.setOnClickListener(new View.OnClickListener() {
+        myViewHolder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context, CommentActivity.class));
-            }
-        });
-        myViewHolder.evaluate_news_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(new Intent(context, CommentActivity.class));
+                EvaluateBean.ResultBean resultBean = list.get(i);
+                Intent intent = new Intent(context, CommentActivity.class);
+                intent.putExtra("resultBean",resultBean);
+                context.startActivity(intent);
             }
         });
         int isGreat = list.get(i).getIsGreat();
@@ -148,5 +147,6 @@ public class MovieEvaluateAdapter extends RecyclerView.Adapter<MovieEvaluateAdap
         ImageView evaluate_good_image;
         ImageView evaluate_news_image;
         TextView evaluate_news_text;
+        RelativeLayout relativeLayout;
     }
 }

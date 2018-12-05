@@ -1,8 +1,9 @@
 package com.bw.movie.mvp.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class EvaluateBean {
+public class EvaluateBean implements Serializable{
 
 
     /**
@@ -39,7 +40,7 @@ public class EvaluateBean {
         this.result = result;
     }
 
-    public static class ResultBean {
+    public static class ResultBean implements Serializable{
         /**
          * commentContent : 电影好看
          * commentHeadPic : http://172.17.8.100/images/movie/head_pic/2018-11-21/20181121094725.jpg

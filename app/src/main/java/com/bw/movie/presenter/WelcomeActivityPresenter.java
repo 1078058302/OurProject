@@ -10,8 +10,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bw.movie.R;
 import com.bw.movie.activity.MainActivity;
-import com.bw.movie.activity.MovieDescActivity;
-import com.bw.movie.activity.StartActivity;
 import com.bw.movie.activity.WelcomeActivity;
 import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.utils.SharedPreferencesUtils;
@@ -25,7 +23,7 @@ import cn.bingoogolapple.bgabanner.BGABanner;
 public class WelcomeActivityPresenter extends AppDelegate {
 
     private BGABanner banner_welcome;
-    private List<Integer> mPics=new ArrayList<>();
+    private List<Integer> mPics = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -49,15 +47,26 @@ public class WelcomeActivityPresenter extends AppDelegate {
                 Glide.with(context).load(mPics.get(position)).into((ImageView) itemView);
             }
         });
-        banner_welcome.setData(mPics,null);
+        banner_welcome.setData(mPics, null);
         //滑动监听
         banner_welcome.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-                if (i==3) {
+                if (i == 3) {
                     context.startActivity(new Intent(context, MainActivity.class));
                     ((WelcomeActivity) context).finish();
                 }
+
+//                String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
+//                if (i == 3) {
+//                    if (TextUtils.isEmpty(sessionId)) {
+//                        context.startActivity(new Intent(context, LoginActivity.class));
+//                        ((WelcomeActivity) context).finish();
+//                    } else {
+//
+//                        //13328147356
+//                    }
+//                }
             }
 
 
@@ -73,13 +82,7 @@ public class WelcomeActivityPresenter extends AppDelegate {
         });
 
 
-
-
-
-
-
     }
-
 
 
     public void getContext(Context context) {

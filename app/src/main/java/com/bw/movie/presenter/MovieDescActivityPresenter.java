@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +36,12 @@ import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
 import com.bw.movie.utils.SharedPreferencesUtils;
 import com.bw.movie.utils.UltimateBar;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.AbstractDraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.google.gson.Gson;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -47,7 +54,7 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
 
     private int movie_id;
     private TextView moviename;
-    private ImageView movienameimage;
+    private SimpleDraweeView movienameimage;
     private RelativeLayout movie_desc_relative_details;
     private RelativeLayout relative;
     private RelativeLayout movie_desc_relative_notice;
@@ -64,7 +71,7 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
     private RecyclerView stills_recycle;
     private ImageView stills_down_image;
     private MovieStillsAdapter movieStillsAdapter;
-    private RecyclerView evaluate_recycle;
+    private XRecyclerView evaluate_recycle;
     private ImageView evaluate_down_image;
     private ImageView notice_down_image;
     private MovieEvaluateAdapter movieEvaluateAdapter;
@@ -77,6 +84,8 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
     private MovieDescBean movieDescBean;
     private EditText ed_evaluate;
     private TextView te_evaluate;
+    private int count = 5;
+    private SimpleDraweeView simpleDraweeView;
 
 
     @Override
@@ -93,7 +102,7 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
         movienameimage = get(R.id.movie_image_name);
         ed_evaluate = get(R.id.ed_evaluate);
         te_evaluate = get(R.id.te_evaluate);
-
+        simpleDraweeView = get(R.id.title_image);
         //详情
         Button details = get(R.id.movie_desc_bt_details);
         //预告
@@ -152,6 +161,18 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
                 R.id.movie_desc_image_collection,
                 R.id.te_evaluate);
         buttonBeyondKeyboardLayout(movie_desc_relative_evaluate, te_evaluate);
+        evaluate_recycle.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                doevaluate(count);
+            }
+
+            @Override
+            public void onLoadMore() {
+                count = count + 5;
+                doevaluate(count);
+            }
+        });
         ChenJinShi();
         Intent intent = ((MovieDescActivity) context).getIntent();
         movie_id = intent.getIntExtra("movie_id", 0);
@@ -164,7 +185,7 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
         //展示电影详情
         doMovieDescHttp();
         //展示影评
-        doevaluate();
+        doevaluate(count);
 
         movieEvaluateAdapter = new MovieEvaluateAdapter(context);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(context);
@@ -189,7 +210,8 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
             }
 
         });
-        ;
+
+
     }
 
     private void buttonBeyondKeyboardLayout(final View root, final View button) {
@@ -248,7 +270,8 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
                     image_collection.setImageResource(R.mipmap.collection_selected);
                 }
 
-                Glide.with(context).load(result.getImageUrl()).into(movienameimage);
+                movienameimage.setImageURI(result.getImageUrl());
+                showUrlBlur(simpleDraweeView, result.getImageUrl(), 2, 2);
                 //详情
                 dodetails(result);
                 //剧照
@@ -264,6 +287,22 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
         });
     }
 
+    //高斯模糊
+    public static void showUrlBlur(SimpleDraweeView draweeView, String url, int iterations, int blurRadius) {
+        try {
+            Uri uri = Uri.parse(url);
+            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
+                    .setPostprocessor(new IterativeBoxBlurPostProcessor(6, blurRadius))
+                    .build();
+            AbstractDraweeController controller = Fresco.newDraweeControllerBuilder()
+                    .setOldController(draweeView.getController())
+                    .setImageRequest(request)
+                    .build();
+            draweeView.setController(controller);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     //预告片
     private void donotice(MovieDescBean.ResultBean result) {
         List<MovieDescBean.ResultBean.ShortFilmListBean> shortFilmList = result.getShortFilmList();
@@ -276,11 +315,11 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
     }
 
     //影评layout赋值
-    private void doevaluate() {
+    private void doevaluate(int count) {
         Map<String, String> map = new HashMap<>();
         map.put("movieId", movie_id + "");
         map.put("page", 1 + "");
-        map.put("count", 10 + "");
+        map.put("count", count + "");
         Map<String, String> mapHead = new HashMap<>();
         int userId = SharedPreferencesUtils.getInt(context, "userId");
         String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
@@ -292,6 +331,8 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
                 EvaluateBean evaluateBean = new Gson().fromJson(data, EvaluateBean.class);
                 resultevaluate = evaluateBean.getResult();
                 movieEvaluateAdapter.setList(resultevaluate);
+                evaluate_recycle.refreshComplete();
+                evaluate_recycle.loadMoreComplete();
             }
 
             @Override
@@ -407,7 +448,7 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
             @Override
             public void success(String data) {
                 Toast.makeText(context, "" + data, Toast.LENGTH_SHORT).show();
-                doevaluate();
+                doevaluate(count);
             }
 
             @Override

@@ -8,7 +8,11 @@
     android:background="@mipmap/movie_desc_xh"
     android:orientation="horizontal"
     tools:context=".activity.MovieDescActivity">
-
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:id="@+id/title_image"/>
     <RelativeLayout
         android:id="@+id/top_relative"
         android:layout_width="match_parent"
@@ -52,7 +56,7 @@
         android:textColor="#ffffff"
         android:textSize="@dimen/sp_20" />
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/movie_image_name"
         android:layout_width="@dimen/dp_270"
         android:layout_height="@dimen/dp_370"
@@ -405,7 +409,7 @@
         android:background="@drawable/details"
         android:clickable="true"
         android:visibility="gone">
-    -
+
         <TextView
             android:id="@+id/evaluate_title"
             android:layout_width="wrap_content"
@@ -440,7 +444,7 @@
             android:layout_below="@+id/evaluate_movie_image"
             android:orientation="vertical">
 
-            <android.support.v7.widget.RecyclerView
+            <com.jcodecraeer.xrecyclerview.XRecyclerView
                 android:id="@+id/evaluate_recycle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
