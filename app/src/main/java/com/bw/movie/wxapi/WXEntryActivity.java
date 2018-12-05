@@ -2,6 +2,7 @@ package com.bw.movie.wxapi;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 
 import com.bw.movie.App;
+import com.bw.movie.activity.SuccessShowActivity;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -76,9 +78,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             builder.setTitle("支付结果");
             builder.setMessage(resp.errCode + "");
             builder.show();
-
+//            Intent intent = new Intent(this, SuccessShowActivity.class);
+//            startActivity(intent);
         }
-
     }
 }
 

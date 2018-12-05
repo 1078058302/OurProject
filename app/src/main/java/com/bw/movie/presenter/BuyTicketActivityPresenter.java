@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alipay.sdk.app.PayTask;
 import com.bw.movie.R;
 import com.bw.movie.activity.BuyTicketActivity;
 import com.bw.movie.activity.MainActivity;
@@ -26,8 +27,10 @@ import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
 import com.bw.movie.utils.SharedPreferencesUtils;
 import com.bw.movie.utils.UltimateBar;
+import com.bw.movie.wxapi.WXEntryActivity;
 import com.google.gson.Gson;
 import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.modelpay.PayResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -249,6 +252,8 @@ public class BuyTicketActivityPresenter extends AppDelegate {
                 PayBean payBean = new Gson().fromJson(data, PayBean.class);
                 String message = payBean.getMessage();
                 if (message.equals("支付成功")) {
+
+
                     PayReq request = new PayReq();
                     request.appId = payBean.getAppId();
                     request.partnerId = payBean.getPartnerId();
@@ -260,11 +265,11 @@ public class BuyTicketActivityPresenter extends AppDelegate {
                     api.sendReq(request);
                     alpha_layout.setVisibility(View.GONE);
                     hintShopCar();
-                    Intent intent = new Intent(context, SuccessShowActivity.class);
-                    int i = price * num;
-                    intent.putExtra("price", i);
-                    context.startActivity(intent);
-                    ((BuyTicketActivity) context).finish();
+//                    Intent intent = new Intent(context, SuccessShowActivity.class);
+//                    int i = price * num;
+//                    intent.putExtra("price", i);
+//                    context.startActivity(intent);
+//                    ((BuyTicketActivity) context).finish();
                 }
             }
 
