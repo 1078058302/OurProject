@@ -279,7 +279,7 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
                 //预告
                 donotice(result);
             }
-
+//
             @Override
             public void fail(String error) {
 
