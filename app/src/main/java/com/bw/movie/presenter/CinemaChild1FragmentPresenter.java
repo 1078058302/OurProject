@@ -11,6 +11,7 @@ import com.bw.movie.mvp.model.RecommendBean;
 import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
+import com.bw.movie.utils.SharedPreferencesUtils;
 import com.google.gson.Gson;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -21,6 +22,8 @@ import java.util.Map;
 public class CinemaChild1FragmentPresenter extends AppDelegate {
     private XRecyclerView xRecyclerView;
     private CinemaChild1Adapter adapter;
+    private String sessionId;
+    private int userId;
 
     @Override
     public int getLayoutId() {
@@ -30,6 +33,8 @@ public class CinemaChild1FragmentPresenter extends AppDelegate {
     @Override
     public void initData() {
         super.initData();
+        sessionId = SharedPreferencesUtils.getString(context, "sessionId");
+        userId = SharedPreferencesUtils.getInt(context, "userId");
         xRecyclerView = get(R.id.show_cinema);
         adapter = new CinemaChild1Adapter();
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
@@ -51,12 +56,17 @@ public class CinemaChild1FragmentPresenter extends AppDelegate {
     }
 
     private void doHttp() {
+        Map mapHead = new HashMap();
         Map map = new HashMap();
+        mapHead.put("userId", userId);
+        mapHead.put("sessionId", sessionId);
         map.put("page", 1);
         map.put("count", 21);
         map.put("longitude", "116.30551391385724");
+
+
         map.put("latitude", "40.04571807462411");
-        new HttpHelper().get("/movieApi/cinema/v1/findRecommendCinemas", map).result(new HttpListener() {
+        new HttpHelper().getHead("/movieApi/cinema/v1/findRecommendCinemas", map, mapHead).result(new HttpListener() {
             @Override
             public void success(String data) {
                 if (data.contains("<")) {
@@ -64,10 +74,10 @@ public class CinemaChild1FragmentPresenter extends AppDelegate {
                 }
                 NearByBean nearByBean = new Gson().fromJson(data, NearByBean.class);
                 List<NearByBean.ResultBean.NearbyCinemaListBean> nearbyCinemaList = nearByBean.getResult().getNearbyCinemaList();
-                adapter.setList(nearbyCinemaList);
+                List<NearByBean.ResultBean.FollowCinemasBean> followCinemas = nearByBean.getResult().getFollowCinemas();
+                adapter.setList(nearbyCinemaList, followCinemas);
                 adapter.setContext(context);
                 xRecyclerView.refreshComplete();
-
             }
 
             @Override

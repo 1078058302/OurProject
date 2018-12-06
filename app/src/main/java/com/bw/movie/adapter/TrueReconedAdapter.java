@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.bw.movie.R;
 import com.bw.movie.activity.CinemaDetailActivity;
 import com.bw.movie.mvp.model.ShowBean;
+import com.bw.movie.mvp.model.TrueRecommendBean;
 import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
 import com.bw.movie.utils.SharedPreferencesUtils;
@@ -53,6 +54,9 @@ public class TrueReconedAdapter extends RecyclerView.Adapter<TrueReconedAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
+        if (list.isEmpty()){
+            return;
+        }
         viewHolder.image_cinema.setImageURI(list.get(i).getLogo());
         viewHolder.title.setText(list.get(i).getName());
         String address = list.get(i).getAddress();
@@ -67,49 +71,47 @@ public class TrueReconedAdapter extends RecyclerView.Adapter<TrueReconedAdapter.
         id = list.get(i).getId();
         sessionId = SharedPreferencesUtils.getString(context, "sessionId");
         userId = SharedPreferencesUtils.getInt(context, "userId");
+        final int id = list.get(i).getId();
         viewHolder.cinema_show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, CinemaDetailActivity.class);
-                int id = list.get(i).getId();
+
                 intent.putExtra("cinemaId", id);
                 context.startActivity(intent);
             }
         });
-        boolean followCinema = list.get(i).isFollowCinema();
+        followCinema = list.get(i).isFollowCinema();
         if (followCinema) {
-            viewHolder.collection_image.setImageResource(R.mipmap.collection_default);
-        } else {
             viewHolder.collection_image.setImageResource(R.mipmap.collection_selected);
+        } else {
+            viewHolder.collection_image.setImageResource(R.mipmap.collection_default);
         }
         Log.i("TrueReconedAdapter", followCinema + "");
 
-            viewHolder.collection_image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!TextUtils.isEmpty(sessionId)) {
-                        if (b) {
-                            doHttpYes(id, i, viewHolder);
-                            b = false;
-                        } else {
-                            doHttpNo(id, i, viewHolder);
-                            b = true;
-                        }
-                    }else{
-                        Toast.makeText(context, "亲,您还没有登录哦", Toast.LENGTH_SHORT).show();
-
+        viewHolder.collection_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(sessionId)) {
+                    if (followCinema) {
+                        list.get(i).setFollowCinema(false);
+                        doHttpNo(id, i, viewHolder);
+                        viewHolder.collection_image.setImageResource(R.mipmap.collection_default);
+                    } else {
+                        list.get(i).setFollowCinema(true);
+                        doHttpYes(id, i, viewHolder);
+                        viewHolder.collection_image.setImageResource(R.mipmap.collection_selected);
                     }
+                } else {
+                    Toast.makeText(context, "亲,您还没有登录哦", Toast.LENGTH_SHORT).show();
 
                 }
-            });
 
-
-
-    }
-
-    private void doHttp() {
+            }
+        });
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -139,7 +141,7 @@ public class TrueReconedAdapter extends RecyclerView.Adapter<TrueReconedAdapter.
         ImageView collection_image;
     }
 
-    private void doHttpYes(int id, final int i, final ViewHolder viewHolder) {
+    private void doHttpYes(final int id, final int i, final ViewHolder viewHolder) {
         Map map = new HashMap();
         map.put("cinemaId", id);
         Map mapHead = new HashMap();
@@ -148,12 +150,17 @@ public class TrueReconedAdapter extends RecyclerView.Adapter<TrueReconedAdapter.
         new HttpHelper().getHead("/movieApi/cinema/v1/verify/followCinema", map, mapHead).result(new HttpListener() {
             @Override
             public void success(String data) {
-                Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
-                list.get(i).setFollowCinema(false);
-                viewHolder.collection_image.setImageResource(R.mipmap.collection_selected);
+                if (data.contains("关注成功")) {
+                    Toast.makeText(context, "关注成功", Toast.LENGTH_SHORT).show();
+                    list.get(i).setFollowCinema(true);
+                    notifyDataSetChanged();
+                } else if (data.contains("不能重复关注")) {
+                    doHttpNo(id, i, viewHolder);
+                }
             }
 
             @Override
+
             public void fail(String error) {
 
             }
@@ -161,7 +168,7 @@ public class TrueReconedAdapter extends RecyclerView.Adapter<TrueReconedAdapter.
     }
 
     private void doHttpNo(int id, final int i, final ViewHolder viewHolder) {
-        Toast.makeText(context, userId + "" + sessionId, Toast.LENGTH_SHORT).show();
+
         Map map = new HashMap();
         map.put("cinemaId", id);
         Map mapHead = new HashMap();
@@ -170,9 +177,11 @@ public class TrueReconedAdapter extends RecyclerView.Adapter<TrueReconedAdapter.
         new HttpHelper().getHead("/movieApi/cinema/v1/verify/cancelFollowCinema", map, mapHead).result(new HttpListener() {
             @Override
             public void success(String data) {
-                Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
-                list.get(i).setFollowCinema(true);
-                viewHolder.collection_image.setImageResource(R.mipmap.collection_default);
+                if (data.contains("取消关注成功")) {
+                    Toast.makeText(context, "取消关注成功", Toast.LENGTH_SHORT).show();
+                    list.get(i).setFollowCinema(false);
+                    notifyDataSetChanged();
+                }
             }
 
             @Override

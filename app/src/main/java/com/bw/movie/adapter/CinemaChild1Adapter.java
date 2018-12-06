@@ -34,6 +34,8 @@ public class CinemaChild1Adapter extends RecyclerView.Adapter<CinemaChild1Adapte
     private int userId;
     private int id;
     public boolean b = true;
+    private boolean followCinema;
+    private List<NearByBean.ResultBean.FollowCinemasBean> followCinemas = new ArrayList<>();
 
     @NonNull
     @Override
@@ -75,31 +77,42 @@ public class CinemaChild1Adapter extends RecyclerView.Adapter<CinemaChild1Adapte
                 context.startActivity(intent);
             }
         });
-        boolean followCinema = list.get(i).isFollowCinema();
-        if (followCinema) {
-            viewHolder.collection_image.setImageResource(R.mipmap.collection_default);
-        } else {
-            viewHolder.collection_image.setImageResource(R.mipmap.collection_selected);
-        }
-        Log.i("TrueReconedAdapter", followCinema + "");
-
-            viewHolder.collection_image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!TextUtils.isEmpty(sessionId)) {
-                        if (b) {
-                            doHttpYes(id, i, viewHolder);
-                            b = false;
-                        } else {
-                            doHttpNo(id, i, viewHolder);
-                            b = true;
-                        }
-                    }else{
-                        Toast.makeText(context, "亲,您还没有登录哦", Toast.LENGTH_SHORT).show();
-
+        followCinema = list.get(i).isFollowCinema();
+        for (int k = 0; k < followCinemas.size(); k++) {
+            for (int j = 0; j < list.size(); j++) {
+                if (followCinemas.get(k).getId() == list.get(j).getId()) {
+                    list.get(j).setFollowCinema(followCinemas.get(k).isFollowCinema());
+                    if (followCinema) {
+                        viewHolder.collection_image.setImageResource(R.mipmap.collection_selected);
+                    } else {
+                        viewHolder.collection_image.setImageResource(R.mipmap.collection_default);
                     }
                 }
-            });
+            }
+        }
+
+        Log.i("CinemaChild1Adapter", followCinema + "");
+
+        viewHolder.collection_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(sessionId)) {
+                    if (followCinema) {
+                        list.get(i).setFollowCinema(false);
+                        doHttpNo(id, i, viewHolder);
+                        viewHolder.collection_image.setImageResource(R.mipmap.collection_default);
+                    } else {
+                        list.get(i).setFollowCinema(true);
+                        doHttpYes(id, i, viewHolder);
+                        viewHolder.collection_image.setImageResource(R.mipmap.collection_selected);
+                    }
+                } else {
+                    Toast.makeText(context, "亲,您还没有登录哦", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        });
 
     }
 
@@ -109,8 +122,9 @@ public class CinemaChild1Adapter extends RecyclerView.Adapter<CinemaChild1Adapte
         return list.size();
     }
 
-    public void setList(List<NearByBean.ResultBean.NearbyCinemaListBean> list) {
+    public void setList(List<NearByBean.ResultBean.NearbyCinemaListBean> list, List<NearByBean.ResultBean.FollowCinemasBean> followCinemas) {
         this.list = list;
+        this.followCinemas = followCinemas;
         notifyDataSetChanged();
     }
 
@@ -132,7 +146,7 @@ public class CinemaChild1Adapter extends RecyclerView.Adapter<CinemaChild1Adapte
         ImageView collection_image;
     }
 
-    private void doHttpYes(int id, final int i, final ViewHolder viewHolder) {
+    private void doHttpYes(final int id, final int i, final ViewHolder viewHolder) {
         Map map = new HashMap();
         map.put("cinemaId", id);
         Map mapHead = new HashMap();
@@ -141,19 +155,25 @@ public class CinemaChild1Adapter extends RecyclerView.Adapter<CinemaChild1Adapte
         new HttpHelper().getHead("/movieApi/cinema/v1/verify/followCinema", map, mapHead).result(new HttpListener() {
             @Override
             public void success(String data) {
-                list.get(i).setFollowCinema(false);
-                viewHolder.collection_image.setImageResource(R.mipmap.collection_selected);
+                if (data.contains("关注成功")) {
+                    Toast.makeText(context, "关注成功", Toast.LENGTH_SHORT).show();
+                    list.get(i).setFollowCinema(true);
+                    notifyDataSetChanged();
+                } else if (data.contains("不能重复关注")) {
+                    doHttpNo(id, i, viewHolder);
+                }
             }
 
             @Override
+
             public void fail(String error) {
 
             }
         });
     }
 
-    private void doHttpNo(int id, final int i, final ViewHolder viewHolder) {
-        Toast.makeText(context, userId + "" + sessionId, Toast.LENGTH_SHORT).show();
+    private void doHttpNo(final int id, final int i, final ViewHolder viewHolder) {
+
         Map map = new HashMap();
         map.put("cinemaId", id);
         Map mapHead = new HashMap();
@@ -162,8 +182,13 @@ public class CinemaChild1Adapter extends RecyclerView.Adapter<CinemaChild1Adapte
         new HttpHelper().getHead("/movieApi/cinema/v1/verify/cancelFollowCinema", map, mapHead).result(new HttpListener() {
             @Override
             public void success(String data) {
-                list.get(i).setFollowCinema(true);
-                viewHolder.collection_image.setImageResource(R.mipmap.collection_default);
+                if (data.contains("取消关注成功")) {
+                    Toast.makeText(context, "取消关注成功", Toast.LENGTH_SHORT).show();
+                    list.get(i).setFollowCinema(false);
+                    notifyDataSetChanged();
+                } else {
+                    doHttpYes(id, i, viewHolder);
+                }
             }
 
             @Override

@@ -51,6 +51,7 @@
                 android:layout_marginTop="5dp" />
 
             <ImageView
+                android:id="@+id/good"
                 android:layout_width="@dimen/dp_15"
                 android:layout_height="@dimen/dp_15"
                 android:layout_centerVertical="true"
