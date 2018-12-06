@@ -57,7 +57,7 @@
             android:value="8ceb2930082a957206a261b95d4ef562">
             //开发者申请的key
         </meta-data>
-        <!-- 定位需要的服务 -->
+        <!-- 定位需要的服务撒打 -->
         <activity android:name=".activity.SuccessShowActivity"></activity>
         <activity
             android:name=".wxapi.WXEntryActivity"
