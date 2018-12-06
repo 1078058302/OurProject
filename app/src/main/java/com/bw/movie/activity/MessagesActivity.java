@@ -18,10 +18,4 @@ public class MessagesActivity extends BaseActivityPresenter<MessagesActivityPres
         delegate.setContext(context);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        delegate.onResume();
-
-    }
 }

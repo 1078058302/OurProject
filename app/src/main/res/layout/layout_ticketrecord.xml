@@ -8,7 +8,7 @@
         android:layout_width="@dimen/dp_77"
         android:layout_height="@dimen/dp_30"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dp_64"
+        android:layout_marginTop="@dimen/dp_18"
         android:background="@drawable/edit_bg"
         android:text="11"
         android:textColor="#ffffff" />

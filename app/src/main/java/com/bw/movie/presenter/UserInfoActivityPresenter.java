@@ -152,7 +152,6 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
 
 
         String birthday = SharedPreferencesUtils.getString(context, "birthday");
-//        toast(birthday);
         if (!TextUtils.isEmpty(birthday)) {
             dataOfbirth.setText(birthday);
         }
@@ -190,43 +189,6 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
             tvEmail.setText(tv_phones);
         }
     }
-
-//    private void doGet() {
-//        int userId = SharedPreferencesUtils.getInt(context, "userId");
-//        String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
-//        Map<String, String> m = new HashMap<>();
-//        m.put("userId", userId + "");
-//        m.put("sessionId", sessionId);
-//        Map<String, String> map = new HashMap<>();
-//        map.put("nickName", nickName);
-//        map.put("sex", sex + "");
-//        map.put("email", email);
-//        new HttpHelper().post(m, "/movieApi/user/v1/verify/modifyUserInfo", map).result(new HttpListener() {
-//            @Override
-//            public void success(String data) {
-//                Gson gson = new Gson();
-//                NiChengBean niChengBean = gson.fromJson(data, NiChengBean.class);
-//                if (niChengBean != null) {
-//                    int sex = niChengBean.getResult().getSex();
-//                    switch (sex) {
-//                        case 1:
-//                            userSex.setText("男");
-//                            break;
-//                        case 2:
-//                            userSex.setText("女");
-//                            break;
-//                    }
-//                }
-//
-//
-//            }
-
-//            @Override
-//            public void fail(String error) {
-//
-//            }
-//        });
-//    }
 
     private void show() {
         new PhotoPopwindow(context, get(R.id.layout_parent), new PhotoPopwindow.OnSelectPictureListener() {
@@ -420,7 +382,6 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
         SharedPreferencesUtils.putInt(context, "sex", 0);
         SharedPreferencesUtils.putString(context, "birthday", "");
         SharedPreferencesUtils.putString(context, "email", "");
-//        SharedPreferencesUtils.putBoolean(context,"isloginout",true);
         onResume();
     }
 

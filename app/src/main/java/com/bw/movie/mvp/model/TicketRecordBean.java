@@ -4,6 +4,7 @@ import java.util.List;
 
 public class TicketRecordBean {
 
+
     /**
      * result : [{"amount":3,"beginTime":40800000,"cinemaName":"青春光线电影院","createTime":1533805513000,"endTime":47880000,"id":52,"movieName":"西虹市首富","orderId":"20180809170513183","price":66.5,"screeningHall":"2号厅","status":1,"userId":5},{"amount":3,"beginTime":40800000,"cinemaName":"青春光线电影院","createTime":1533805499000,"endTime":47880000,"id":51,"movieName":"西虹市首富","orderId":"20180809170459908","price":66.5,"screeningHall":"2号厅","status":1,"userId":5}]
      * message : 请求成功
@@ -55,10 +56,10 @@ public class TicketRecordBean {
          */
 
         private int amount;
-        private long beginTime;
+        private String beginTime;
         private String cinemaName;
-        private long createTime;
-        private long endTime;
+        private Long createTime;
+        private String endTime;
         private int id;
         private String movieName;
         private String orderId;
@@ -75,11 +76,11 @@ public class TicketRecordBean {
             this.amount = amount;
         }
 
-        public long getBeginTime() {
+        public String getBeginTime() {
             return beginTime;
         }
 
-        public void setBeginTime(long beginTime) {
+        public void setBeginTime(String beginTime) {
             this.beginTime = beginTime;
         }
 
@@ -91,19 +92,19 @@ public class TicketRecordBean {
             this.cinemaName = cinemaName;
         }
 
-        public long getCreateTime() {
+        public Long getCreateTime() {
             return createTime;
         }
 
-        public void setCreateTime(long createTime) {
+        public void setCreateTime(Long createTime) {
             this.createTime = createTime;
         }
 
-        public long getEndTime() {
+        public String getEndTime() {
             return endTime;
         }
 
-        public void setEndTime(long endTime) {
+        public void setEndTime(String endTime) {
             this.endTime = endTime;
         }
 

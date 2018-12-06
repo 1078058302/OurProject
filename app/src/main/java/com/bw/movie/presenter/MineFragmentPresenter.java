@@ -37,7 +37,6 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
     @Override
     public void initData() {
         super.initData();
-//        SharedPreferencesUtils.putBoolean(context, "isloginout", false);
         sd = (SimpleDraweeView) get(R.id.sd);
         tv_name = (TextView) get(R.id.tv_name);
         setClick(this, R.id.sd, R.id.tv_name, R.id.rl1, R.id.rl2, R.id.rl4, R.id.rl5, R.id.iv_messages, R.id.rl3);
@@ -74,27 +73,65 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
                 break;
             case R.id.rl1:
                 //我的信息
-                context.startActivity(new Intent(context, UserInfoActivity.class));
+                nickName = SharedPreferencesUtils.getString(context, "nickName");
+                if (TextUtils.isEmpty(nickName)) {
+                    toast("您还未登录，请先去登录");
+                } else {
+                    context.startActivity(new Intent(context, UserInfoActivity.class));
+                }
+
+
                 break;
             case R.id.rl2:
                 //我的关注
-                context.startActivity(new Intent(context, AttentionActivity.class));
+                nickName = SharedPreferencesUtils.getString(context, "nickName");
+                if (TextUtils.isEmpty(nickName)) {
+                    toast("您还未登录，请先去登录");
+                } else {
+                    context.startActivity(new Intent(context, AttentionActivity.class));
+                }
+
                 break;
             case R.id.rl3:
-                context.startActivity(new Intent(context, TicketRecordActivity.class));
                 //购票记录
+                nickName = SharedPreferencesUtils.getString(context, "nickName");
+                if (TextUtils.isEmpty(nickName)) {
+                    toast("您还未登录，请先去登录");
+                } else {
+                    context.startActivity(new Intent(context, TicketRecordActivity.class));
+                }
+
+
                 break;
             case R.id.rl4:
                 //意见反馈
-                context.startActivity(new Intent(context, FeedBackActivity.class));
+                nickName = SharedPreferencesUtils.getString(context, "nickName");
+                if (TextUtils.isEmpty(nickName)) {
+                    toast("您还未登录，请先去登录");
+                } else {
+                    context.startActivity(new Intent(context, FeedBackActivity.class));
+                }
+
                 break;
             case R.id.rl5:
                 //最新版本
-                doVersions();
+                nickName = SharedPreferencesUtils.getString(context, "nickName");
+                if (TextUtils.isEmpty(nickName)) {
+                    toast("您还未登录，请先去登录");
+                } else {
+                    doVersions();
+                }
+
                 break;
             case R.id.iv_messages:
                 //系统消息
-                context.startActivity(new Intent(context, MessagesActivity.class));
+                nickName = SharedPreferencesUtils.getString(context, "nickName");
+                if (TextUtils.isEmpty(nickName)) {
+                    toast("您还未登录，请先去登录");
+                } else {
+                    context.startActivity(new Intent(context, MessagesActivity.class));
+                }
+
                 break;
 
         }

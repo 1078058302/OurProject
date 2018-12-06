@@ -37,20 +37,17 @@ public class TicketRecordAdapter extends RecyclerView.Adapter<TicketRecordAdapte
         String format = DateUtils.format(createTime, "MM-dd HH:mm");
         myViewHolder.bt_createTime.setText(format);
         myViewHolder.tv_movieName.setText(result.get(i).getMovieName());
-        myViewHolder.tv_orderId.setText(result.get(i).getOrderId());
-        myViewHolder.tv_cineamName.setText(result.get(i).getCinemaName());
-        myViewHolder.tv_screeningHall.setText(result.get(i).getScreeningHall());
-        long beginTime = result.get(i).getBeginTime();
-        String format2 = DateUtils.format(createTime, "MM-dd HH:mm");
-        myViewHolder.tv_beginname.setText(format2);
-        long endTime = result.get(i).getEndTime();
-        String format3 = DateUtils.format(createTime, "HH:mm");
-        myViewHolder.tv_endName.setText("-" + format3);
-        myViewHolder.tv_amount.setText(result.get(i).getAmount());
-        myViewHolder.tv_price.setText(result.get(i).getPrice() + "");
+        myViewHolder.tv_orderId.setText("订单号:" + result.get(i).getOrderId());
+        myViewHolder.tv_cineamName.setText("影院:" + result.get(i).getCinemaName());
+        myViewHolder.tv_screeningHall.setText("影厅:" + result.get(i).getScreeningHall());
+        String beginTime = result.get(i).getBeginTime();
+        myViewHolder.tv_beginname.setText("时间:" + beginTime);
+        String endTime = result.get(i).getEndTime();
+        myViewHolder.tv_endName.setText("-" + endTime);
+        myViewHolder.tv_amount.setText("数量:" + result.get(i).getAmount() + "张" + "");
+        myViewHolder.tv_price.setText("金额:" + result.get(i).getPrice() + "元" + "");
         int status = result.get(i).getStatus();
         if (status == 1) {
-
             myViewHolder.bt_status.setVisibility(View.VISIBLE);
         } else {
             myViewHolder.bt_status.setVisibility(View.GONE);

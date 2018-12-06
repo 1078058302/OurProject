@@ -46,6 +46,13 @@ public class LoginActivityPresenter extends AppDelegate implements View.OnClickL
         tv_pwd = (EditText) get(R.id.tv_pwd);
         cb1 = (CheckBox) get(R.id.cb1);
         cb2 = (CheckBox) get(R.id.cb2);
+        get(R.id.iv_login).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+            }
+        });
         //获取数据
         String tvPhone1 = SharedPreferencesUtils.getString(context, "tv_phone");
         String tvPwd1 = SharedPreferencesUtils.getString(context, "tv_pwd");

@@ -25,8 +25,6 @@ import java.util.Map;
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyViewHolder> {
     private Context context;
     private List<MessagesBean.ResultBean> result = new ArrayList<>();
-    private boolean isClick = true;//开关
-
     public MessagesAdapter(Context context) {
         this.context = context;
     }
@@ -50,16 +48,14 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
         if (status == 0) {
             //0未读 1 已读
             myViewHolder.tv_icon.setVisibility(View.VISIBLE);
-        } else if (status == 1) {
+        } else {
             myViewHolder.tv_icon.setVisibility(View.GONE);
         }
         myViewHolder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int userId = SharedPreferencesUtils.getInt(context, "userId");
-                Log.i("sss", userId + "");
                 String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
-                Log.i("ssss", sessionId);
                 int id = result.get(i).getId();
                 Map<String, String> mapHead = new HashMap<>();
                 mapHead.put("userId", userId + "");
@@ -69,10 +65,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
                 new HttpHelper().getHead("/movieApi/tool/v1/verify/changeSysMsgStatus", map, mapHead).result(new HttpListener() {
                     @Override
                     public void success(String data) {
-                        if (data.contains("状态改变成功") && isClick) {
+                        if (data.contains("状态改变成功") && result.get(i).getStatus()==0) {
                             listener.setRefresh();
                             Toast.makeText(context, "状态改变成功", Toast.LENGTH_SHORT).show();
-                            isClick = false;
                         } else {
                             Toast.makeText(context, "已经是已读消息了", Toast.LENGTH_SHORT).show();
 

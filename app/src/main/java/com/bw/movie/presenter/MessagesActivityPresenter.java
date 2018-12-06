@@ -60,6 +60,7 @@ public class MessagesActivityPresenter extends AppDelegate {
             @Override
             public void setRefresh() {
                 doGet();
+                doGets();
             }
         });
 
@@ -129,8 +130,5 @@ public class MessagesActivityPresenter extends AppDelegate {
         this.context = context;
     }
 
-    //聚焦
-    public void onResume() {
-        doGets();
-    }
+
 }

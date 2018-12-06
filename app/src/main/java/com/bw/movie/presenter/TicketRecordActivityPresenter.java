@@ -2,6 +2,7 @@ package com.bw.movie.presenter;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.TicketRecordActivity;
@@ -12,6 +13,7 @@ import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
 import com.bw.movie.utils.SharedPreferencesUtils;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -39,6 +41,18 @@ public class TicketRecordActivityPresenter extends AppDelegate {
         xRecyclerView4.setLayoutManager(linearLayoutManager);
         ticketRecordAdapter = new TicketRecordAdapter(context);
         xRecyclerView4.setAdapter(ticketRecordAdapter);
+        xRecyclerView4.setPullRefreshEnabled(true);
+        xRecyclerView4.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                doGet();
+            }
+
+            @Override
+            public void onLoadMore() {
+                xRecyclerView4.loadMoreComplete();
+            }
+        });
 
     }
 
@@ -57,8 +71,10 @@ public class TicketRecordActivityPresenter extends AppDelegate {
                 Gson gson = new Gson();
                 TicketRecordBean ticketRecordBean = gson.fromJson(data, TicketRecordBean.class);
                 if ("0000".equals(ticketRecordBean.getStatus())) {
+                    toast("查询成功");
                     result = ticketRecordBean.getResult();
-                        ticketRecordAdapter.setList(result);
+                    ticketRecordAdapter.setList(result);
+                    xRecyclerView4.refreshComplete();
                 }
             }
 

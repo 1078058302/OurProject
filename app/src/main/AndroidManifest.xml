@@ -57,7 +57,7 @@
         <activity android:name=".activity.ShowFindActivity"></activity>
         <activity android:name=".activity.MovieShowActivity"></activity>
         <activity
-            android:name=".activity.MovieDescActivity"
+            android:name=".activity.MovieDescActivity"></activity>
         <activity android:name=".activity.CinemaDetailActivity" />
         <activity android:name=".activity.FilmCinemaActivity" />
         <activity android:name=".activity.CinemaCityActivity" />
