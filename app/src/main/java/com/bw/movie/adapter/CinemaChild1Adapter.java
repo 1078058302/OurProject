@@ -67,7 +67,9 @@ public class CinemaChild1Adapter extends RecyclerView.Adapter<CinemaChild1Adapte
         viewHolder.away.setText(v + "km");
         sessionId = SharedPreferencesUtils.getString(context, "sessionId");
         userId = SharedPreferencesUtils.getInt(context, "userId");
-        id = list.get(i).getId();
+        if (i != 0) {
+            id = list.get(i - 1).getId();
+        }
         viewHolder.cinema_show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

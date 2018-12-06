@@ -75,7 +75,9 @@ public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.
         });
         sessionId = SharedPreferencesUtils.getString(context, "sessionId");
         userId = SharedPreferencesUtils.getInt(context, "userId");
-        id = list.get(i).getId();
+        if (i != 0) {
+            id = list.get(i - 1).getId();
+        }
         boolean followCinema = list.get(i).isFollowCinema();
         if (followCinema) {
             viewHolder.collection_image.setImageResource(R.mipmap.collection_default);

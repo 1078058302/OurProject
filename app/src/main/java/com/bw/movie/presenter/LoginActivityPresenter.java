@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
@@ -19,6 +20,7 @@ import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
 import com.bw.movie.service.EncryptUtil;
+import com.bw.movie.utils.DateUtils;
 import com.bw.movie.utils.SharedPreferencesUtils;
 import com.google.gson.Gson;
 
@@ -44,6 +46,13 @@ public class LoginActivityPresenter extends AppDelegate implements View.OnClickL
         tv_pwd = (EditText) get(R.id.tv_pwd);
         cb1 = (CheckBox) get(R.id.cb1);
         cb2 = (CheckBox) get(R.id.cb2);
+        get(R.id.iv_login).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+            }
+        });
         //获取数据
         String tvPhone1 = SharedPreferencesUtils.getString(context, "tv_phone");
         String tvPwd1 = SharedPreferencesUtils.getString(context, "tv_pwd");
@@ -118,21 +127,15 @@ public class LoginActivityPresenter extends AppDelegate implements View.OnClickL
                     }
 
                     SharedPreferencesUtils.putString(context, "tv_phone2", tvPhone);
-
                     SharedPreferencesUtils.putString(context, "headPic", loginBean.getResult().getUserInfo().getHeadPic());
                     SharedPreferencesUtils.putString(context, "nickName", loginBean.getResult().getUserInfo().getNickName());
                     SharedPreferencesUtils.putString(context, "sessionId", loginBean.getResult().getSessionId());
                     SharedPreferencesUtils.putInt(context, "userId", loginBean.getResult().getUserId());
                     SharedPreferencesUtils.putInt(context, "sex", loginBean.getResult().getUserInfo().getSex());
-                    SharedPreferencesUtils.putString(context, "birthday", loginBean.getResult().getUserInfo().getBirthday());
+                    long birthday = loginBean.getResult().getUserInfo().getBirthday();
+                    String format = DateUtils.format(birthday, "yyyy-MM-dd");
+                    SharedPreferencesUtils.putString(context, "birthday", format);
                     toast(loginBean.getMessage() + "");
-//
-//                    boolean isloginout=SharedPreferencesUtils.getBoolean(context, "isloginout");
-//                    if (!isloginout) {
-//                        context.startActivity(new Intent(context, MainActivity.class));
-////                       ((LoginActivity) context).finish();
-//                    }
-//                    context.startActivity(new Intent(context, MainActivity.class));
                     ((LoginActivity) context).finish();
 
                 } else {

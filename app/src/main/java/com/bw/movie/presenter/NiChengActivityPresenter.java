@@ -77,7 +77,6 @@ public class NiChengActivityPresenter extends AppDelegate implements View.OnClic
         new HttpHelper().post(m, "/movieApi/user/v1/verify/modifyUserInfo", map).result(new HttpListener() {
             @Override
             public void success(String data) {
-                toast(data);
                 Gson gson = new Gson();
                 NiChengBean niChengBean = gson.fromJson(data, NiChengBean.class);
                 if ("0000".equals(niChengBean.getStatus())) {

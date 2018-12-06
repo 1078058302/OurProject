@@ -1,5 +1,9 @@
 package com.bw.movie;
 
+import android.app.Application;
+import android.os.Build;
+import android.os.StrictMode;
+import android.support.annotation.RequiresApi;
 import android.os.Environment;
 import android.support.multidex.MultiDexApplication;
 
@@ -10,10 +14,12 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 public class App extends MultiDexApplication {
-    private static App mainApp;
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 
     public static IWXAPI mWxApi;
+    private static App app;
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     public void onCreate() {
         super.onCreate();
@@ -28,6 +34,10 @@ public class App extends MultiDexApplication {
                 .build();
         Fresco.initialize(this, config);
         //==============================
+        //动态权限
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        builder.detectFileUriExposure();
         mWxApi = WXAPIFactory.createWXAPI(this, "wxb3852e6a6b7d9516", false);
         // 将该app注册到微信
         mWxApi.registerApp("wxb3852e6a6b7d9516");
@@ -35,8 +45,8 @@ public class App extends MultiDexApplication {
     }
 
     public static App getMainApp() {
-        mainApp = new App();
-        return mainApp;
+        app = new App();
+        return app;
     }
 
 

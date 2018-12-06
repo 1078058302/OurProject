@@ -55,22 +55,22 @@ public class FilmCinemaAdapter extends RecyclerView.Adapter<FilmCinemaAdapter.My
 
         if (list.get(i).getName().contains("院")) {
             myViewHolder.away_cinema.setText("3.2" + "km");
-        }else{
+        } else {
             myViewHolder.away_cinema.setText("1.6" + "km");
         }
 
 
         sessionId = SharedPreferencesUtils.getString(context, "sessionId");
         userId = SharedPreferencesUtils.getInt(context, "userId");
-        id = list.get(i).getId();
-
+        if (i != 0) {
+            id = list.get(i - 1).getId();
+        }
         boolean followCinema = list.get(i).isFollowCinema();
         if (followCinema) {
             myViewHolder.collection_image.setImageResource(R.mipmap.collection_default);
         } else {
             myViewHolder.collection_image.setImageResource(R.mipmap.collection_selected);
         }
-
 
 
         myViewHolder.cinema_show.setOnClickListener(new View.OnClickListener() {
@@ -94,10 +94,10 @@ public class FilmCinemaAdapter extends RecyclerView.Adapter<FilmCinemaAdapter.My
                         doHttpYes(id, i, myViewHolder);
                         b = false;
                     } else {
-                        doHttpNo(id, i,myViewHolder);
+                        doHttpNo(id, i, myViewHolder);
                         b = true;
                     }
-                }else{
+                } else {
                     Toast.makeText(context, "亲,您还没有登录哦", Toast.LENGTH_SHORT).show();
 
                 }
@@ -105,31 +105,29 @@ public class FilmCinemaAdapter extends RecyclerView.Adapter<FilmCinemaAdapter.My
         });
 
 
-
-
     }
 
 
-        private void doHttpNo(int id, final int i, final MyViewHolder myViewHolder) {
-            Toast.makeText(context, userId + "" + sessionId, Toast.LENGTH_SHORT).show();
-            Map map = new HashMap();
-            map.put("cinemaId", id);
-            Map mapHead = new HashMap();
-            mapHead.put("userId", userId);
-            mapHead.put("sessionId", sessionId);
-            new HttpHelper().getHead("/movieApi/cinema/v1/verify/cancelFollowCinema", map, mapHead).result(new HttpListener() {
-                @Override
-                public void success(String data) {
-                    list.get(i).setFollowCinema(true);
-                    myViewHolder.collection_image.setImageResource(R.mipmap.collection_default);
-                }
+    private void doHttpNo(int id, final int i, final MyViewHolder myViewHolder) {
+        Toast.makeText(context, userId + "" + sessionId, Toast.LENGTH_SHORT).show();
+        Map map = new HashMap();
+        map.put("cinemaId", id);
+        Map mapHead = new HashMap();
+        mapHead.put("userId", userId);
+        mapHead.put("sessionId", sessionId);
+        new HttpHelper().getHead("/movieApi/cinema/v1/verify/cancelFollowCinema", map, mapHead).result(new HttpListener() {
+            @Override
+            public void success(String data) {
+                list.get(i).setFollowCinema(true);
+                myViewHolder.collection_image.setImageResource(R.mipmap.collection_default);
+            }
 
-                @Override
-                public void fail(String error) {
+            @Override
+            public void fail(String error) {
 
-                }
-            });
-        }
+            }
+        });
+    }
 
 
     private void doHttpYes(int id, final int i, final MyViewHolder myViewHolder) {
