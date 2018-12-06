@@ -70,7 +70,7 @@ public class MovieEvaluateAdapter extends RecyclerView.Adapter<MovieEvaluateAdap
             public void onClick(View view) {
                 EvaluateBean.ResultBean resultBean = list.get(i);
                 Intent intent = new Intent(context, CommentActivity.class);
-                intent.putExtra("resultBean",resultBean);
+                intent.putExtra("resultBean", resultBean);
                 context.startActivity(intent);
             }
         });
@@ -97,23 +97,26 @@ public class MovieEvaluateAdapter extends RecyclerView.Adapter<MovieEvaluateAdap
         map.put("commentId", commentId);
         Map<String, String> mapHead = new HashMap<>();
         int userId = SharedPreferencesUtils.getInt(context, "userId");
-        String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
+        final String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
         mapHead.put("userId", userId + "");
         mapHead.put("sessionId", sessionId);
         new HttpHelper().post(mapHead, "movieApi/movie/v1/verify/movieCommentGreat", map).result(new HttpListener() {
             @Override
             public void success(String data) {
                 CollectonBena collectonBena = new Gson().fromJson(data, CollectonBena.class);
-                if (collectonBena.getStatus() == "0000") {
-                    Toast.makeText(context, "" + collectonBena.getMessage(), Toast.LENGTH_SHORT).show();
+                if (sessionId == null) {
+                    Toast.makeText(context, "还没有有登陆", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(context, "" + collectonBena.getMessage(), Toast.LENGTH_SHORT).show();
-                    myViewHolder.evaluate_good_image.setImageResource(R.mipmap.praise_selected);
-                    int greatNum = list.get(i).getGreatNum();
-                    greatNum++;
-                    myViewHolder.evaluate_good_text.setText(greatNum + "");
+                    if (collectonBena.getStatus() == "0000") {
+                        Toast.makeText(context, "" + collectonBena.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "" + collectonBena.getMessage(), Toast.LENGTH_SHORT).show();
+                        myViewHolder.evaluate_good_image.setImageResource(R.mipmap.praise_selected);
+                        int greatNum = list.get(i).getGreatNum();
+                        greatNum++;
+                        myViewHolder.evaluate_good_text.setText(greatNum + "");
+                    }
                 }
-
 
             }
 

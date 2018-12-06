@@ -325,6 +325,7 @@ public class MovieDescActivityPresenter extends AppDelegate implements View.OnCl
         String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
         mapHead.put("userId", userId + "");
         mapHead.put("sessionId", sessionId);
+
         new HttpHelper().getHead("movieApi/movie/v1/findAllMovieComment", map, mapHead).result(new HttpListener() {
             @Override
             public void success(String data) {

@@ -21,6 +21,7 @@ import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
 import com.bw.movie.utils.DateUtils;
 import com.bw.movie.utils.SharedPreferencesUtils;
+import com.bw.movie.utils.UltimateBar;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -97,6 +98,7 @@ public class CommentActivityPresenter extends AppDelegate implements View.OnClic
         recycle_user_comment.setAdapter(userNameCommentAdapter);
         linearLayout = get(R.id.layout_bottom);
         buttonBeyondKeyboardLayout(linearLayout, te_evaluate_two);
+        ChenJinShi();
         //点击事件
         setClick(this, R.id.fanhui_01, R.id.good_image, R.id.te_evaluate_two);
         setData();
@@ -114,7 +116,12 @@ public class CommentActivityPresenter extends AppDelegate implements View.OnClic
             }
         });
     }
-
+    private void ChenJinShi() {
+        UltimateBar.newImmersionBuilder()
+                .applyNav(true)
+                .build((CommentActivity) context)
+                .apply();
+    }
     private void setData() {
         image_movie_comment_activity.setImageURI(resultBean.getCommentHeadPic());
         username.setText(resultBean.getCommentUserName());

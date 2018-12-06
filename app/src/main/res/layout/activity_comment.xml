@@ -8,28 +8,33 @@
     android:orientation="vertical"
     tools:context=".activity.CommentActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
+        android:layout_height="@dimen/dp_55"
         android:background="#c2c2c2">
 
-        <ImageView
-            android:id="@+id/fanhui_01"
-            android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_20"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:src="@mipmap/fanhui01" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:layout_alignParentBottom="true">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/dp_8"
-            android:text="评论回复"
-            android:textSize="@dimen/dp_16" />
+            <ImageView
+                android:id="@+id/fanhui_01"
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:src="@mipmap/fanhui01" />
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:text="评论回复"
+                android:textSize="@dimen/dp_16" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
