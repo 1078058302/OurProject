@@ -23,4 +23,32 @@ public class LoginActivity extends BaseActivityPresenter<LoginActivityPresenter>
         delegate.setContext(context);
     }
 
+//    @Override
+//    public void onBackPressed() {
+//        finish();
+//    }
+
+    //点击按钮时回调
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        Boolean isBack = SharedPreferencesUtils.getBoolean(context, "issack");
+//        if (isBack) {
+//            //置反
+//            SharedPreferencesUtils.putBoolean(context, "issack", false);
+//            finish();
+//        }
+//
+//    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        super.onKeyDown(keyCode, event);
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            SharedPreferencesUtils.putBoolean(this, "isback", true);
+        }
+        return true;
+    }
 }

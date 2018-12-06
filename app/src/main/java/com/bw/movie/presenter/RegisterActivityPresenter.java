@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bw.movie.R;
+import com.bw.movie.activity.CinemaCityActivity;
 import com.bw.movie.activity.LoginActivity;
 import com.bw.movie.activity.RegisterActivity;
 import com.bw.movie.mvp.model.RegisterBean;
@@ -17,6 +18,7 @@ import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
 import com.bw.movie.service.EncryptUtil;
 import com.bw.movie.utils.SharedPreferencesUtils;
+import com.bw.movie.utils.UltimateBar;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -33,6 +35,10 @@ public class RegisterActivityPresenter extends AppDelegate implements View.OnCli
     @Override
     public void initData() {
         super.initData();
+        UltimateBar.newImmersionBuilder()
+                .applyNav(true)
+                .build((RegisterActivity) context)
+                .apply();
         et_nicheng = (EditText) get(R.id.et_nicheng);
         et_sex = (EditText) get(R.id.et_sex);
         et_date = (EditText) get(R.id.et_date);
@@ -121,12 +127,12 @@ public class RegisterActivityPresenter extends AppDelegate implements View.OnCli
                 if ("0000".equals(registerBean.getStatus())) {
                     toast("注册成功");
                     SharedPreferencesUtils.putString(context, "email", etEmail);
-                    context.startActivity(new Intent(context, LoginActivity.class));
                     ((RegisterActivity) context).finish();
 
                 } else {
                     toast("注册失败");
                 }
+
 
             }
 

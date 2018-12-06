@@ -22,6 +22,7 @@ import com.bw.movie.net.HttpListener;
 import com.bw.movie.service.EncryptUtil;
 import com.bw.movie.utils.DateUtils;
 import com.bw.movie.utils.SharedPreferencesUtils;
+import com.bw.movie.utils.UltimateBar;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -42,6 +43,10 @@ public class LoginActivityPresenter extends AppDelegate implements View.OnClickL
     @Override
     public void initData() {
         super.initData();
+        UltimateBar.newImmersionBuilder()
+                .applyNav(true)
+                .build((LoginActivity) context)
+                .apply();
         tv_phone = (EditText) get(R.id.tv_phone);
         tv_pwd = (EditText) get(R.id.tv_pwd);
         cb1 = (CheckBox) get(R.id.cb1);

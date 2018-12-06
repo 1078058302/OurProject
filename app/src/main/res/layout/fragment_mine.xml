@@ -19,6 +19,14 @@
             android:layout_marginLeft="@dimen/dp_24"
             android:layout_marginTop="@dimen/dp_30"
             android:background="@mipmap/my_icon_remind_default_xxhdpi" />
+        <ImageView
+            android:layout_marginRight="24dp"
+            android:layout_alignParentRight="true"
+            android:id="@+id/come"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_30"
+            android:background="@mipmap/come" />
 
         <RelativeLayout
             android:layout_width="@dimen/dp_150"
@@ -47,7 +55,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_100"
+        android:layout_height="@dimen/dp_95"
         android:layout_marginLeft="@dimen/dp_24"
         android:layout_marginRight="@dimen/dp_24"
         android:layout_marginTop="@dimen/dp_10"
@@ -83,7 +91,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_100"
+        android:layout_height="@dimen/dp_95"
         android:layout_marginLeft="@dimen/dp_24"
         android:layout_marginRight="@dimen/dp_24"
         android:layout_marginTop="@dimen/dp_10"
@@ -144,7 +152,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_100"
+        android:layout_height="@dimen/dp_95"
         android:layout_marginLeft="@dimen/dp_24"
         android:layout_marginRight="@dimen/dp_24"
         android:layout_marginTop="@dimen/dp_10"

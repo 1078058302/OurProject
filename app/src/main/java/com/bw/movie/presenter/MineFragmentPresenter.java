@@ -1,15 +1,21 @@
 package com.bw.movie.presenter;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
+
+import android.widget.DatePicker;
 import android.widget.TextView;
+
 
 import com.bw.movie.R;
 import com.bw.movie.activity.AttentionActivity;
 import com.bw.movie.activity.FeedBackActivity;
 import com.bw.movie.activity.LoginActivity;
+
+
 import com.bw.movie.activity.MessagesActivity;
 import com.bw.movie.activity.TicketRecordActivity;
 import com.bw.movie.activity.UserInfoActivity;
@@ -19,8 +25,10 @@ import com.bw.movie.net.HttpListener;
 import com.bw.movie.utils.SharedPreferencesUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class MineFragmentPresenter extends AppDelegate implements View.OnClickListener {
     private SimpleDraweeView sd;
@@ -28,6 +36,14 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
     private String nickName;
     private String headPath;
     private String headPic;
+    private View inflate;
+    private DatePicker date;
+    private AlertDialog.Builder builder;
+    private int year;
+    private int monthOfYear;
+    private int dayOfMonth;
+    private int userid;
+    private String sessionid;
 
     @Override
     public int getLayoutId() {
@@ -37,9 +53,64 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
     @Override
     public void initData() {
         super.initData();
+
+        userid = SharedPreferencesUtils.getInt(context, "userId");
+
+
         sd = (SimpleDraweeView) get(R.id.sd);
         tv_name = (TextView) get(R.id.tv_name);
+
+
+        Calendar calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        monthOfYear = calendar.get(Calendar.MONTH);
+        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        get(R.id.come).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sessionid = SharedPreferencesUtils.getString(context, "sessionId");
+                if (TextUtils.isEmpty(sessionid)) {
+                    toast("您还没有登录");
+                    return;
+                } else {
+                    inflate = View.inflate(context, R.layout.activity_sign, null);
+                    date = (DatePicker) inflate.findViewById(R.id.date);
+                    new AlertDialog.Builder(context).setView(inflate).setIcon(R.mipmap.logo).create().show();
+                    date.init(year, monthOfYear, dayOfMonth, new DatePicker.OnDateChangedListener() {
+                        @Override
+                        public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                            doSign();
+                        }
+                    });
+                }
+
+            }
+        });
+
+
+        setClick(this, R.id.sd, R.id.tv_name, R.id.rl1);
         setClick(this, R.id.sd, R.id.tv_name, R.id.rl1, R.id.rl2, R.id.rl4, R.id.rl5, R.id.iv_messages, R.id.rl3);
+    }
+
+    private void doSign() {
+        Map map = new HashMap<>();
+        map.put("userId", userid);
+        map.put("sessionId", sessionid);
+        new HttpHelper().getHead("/movieApi/user/v1/verify/userSignIn", null, map).result(new HttpListener() {
+            @Override
+            public void success(String data) {
+                if (data.contains("签到成功")) {
+                    toast("签到成功");
+                } else {
+                    toast("今天已签到");
+                }
+            }
+
+            @Override
+            public void fail(String error) {
+
+            }
+        });
     }
 
     public void setContext(Context context) {
