@@ -1,7 +1,9 @@
 package com.bw.movie.presenter;
 
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
@@ -12,18 +14,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alipay.sdk.app.PayTask;
 import com.bw.movie.R;
 import com.bw.movie.activity.BuyTicketActivity;
 import com.bw.movie.activity.MainActivity;
 import com.bw.movie.activity.SuccessShowActivity;
 import com.bw.movie.mvp.model.OrderBean;
+import com.bw.movie.mvp.model.PayBean;
 import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.mvp.view.SeatTable;
 import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
 import com.bw.movie.utils.SharedPreferencesUtils;
 import com.bw.movie.utils.UltimateBar;
+import com.bw.movie.wxapi.WXEntryActivity;
 import com.google.gson.Gson;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.modelpay.PayResp;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -50,6 +59,7 @@ public class BuyTicketActivityPresenter extends AppDelegate {
     private RelativeLayout zhifubao_layout;
     private String sessionId;
     private int userId;
+    private IWXAPI api;
 
 
     @Override
@@ -63,7 +73,7 @@ public class BuyTicketActivityPresenter extends AppDelegate {
         sessionId = SharedPreferencesUtils.getString(context, "sessionId");
         userId = SharedPreferencesUtils.getInt(context, "userId");
         UltimateBar.newImmersionBuilder().applyNav(false).build((BuyTicketActivity) context).apply();
-        TextView begin_tiem = get(R.id.begin_time);
+        final TextView begin_tiem = get(R.id.begin_time);
         TextView end_time = get(R.id.end_time);
         TextView cinema = get(R.id.cinema);
         TextView time = get(R.id.time);
@@ -92,7 +102,7 @@ public class BuyTicketActivityPresenter extends AppDelegate {
         seatTable = get(R.id.seat_table);
         int i = seatsTotal / 8;
         seatTable.setData(7, i);
-
+        api = WXAPIFactory.createWXAPI(context, "wxb3852e6a6b7d9516");
         seatTable.setSeatChecker(new SeatTable.SeatChecker() {
 
             @Override
@@ -148,7 +158,19 @@ public class BuyTicketActivityPresenter extends AppDelegate {
             public void onClick(View v) {
 //                Toast.makeText(context, num + "", Toast.LENGTH_SHORT).show();
                 if (num != 0) {
-                    doHttp();
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("下单").setMessage("是否下单").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            doHttp();
+                        }
+                    });
+                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    builder.show();
                 } else {
                     Toast.makeText(context, "请先选择座位", Toast.LENGTH_SHORT).show();
                     return;
@@ -185,6 +207,7 @@ public class BuyTicketActivityPresenter extends AppDelegate {
                 final OrderBean orderBean = new Gson().fromJson(data, OrderBean.class);
                 String message = orderBean.getMessage();
                 if (message.equals("下单成功")) {
+                    Toast.makeText(context, "下单成功", Toast.LENGTH_SHORT).show();
                     int price_a = price * num;
                     alpha_layout.setVisibility(View.VISIBLE);
                     alpha_layout.setBackgroundResource(R.drawable.black_bg);
@@ -196,6 +219,7 @@ public class BuyTicketActivityPresenter extends AppDelegate {
 //                            Toast.makeText(context, "微信支付", Toast.LENGTH_SHORT).show();
                             String orderId = orderBean.getOrderId();
                             doHttpPay(orderId);
+
                         }
                     });
                     zhifubao_layout.setOnClickListener(new View.OnClickListener() {
@@ -225,14 +249,27 @@ public class BuyTicketActivityPresenter extends AppDelegate {
         new HttpHelper().post(mapHead, "/movieApi/movie/v1/verify/pay", map).result(new HttpListener() {
             @Override
             public void success(String data) {
-                if (data.contains("支付成功")) {
+                PayBean payBean = new Gson().fromJson(data, PayBean.class);
+                String message = payBean.getMessage();
+                if (message.equals("支付成功")) {
+
+
+                    PayReq request = new PayReq();
+                    request.appId = payBean.getAppId();
+                    request.partnerId = payBean.getPartnerId();
+                    request.prepayId = payBean.getPrepayId();
+                    request.packageValue = payBean.getPackageValue();
+                    request.nonceStr = payBean.getNonceStr();
+                    request.timeStamp = payBean.getTimeStamp();
+                    request.sign = payBean.getSign();
+                    api.sendReq(request);
                     alpha_layout.setVisibility(View.GONE);
                     hintShopCar();
-                    Intent intent = new Intent(context, SuccessShowActivity.class);
-                    int i = price * num;
-                    intent.putExtra("price", i);
-                    context.startActivity(intent);
-                    ((BuyTicketActivity) context).finish();
+//                    Intent intent = new Intent(context, SuccessShowActivity.class);
+//                    int i = price * num;
+//                    intent.putExtra("price", i);
+//                    context.startActivity(intent);
+//                    ((BuyTicketActivity) context).finish();
                 }
             }
 

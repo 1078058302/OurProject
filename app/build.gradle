@@ -56,4 +56,5 @@ dependencies {
     implementation 'com.yanzhenjie:permission:2.0.0-rc4'//动态获取权限
     // add library
     implementation 'cn.jzvd:jiaozivideoplayer:6.2.4'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 }

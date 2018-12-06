@@ -60,7 +60,9 @@ public class CinemaChildAdapter extends RecyclerView.Adapter<CinemaChildAdapter.
         } else {
             viewHolder.desc.setText(address);
         }
-        viewHolder.away.setText(list.get(i).getDistance() + "km");
+        double distance = list.get(i).getDistance();
+        double v = distance / 1000;
+        viewHolder.away.setText(v + "km");
 
         viewHolder.cinema_show.setOnClickListener(new View.OnClickListener() {
             @Override
