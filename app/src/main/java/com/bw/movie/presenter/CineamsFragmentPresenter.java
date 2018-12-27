@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 public class CineamsFragmentPresenter extends AppDelegate {
-    private XRecyclerView xRecyclerView2;
-    private CineamsAdapter cineamsAdapter;
+    private XRecyclerView mXRecyclerView2;
+    private CineamsAdapter mCineamsAdapter;
     private List<GuanZhu2Bean.ResultBean> result = new ArrayList<>();
 
     @Override
@@ -31,15 +31,15 @@ public class CineamsFragmentPresenter extends AppDelegate {
     @Override
     public void initData() {
         super.initData();
-        xRecyclerView2 = (XRecyclerView) get(R.id.xRecyclerView2);
+        mXRecyclerView2 = (XRecyclerView) get(R.id.xRecyclerView2);
         doHttp();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        xRecyclerView2.setLayoutManager(linearLayoutManager);
-        cineamsAdapter = new CineamsAdapter(context);
-        xRecyclerView2.setAdapter(cineamsAdapter);
-        xRecyclerView2.setPullRefreshEnabled(true);
-        xRecyclerView2.setLoadingListener(new XRecyclerView.LoadingListener() {
+        mXRecyclerView2.setLayoutManager(linearLayoutManager);
+        mCineamsAdapter = new CineamsAdapter(context);
+        mXRecyclerView2.setAdapter(mCineamsAdapter);
+        mXRecyclerView2.setPullRefreshEnabled(true);
+        mXRecyclerView2.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
                 doHttp();
@@ -47,11 +47,11 @@ public class CineamsFragmentPresenter extends AppDelegate {
 
             @Override
             public void onLoadMore() {
-                xRecyclerView2.loadMoreComplete();
+                mXRecyclerView2.loadMoreComplete();
             }
         });
         //接口回调
-        cineamsAdapter.setOnItemClickListener(new CineamsAdapter.OnItemClickListener() {
+        mCineamsAdapter.setOnItemClickListener(new CineamsAdapter.OnItemClickListener() {
             @Override
             public void setItem() {
                 doHttp();
@@ -75,8 +75,8 @@ public class CineamsFragmentPresenter extends AppDelegate {
                 GuanZhu2Bean guanZhu2Bean = gson.fromJson(data, GuanZhu2Bean.class);
                 if ("0000".equals(guanZhu2Bean.getStatus())) {
                     result = guanZhu2Bean.getResult();
-                    cineamsAdapter.setList(result);
-                    xRecyclerView2.refreshComplete();
+                    mCineamsAdapter.setList(result);
+                    mXRecyclerView2.refreshComplete();
                 }
             }
 

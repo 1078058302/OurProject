@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.widget.TextView;
 
 import com.bw.movie.R;
+import com.bw.movie.activity.MessagesActivity;
 import com.bw.movie.adapter.MessagesAdapter;
 import com.bw.movie.mvp.model.MessagesBean;
 import com.bw.movie.mvp.model.UnreadMessageBean;
@@ -12,6 +13,7 @@ import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
 import com.bw.movie.utils.SharedPreferencesUtils;
+import com.bw.movie.utils.UltimateBar;
 import com.google.gson.Gson;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -21,10 +23,10 @@ import java.util.List;
 import java.util.Map;
 
 public class MessagesActivityPresenter extends AppDelegate {
-    private TextView tv_unread;
-    private XRecyclerView xRecyclerView3;
+    private TextView mTv_Unread;
+    private XRecyclerView mXRecyclerView3;
     private List<MessagesBean.ResultBean> result = new ArrayList<>();
-    private MessagesAdapter messagesAdapter;
+    private MessagesAdapter mMessagesAdapter;
 
     @Override
     public int getLayoutId() {
@@ -34,16 +36,17 @@ public class MessagesActivityPresenter extends AppDelegate {
     @Override
     public void initData() {
         super.initData();
-        tv_unread = (TextView) get(R.id.tv_unread);
-        xRecyclerView3 = (XRecyclerView) get(R.id.xRecyclerView3);
+        UltimateBar.newImmersionBuilder().applyNav(false).build((MessagesActivity) context).apply();
+        mTv_Unread = (TextView) get(R.id.tv_unread);
+        mXRecyclerView3 = (XRecyclerView) get(R.id.xRecyclerView3);
         doGet();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        xRecyclerView3.setLayoutManager(linearLayoutManager);
-        messagesAdapter = new MessagesAdapter(context);
-        xRecyclerView3.setAdapter(messagesAdapter);
-        xRecyclerView3.setPullRefreshEnabled(true);
-        xRecyclerView3.setLoadingListener(new XRecyclerView.LoadingListener() {
+        mXRecyclerView3.setLayoutManager(linearLayoutManager);
+        mMessagesAdapter = new MessagesAdapter(context);
+        mXRecyclerView3.setAdapter(mMessagesAdapter);
+        mXRecyclerView3.setPullRefreshEnabled(true);
+        mXRecyclerView3.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
                 doGet();
@@ -51,12 +54,12 @@ public class MessagesActivityPresenter extends AppDelegate {
 
             @Override
             public void onLoadMore() {
-                xRecyclerView3.loadMoreComplete();
+                mXRecyclerView3.loadMoreComplete();
             }
         });
         doGets();
         //接口回调
-        messagesAdapter.setOnRefreshClickListener(new MessagesAdapter.onRefreshClickListener() {
+        mMessagesAdapter.setOnRefreshClickListener(new MessagesAdapter.onRefreshClickListener() {
             @Override
             public void setRefresh() {
                 doGet();
@@ -83,8 +86,8 @@ public class MessagesActivityPresenter extends AppDelegate {
                 MessagesBean messagesBean = gson.fromJson(data, MessagesBean.class);
                 if ("0000".contains(messagesBean.getStatus())) {
                     result = messagesBean.getResult();
-                    messagesAdapter.setList(result);
-                    xRecyclerView3.refreshComplete();
+                    mMessagesAdapter.setList(result);
+                    mXRecyclerView3.refreshComplete();
                 }
             }
 
@@ -110,9 +113,9 @@ public class MessagesActivityPresenter extends AppDelegate {
                 if ("0000".equals(unreadMessageBean.getStatus())) {
                     int count = unreadMessageBean.getCount();
                     if (count == 1) {
-                        tv_unread.setText((count + "条未读"));
+                        mTv_Unread.setText((count) + "条未读");
                     } else {
-                        tv_unread.setText((count + "条未读"));
+                        mTv_Unread.setText((count) + "条未读");
                     }
 
                 }

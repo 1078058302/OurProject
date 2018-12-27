@@ -13,12 +13,13 @@ import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
 import com.bw.movie.service.EncryptUtil;
 import com.bw.movie.utils.SharedPreferencesUtils;
+import com.bw.movie.utils.UltimateBar;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ResetPwdActivityPresenter extends AppDelegate implements View.OnClickListener {
-    private EditText et_oldPwd, et_newPwd, et_newPwd2;
+    private EditText mEt_oldPwd, mEt_newPwd, mEt_newPwd2;
 
 
     @Override
@@ -29,10 +30,11 @@ public class ResetPwdActivityPresenter extends AppDelegate implements View.OnCli
     @Override
     public void initData() {
         super.initData();
+        UltimateBar.newImmersionBuilder().applyNav(false).build((ResetPwdActivity) context).apply();
         setClick(this, R.id.iv_fanhui4, R.id.tv_confim2);
-        et_oldPwd = (EditText) get(R.id.et_oldPwd);
-        et_newPwd = (EditText) get(R.id.et_newPwd);
-        et_newPwd2 = (EditText) get(R.id.et_newPwd2);
+        mEt_oldPwd = (EditText) get(R.id.et_oldPwd);
+        mEt_newPwd = (EditText) get(R.id.et_newPwd);
+        mEt_newPwd2 = (EditText) get(R.id.et_newPwd2);
     }
 
     public void setContext(Context context) {
@@ -54,17 +56,17 @@ public class ResetPwdActivityPresenter extends AppDelegate implements View.OnCli
     }
 
     private void doPost() {
-        String OldPwd = et_oldPwd.getText().toString().trim();
+        String OldPwd = mEt_oldPwd.getText().toString().trim();
         if (TextUtils.isEmpty(OldPwd)) {
             toast("请输入密码");
             return;
         }
-        String NewPwd = et_newPwd.getText().toString().trim();
+        String NewPwd = mEt_newPwd.getText().toString().trim();
         if (TextUtils.isEmpty(NewPwd)) {
             toast("请输入新密码");
             return;
         }
-        String NewPwd2 = et_newPwd2.getText().toString().trim();
+        String NewPwd2 = mEt_newPwd2.getText().toString().trim();
         if (TextUtils.isEmpty(NewPwd)) {
             toast("请输入重复密码");
             return;

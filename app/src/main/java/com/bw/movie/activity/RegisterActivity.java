@@ -21,6 +21,7 @@ public class RegisterActivity extends BaseActivityPresenter<RegisterActivityPres
         this.context = context;
         this.context=context;
         delegate.setContext(context);
+
     }
 
 

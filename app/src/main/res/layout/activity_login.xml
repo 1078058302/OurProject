@@ -97,27 +97,6 @@
                 android:textSize="16sp" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_30"
-            android:layout_toRightOf="@+id/rr1">
-
-            <CheckBox
-                android:id="@+id/cb2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/cb2"
-                android:text="自动登录"
-                android:textColor="#ffffff" />
-        </RelativeLayout>
 
         <TextView
             android:id="@+id/register"

@@ -70,7 +70,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
                             Toast.makeText(context, "状态改变成功", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(context, "已经是已读消息了", Toast.LENGTH_SHORT).show();
-
                         }
 
 

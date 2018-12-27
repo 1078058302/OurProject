@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 public class FilmFragmentPresenter extends AppDelegate {
-    private XRecyclerView xRecyclerView1;
+    private XRecyclerView mXRecyclerView1;
     private List<GuanZhuBean.ResultBean> result = new ArrayList<>();
-    private FilmAdapter filmAdapter;
+    private FilmAdapter mFilmAdapter;
 
     @Override
     public int getLayoutId() {
@@ -33,22 +33,22 @@ public class FilmFragmentPresenter extends AppDelegate {
     @Override
     public void initData() {
         super.initData();
-        xRecyclerView1 = (XRecyclerView) get(R.id.xRecyclerView1);
+        mXRecyclerView1 = (XRecyclerView) get(R.id.xRecyclerView1);
         doHttp();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        xRecyclerView1.setLayoutManager(linearLayoutManager);
-        filmAdapter = new FilmAdapter(context);
-        xRecyclerView1.setAdapter(filmAdapter);
+        mXRecyclerView1.setLayoutManager(linearLayoutManager);
+        mFilmAdapter = new FilmAdapter(context);
+        mXRecyclerView1.setAdapter(mFilmAdapter);
         //接口回调
-        filmAdapter.setOnItemClickListener(new CineamsAdapter.OnItemClickListener() {
+        mFilmAdapter.setOnItemClickListener(new CineamsAdapter.OnItemClickListener() {
             @Override
             public void setItem() {
                 doHttp();
             }
         });
-        xRecyclerView1.setPullRefreshEnabled(true);
-        xRecyclerView1.setLoadingListener(new XRecyclerView.LoadingListener() {
+        mXRecyclerView1.setPullRefreshEnabled(true);
+        mXRecyclerView1.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
                 doHttp();
@@ -56,7 +56,7 @@ public class FilmFragmentPresenter extends AppDelegate {
 
             @Override
             public void onLoadMore() {
-                xRecyclerView1.loadMoreComplete();
+                mXRecyclerView1.loadMoreComplete();
             }
         });
     }
@@ -78,8 +78,8 @@ public class FilmFragmentPresenter extends AppDelegate {
                 if ("0000".equals(guanZhuBean.getStatus())) {
                     toast("查询成功");
                     result = guanZhuBean.getResult();
-                    filmAdapter.setList(result);
-                    xRecyclerView1.refreshComplete();
+                    mFilmAdapter.setList(result);
+                    mXRecyclerView1.refreshComplete();
                 }
 
             }

@@ -2,7 +2,10 @@ package com.bw.movie.presenter;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+
 import android.text.TextUtils;
 import android.view.View;
 
@@ -14,16 +17,19 @@ import com.bw.movie.R;
 import com.bw.movie.activity.AttentionActivity;
 import com.bw.movie.activity.FeedBackActivity;
 import com.bw.movie.activity.LoginActivity;
+import com.bw.movie.activity.MainActivity;
 
 
 import com.bw.movie.activity.MessagesActivity;
 import com.bw.movie.activity.TicketRecordActivity;
 import com.bw.movie.activity.UserInfoActivity;
+import com.bw.movie.mvp.model.VersionUpdateBean;
 import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
 import com.bw.movie.utils.SharedPreferencesUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.Gson;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -31,6 +37,9 @@ import java.util.Map;
 
 
 public class MineFragmentPresenter extends AppDelegate implements View.OnClickListener {
+    private SimpleDraweeView mSd;
+    private TextView mTv_Name;
+    private String mNickName,mHeadPath,mHeadPic;
     private SimpleDraweeView sd;
     private TextView tv_name;
     private String nickName;
@@ -53,6 +62,8 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
     @Override
     public void initData() {
         super.initData();
+        mSd = (SimpleDraweeView) get(R.id.sd);
+        mTv_Name = (TextView) get(R.id.tv_name);
 
         userid = SharedPreferencesUtils.getInt(context, "userId");
 
@@ -210,22 +221,22 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
 
 
     public void onResume() {
-        nickName = SharedPreferencesUtils.getString(context, "nickName");
-        if (!TextUtils.isEmpty(nickName)) {
-            tv_name.setText(nickName);
+        mNickName = SharedPreferencesUtils.getString(context, "nickName");
+        if (!TextUtils.isEmpty(mNickName)) {
+            mTv_Name.setText(mNickName);
         } else {
-            tv_name.setText("未登录");
+            mTv_Name.setText("未登录");
 
         }
-        headPic = SharedPreferencesUtils.getString(context, "headPic");
-        headPath = SharedPreferencesUtils.getString(context, "headPath");
-        if (!TextUtils.isEmpty(headPath)) {
-            sd.setImageURI(headPath);
+        mHeadPic = SharedPreferencesUtils.getString(context, "headPic");
+        mHeadPath = SharedPreferencesUtils.getString(context, "headPath");
+        if (!TextUtils.isEmpty(mHeadPath)) {
+            mSd.setImageURI(mHeadPath);
         } else {
-            if (!TextUtils.isEmpty(headPic)) {
-                sd.setImageURI(headPic);
+            if (!TextUtils.isEmpty(mHeadPic)) {
+                mSd.setImageURI(mHeadPic);
             } else {
-                sd.setImageResource(R.mipmap.logo);
+                mSd.setImageResource(R.mipmap.logo);
             }
 
         }
@@ -243,7 +254,35 @@ public class MineFragmentPresenter extends AppDelegate implements View.OnClickLi
             @Override
             public void success(String data) {
                 if (data.contains("查询成功")) {
-                    toast("当前版本已经是最新版本了，无需更新");
+                    Gson gson = new Gson();
+                    VersionUpdateBean versionUpdateBean = gson.fromJson(data, VersionUpdateBean.class);
+                    int flag = versionUpdateBean.getFlag();
+                    if (flag == 1) {
+                        final String downloadUrl = versionUpdateBean.getDownloadUrl();
+                        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                        alertDialog.setTitle("版本更新");
+                        alertDialog.setMessage("当前有新版本，是否进行更新");
+                        alertDialog.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Uri uri = Uri.parse(downloadUrl.trim());
+                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                ((MainActivity) context).startActivity(intent);
+                            }
+                        });
+                        alertDialog.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        //显示
+                        alertDialog.show();
+                    } else if (flag == 2) {
+                        toast("当前版本已是最新版本,无需更新");
+                    } else {
+                        toast("版本更新失败。");
+                    }
                 }
             }
 

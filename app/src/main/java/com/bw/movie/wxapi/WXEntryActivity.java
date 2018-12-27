@@ -2,21 +2,27 @@ package com.bw.movie.wxapi;
 
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
-
 import com.bw.movie.App;
-import com.bw.movie.activity.SuccessShowActivity;
+import com.bw.movie.mvp.model.LoginBean;
+import com.bw.movie.net.HttpHelper;
+import com.bw.movie.net.HttpListener;
+import com.bw.movie.utils.DateUtils;
+import com.bw.movie.utils.SharedPreferencesUtils;
+import com.google.gson.Gson;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -58,7 +64,19 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 }
                 break;
             case BaseResp.ErrCode.ERR_OK:
+                //微信登录
+                SendAuth.Resp sendResp = (SendAuth.Resp) resp;
+                if (sendResp != null) {
+                    final String code = sendResp.code;
+                    String state = sendResp.state;
+                    if (state.equals("wechat_sdk_微信登录")) {
+                        doWxLogin(code);
+                    } else if (state.equals("wechat_sdk_微信绑定")) {
+                        doWxBind(code);
+                    }
+                }
                 switch (resp.getType()) {
+
                     case RETURN_MSG_TYPE_LOGIN:
                         //拿到了微信返回的code,立马再去请求access_token
                         String code = ((SendAuth.Resp) resp).code;
@@ -81,6 +99,72 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 //            Intent intent = new Intent(this, SuccessShowActivity.class);
 //            startActivity(intent);
         }
+    }
+
+    //微信登录
+    private void doWxLogin(String code) {
+        Map<String, String> map = new HashMap<>();
+        map.put("code", code);
+        new HttpHelper().post(null, "/movieApi/user/v1/weChatBindingLogin", map).result(new HttpListener() {
+            @Override
+            public void success(String data) {
+                Gson gson = new Gson();
+                LoginBean loginBean = gson.fromJson(data, LoginBean.class);
+                if ("0000".equals(loginBean.getStatus())) {
+                    Toast.makeText(WXEntryActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                    SharedPreferencesUtils.putInt(WXEntryActivity.this, "userId", loginBean.getResult().getUserId());
+                    SharedPreferencesUtils.putString(WXEntryActivity.this, "sessionId", loginBean.getResult().getSessionId());
+                    LoginBean.ResultBean.UserInfoBean userInfo = loginBean.getResult().getUserInfo();
+                    SharedPreferencesUtils.putString(WXEntryActivity.this, "nickName", userInfo.getNickName());
+                    SharedPreferencesUtils.putString(WXEntryActivity.this, "phone", userInfo.getPhone());
+                    long birthday = userInfo.getBirthday();
+                    String format = DateUtils.format(birthday, "yyyy-MM-dd");
+                    SharedPreferencesUtils.putString(WXEntryActivity.this, "birthday", format);
+                    SharedPreferencesUtils.putInt(WXEntryActivity.this, "sex", userInfo.getSex());
+                    SharedPreferencesUtils.putString(WXEntryActivity.this, "headPic", userInfo.getHeadPic());
+                }
+
+            }
+
+            @Override
+            public void fail(String error) {
+
+            }
+        });
+    }
+
+    //微信绑定
+    private void doWxBind(String code) {
+        int userId = SharedPreferencesUtils.getInt(WXEntryActivity.this, "userId");
+        Map<String, String> m = new HashMap<>();
+        m.put("userId", userId + "");
+        Map<String, String> map = new HashMap<>();
+        map.put("code", code);
+        new HttpHelper().post(m, "/movieApi/user/v1/verify/bindWeChat", map).result(new HttpListener() {
+            @Override
+            public void success(String data) {
+                Toast.makeText(WXEntryActivity.this, data, Toast.LENGTH_SHORT).show();
+                if (data.contains("绑定成功")) {
+                    listener.onBinds(true);
+                }
+            }
+
+            @Override
+            public void fail(String error) {
+                Toast.makeText(WXEntryActivity.this, "绑定失败", Toast.LENGTH_SHORT).show();
+                listener.onBinds(false);
+            }
+        });
+    }
+
+    //接口回调
+    private WXEntryBindListener listener;
+    public void setWXEntryListener(WXEntryBindListener listener) {
+        this.listener = listener;
+    }
+    public interface WXEntryBindListener {
+        void onBinds(boolean flag);
+
     }
 }
 

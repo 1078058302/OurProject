@@ -13,13 +13,14 @@ import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
 import com.bw.movie.utils.SharedPreferencesUtils;
+import com.bw.movie.utils.UltimateBar;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SexActivityPresenter extends AppDelegate implements View.OnClickListener {
-    private String nickName;
+    private String mNickName;
     private int sex;
     private String email;
     private ImageView duiHao1, duiHao2;
@@ -31,12 +32,12 @@ public class SexActivityPresenter extends AppDelegate implements View.OnClickLis
     @Override
     public void initData() {
         super.initData();
+        UltimateBar.newImmersionBuilder().applyNav(false).build((SexActivity) context).apply();
         duiHao1 = (ImageView) get(R.id.duiHao1);
         duiHao2 = (ImageView) get(R.id.duiHao2);
         setClick(this, R.id.iv_fanhui2, R.id.rl_check1, R.id.rl_check2);
-        nickName = SharedPreferencesUtils.getString(context, "nickName");
+        mNickName = SharedPreferencesUtils.getString(context, "nickName");
         sex = SharedPreferencesUtils.getInt(context, "sex");
-        Log.i("竟来", "initData: "+sex);
         email = SharedPreferencesUtils.getString(context, "email");
         if(sex==1){
             duiHao1.setVisibility(View.VISIBLE);
@@ -89,7 +90,7 @@ public class SexActivityPresenter extends AppDelegate implements View.OnClickLis
         m.put("userId", userId + "");
         m.put("sessionId", sessionId);
         Map<String, String> map = new HashMap<>();
-        map.put("nickName", nickName);
+        map.put("nickName", mNickName);
         map.put("sex", sex + "");
         map.put("email", email);
         new HttpHelper().post(m, "/movieApi/user/v1/verify/modifyUserInfo", map).result(new HttpListener() {

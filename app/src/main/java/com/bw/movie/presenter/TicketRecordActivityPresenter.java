@@ -12,6 +12,7 @@ import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
 import com.bw.movie.utils.SharedPreferencesUtils;
+import com.bw.movie.utils.UltimateBar;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -22,9 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 public class TicketRecordActivityPresenter extends AppDelegate {
-    private XRecyclerView xRecyclerView4;
+    private XRecyclerView mXRecyclerView4;
     private List<TicketRecordBean.ResultBean> result = new ArrayList<>();
-    private TicketRecordAdapter ticketRecordAdapter;
+    private TicketRecordAdapter mTicketRecordAdapter;
 
     @Override
     public int getLayoutId() {
@@ -34,15 +35,16 @@ public class TicketRecordActivityPresenter extends AppDelegate {
     @Override
     public void initData() {
         super.initData();
-        xRecyclerView4 = (XRecyclerView) get(R.id.xRecyclerView4);
+        UltimateBar.newImmersionBuilder().applyNav(false).build((TicketRecordActivity) context).apply();
+        mXRecyclerView4 = (XRecyclerView) get(R.id.xRecyclerView4);
         doGet();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        xRecyclerView4.setLayoutManager(linearLayoutManager);
-        ticketRecordAdapter = new TicketRecordAdapter(context);
-        xRecyclerView4.setAdapter(ticketRecordAdapter);
-        xRecyclerView4.setPullRefreshEnabled(true);
-        xRecyclerView4.setLoadingListener(new XRecyclerView.LoadingListener() {
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(context);
+        mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mXRecyclerView4.setLayoutManager(mLinearLayoutManager);
+        mTicketRecordAdapter = new TicketRecordAdapter(context);
+        mXRecyclerView4.setAdapter(mTicketRecordAdapter);
+        mXRecyclerView4.setPullRefreshEnabled(true);
+        mXRecyclerView4.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
                 doGet();
@@ -50,7 +52,7 @@ public class TicketRecordActivityPresenter extends AppDelegate {
 
             @Override
             public void onLoadMore() {
-                xRecyclerView4.loadMoreComplete();
+                mXRecyclerView4.loadMoreComplete();
             }
         });
 
@@ -73,8 +75,8 @@ public class TicketRecordActivityPresenter extends AppDelegate {
                 if ("0000".equals(ticketRecordBean.getStatus())) {
                     toast("查询成功");
                     result = ticketRecordBean.getResult();
-                    ticketRecordAdapter.setList(result);
-                    xRecyclerView4.refreshComplete();
+                    mTicketRecordAdapter.setList(result);
+                    mXRecyclerView4.refreshComplete();
                 }
             }
 

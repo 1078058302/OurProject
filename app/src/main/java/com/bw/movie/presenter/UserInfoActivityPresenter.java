@@ -1,6 +1,9 @@
 package com.bw.movie.presenter;
 
+
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -10,6 +13,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,18 +23,19 @@ import com.bw.movie.activity.NiChengActivity;
 import com.bw.movie.activity.ResetPwdActivity;
 import com.bw.movie.activity.SexActivity;
 import com.bw.movie.activity.UserInfoActivity;
-import com.bw.movie.mvp.model.NiChengBean;
 import com.bw.movie.mvp.model.UpdateBean;
 import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.mvp.view.PhotoPopwindow;
-import com.bw.movie.net.HttpHelper;
-import com.bw.movie.net.HttpListener;
 import com.bw.movie.service.BaseService;
-import com.bw.movie.utils.DateUtils;
 import com.bw.movie.utils.PermissionUtils;
 import com.bw.movie.utils.SharedPreferencesUtils;
+import com.bw.movie.utils.UltimateBar;
+import com.bw.movie.wxapi.WXEntryActivity;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -50,18 +55,23 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import static android.app.Activity.RESULT_OK;
-
+/**
+* @作者 THTF
+* @创建日期 2018/12/06 14:12
+*/
 public class UserInfoActivityPresenter extends AppDelegate implements View.OnClickListener {
-    private RelativeLayout rl_01;
-    private SimpleDraweeView sd2;
-    private TextView userNickName, userSex, dataOfbirth, phoneNumber, tvEmail;
+    private SimpleDraweeView mSd2;
+    private TextView mUserNickName, mUserSex, mDataOfbirth, mPhoneNumber, mTvEmail, mTv_bind;
     private Bitmap heads;//头像bitmap
     private static String path;//sd路径
-    private String nickName;
-    private int sex;
-    private String emaila;
+    private String mNickName;
+    private int mSex;
+    private String mEmaila;
     private int REQUEST_TAKE_PHOTO_PERMISSION = 1;
-
+    private ImageView mIv_return;
+    private IWXAPI api;
+    private static final String APP_ID = "wxb3852e6a6b7d9516";
+    private boolean isWXbind = false;
 
     @Override
     public int getLayoutId() {
@@ -72,15 +82,37 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
     @Override
     public void initData() {
         super.initData();
+        UltimateBar.newImmersionBuilder().applyNav(false).build((UserInfoActivity) context).apply();
+        //通过WXAPIFactory工厂获取IWXApI的示例
+        api = WXAPIFactory.createWXAPI(context, APP_ID, true);
+        //将应用的appid注册到微信
+        api.registerApp(APP_ID);
         path = Environment.getExternalStorageDirectory().getAbsolutePath();
-        setClick(this, R.id.rl_01, R.id.rl_02, R.id.rl_03, R.id.tuichuLogin, R.id.rl_06, R.id.rl_07);
-        sd2 = (SimpleDraweeView) get(R.id.sd2);
-        userNickName = (TextView) get(R.id.userNickname);
-        userSex = (TextView) get(R.id.userSex);
-        dataOfbirth = (TextView) get(R.id.dataOfbirth);
-        phoneNumber = (TextView) get(R.id.phoneNumber);
-        tvEmail = (TextView) get(R.id.tvEmail);
-
+        setClick(this, R.id.rl_01, R.id.rl_02, R.id.rl_03, R.id.tuichuLogin, R.id.rl_06, R.id.rl_07, R.id.rl_08);
+        mSd2 = (SimpleDraweeView) get(R.id.sd2);
+        mUserNickName = (TextView) get(R.id.userNickname);
+        mUserSex = (TextView) get(R.id.userSex);
+        mDataOfbirth = (TextView) get(R.id.dataOfbirth);
+        mPhoneNumber = (TextView) get(R.id.phoneNumber);
+        mTvEmail = (TextView) get(R.id.tvEmail);
+       mTv_bind = (TextView) get(R.id.tv_bind);
+        mIv_return = (ImageView) get(R.id.iv_return);
+        //接口回调方法
+        WXEntryActivity wxEntryActivity = new WXEntryActivity();
+        wxEntryActivity.setWXEntryListener(new WXEntryActivity.WXEntryBindListener() {
+            @Override
+            public void onBinds(boolean flag) {
+                if (flag) {
+                    isWXbind = true;
+                    toast("绑定成功");
+                    mTv_bind.setText("已绑定");
+                } else {
+                    isWXbind = false;
+                    toast("请求失败");
+                    mTv_bind.setText("未绑定");
+                }
+            }
+        });
 
     }
 
@@ -106,8 +138,24 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
                 break;
             case R.id.tuichuLogin:
                 //退出登录
-                tuichu();
-                ((UserInfoActivity) context).finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("确定要退出登录吗？").
+                        setTitle("提示").
+                        setCancelable(true).
+                        setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                tuichu();
+                                toast("退出成功");
+                                ((UserInfoActivity) context).finish();
+                            }
+                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.show();
                 break;
             case R.id.rl_06:
                 //邮箱
@@ -117,76 +165,81 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
                 //重置密码
                 context.startActivity(new Intent(context, ResetPwdActivity.class));
                 break;
-
+            case R.id.rl_08:
+                //微信绑定
+                SendAuth.Req req = new SendAuth.Req();
+                req.scope = "snsapi_userinfo";
+//        req.scope = "snsapi_login";//提示 scope参数错误，或者没有scope权限
+                req.state = "wechat_sdk_微信绑定";
+                api.sendReq(req);
 
         }
     }
 
 
     public void onResume() {
-        String headPic = SharedPreferencesUtils.getString(context, "headPic");
-        String headPath = SharedPreferencesUtils.getString(context, "headPath");
-        if (!TextUtils.isEmpty(headPath)) {
-            sd2.setImageURI(headPath);
+        String mHeadPic = SharedPreferencesUtils.getString(context, "headPic");
+        String mHeadPath = SharedPreferencesUtils.getString(context, "headPath");
+        if (!TextUtils.isEmpty(mHeadPath)) {
+            mSd2.setImageURI(mHeadPath);
         } else {
-            if (!TextUtils.isEmpty(headPic)) {
-                sd2.setImageURI(headPic);
+            if (!TextUtils.isEmpty(mHeadPic)) {
+                mSd2.setImageURI(mHeadPic);
 
             } else {
-                sd2.setImageResource(R.mipmap.logo);
+                mSd2.setImageResource(R.mipmap.logo);
             }
         }
-
-        sex = SharedPreferencesUtils.getInt(context, "sex");
-        if (sex == 1) {
-            userSex.setText("男");
+        mSex = SharedPreferencesUtils.getInt(context, "sex");
+        if (mSex == 1) {
+            mUserSex.setText("男");
         } else {
-            userSex.setText("女");
+            mUserSex.setText("女");
         }
-        nickName = SharedPreferencesUtils.getString(context, "nickName");
-        if (!TextUtils.isEmpty(nickName)) {
-            userNickName.setText(nickName);
+        mNickName = SharedPreferencesUtils.getString(context, "nickName");
+        if (!TextUtils.isEmpty(mNickName)) {
+            mUserNickName.setText(mNickName);
         } else {
-            userNickName.setText(nickName);
+            mUserNickName.setText(mNickName);
         }
 
 
         String birthday = SharedPreferencesUtils.getString(context, "birthday");
         if (!TextUtils.isEmpty(birthday)) {
-            dataOfbirth.setText(birthday);
+            mDataOfbirth.setText(birthday);
         }
         String tv_phone2 = SharedPreferencesUtils.getString(context, "tv_phone2");
         if (!TextUtils.isEmpty(tv_phone2)) {
-            phoneNumber.setText(tv_phone2);
+            mPhoneNumber.setText(tv_phone2);
         }
 
-        emaila = SharedPreferencesUtils.getString(context, "email");
-        if (!TextUtils.isEmpty(emaila)) {
-            tvEmail.setText(emaila);
+        mEmaila = SharedPreferencesUtils.getString(context, "email");
+        if (!TextUtils.isEmpty(mEmaila)) {
+            mTvEmail.setText(mEmaila);
         } else {
-            tvEmail.setText(emaila);
+            mTvEmail.setText(mEmaila);
         }
         // 清除信息
         String tv_phone = SharedPreferencesUtils.getString(context, "tv_phone2");
         if (TextUtils.isEmpty(tv_phone)) {
-            phoneNumber.setText(tv_phone);
+            mPhoneNumber.setText(tv_phone);
         }
         int sex = SharedPreferencesUtils.getInt(context, "sex");
         if (sex == 0) {
-            userSex.setText("");
+            mUserSex.setText("");
         }
         String birthday1 = SharedPreferencesUtils.getString(context, "birthday");
         if (TextUtils.isEmpty(birthday1)) {
-            dataOfbirth.setText(birthday1);
+            mDataOfbirth.setText(birthday1);
 
         }
         String email1 = SharedPreferencesUtils.getString(context, "email");
         if (TextUtils.isEmpty(email1)) {
-            tvEmail.setText(email1);
+            mTvEmail.setText(email1);
         }
         String tv_phones = SharedPreferencesUtils.getString(context, "tv_phone");
         if (TextUtils.isEmpty(tv_phone)) {
-            tvEmail.setText(tv_phones);
+            mTvEmail.setText(tv_phones);
         }
     }
 
@@ -200,23 +253,9 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
                 PermissionUtils.permission(context, new PermissionUtils.PermissionListener() {
                     @Override
                     public void success() {
-//                        Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                        intent2.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "heads.png")));
-//                        ((UserInfoActivity) context).startActivityForResult(intent2, 2);
-                        Intent intentPhote = new Intent();
-                        Intent intent_camera = context.getPackageManager()
-                                .getLaunchIntentForPackage("com.android.camera");
-                        if (intent_camera != null) {
-                            intentPhote.setPackage("com.android.camera");
-                        }
-                        intentPhote.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-                        File out = new File(Environment.getExternalStorageDirectory(), "heads.png");
-                        Uri uri = Uri.fromFile(out);
-// 获取拍照后未压缩的原图片，并保存在uri路径中
-                        intentPhote.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                        ((UserInfoActivity) context).startActivityForResult(intentPhote, 2);
-
-
+                        Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        intent2.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "heads.png")));
+                        ((UserInfoActivity) context).startActivityForResult(intent2, 2);
                     }
                 });
 
@@ -227,15 +266,9 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
             public void onSelectPicture() {
                 //相册选择
                 //动态权限
-                PermissionUtils.permission(context, new PermissionUtils.PermissionListener() {
-                    @Override
-                    public void success() {
-                        Intent intent1 = new Intent(Intent.ACTION_PICK, null);
-                        intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                        ((UserInfoActivity) context).startActivityForResult(intent1, 1);
-
-                    }
-                });
+                Intent intent1 = new Intent(Intent.ACTION_PICK, null);
+                intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                ((UserInfoActivity) context).startActivityForResult(intent1, 1);
 
             }
 
@@ -269,7 +302,7 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
                     }
                     heads = extras.getParcelable("data");
                     if (heads != null) {
-                        sd2.setImageBitmap(heads);
+                        mSd2.setImageBitmap(heads);
                         String fileName = path + "/heads.png";//图片名字
                         setPicToView(heads);//保存在SD卡中
                         File file1 = new File(fileName);
@@ -311,7 +344,7 @@ public class UserInfoActivityPresenter extends AppDelegate implements View.OnCli
                             String headPath = updateBean.getHeadPath();
                             SharedPreferencesUtils.putString(context, "headPath", headPath);
                             //上传头像
-                            sd2.setImageURI(headPath);
+                            mSd2.setImageURI(headPath);
                             onResume();
                         } else {
                             toast("上传失败");

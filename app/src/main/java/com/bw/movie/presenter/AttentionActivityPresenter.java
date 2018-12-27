@@ -12,15 +12,15 @@ import com.bw.movie.activity.AttentionActivity;
 import com.bw.movie.fragment.CinemasFragment;
 import com.bw.movie.fragment.FilmFragment;
 import com.bw.movie.mvp.view.AppDelegate;
+import com.bw.movie.utils.UltimateBar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AttentionActivityPresenter extends AppDelegate implements View.OnClickListener {
-    private Button bt_film;
-    private Button bt_cinema;
-    private ViewPager view_vp;
-    private List<Fragment> fragmentList = new ArrayList<>();
+    private Button mBt_film,mBt_cinema;
+    private ViewPager mView_vp;
+    private List<Fragment> mFragmentList = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -30,24 +30,25 @@ public class AttentionActivityPresenter extends AppDelegate implements View.OnCl
     @Override
     public void initData() {
         super.initData();
-        bt_film = (Button) get(R.id.bt_film);
-        bt_cinema = (Button) get(R.id.bt_cinema);
-        view_vp = (ViewPager) get(R.id.view_vp);
+        UltimateBar.newImmersionBuilder().applyNav(false).build((AttentionActivity) context).apply();
+        mBt_film = (Button) get(R.id.bt_film);
+        mBt_cinema = (Button) get(R.id.bt_cinema);
+        mView_vp = (ViewPager) get(R.id.view_vp);
         setClick(this, R.id.bt_film, R.id.bt_cinema);
-        fragmentList.add(new FilmFragment());
-        fragmentList.add(new CinemasFragment());
-        view_vp.setAdapter(new FragmentPagerAdapter(((AttentionActivity) context).getSupportFragmentManager()) {
+        mFragmentList.add(new FilmFragment());
+        mFragmentList.add(new CinemasFragment());
+        mView_vp.setAdapter(new FragmentPagerAdapter(((AttentionActivity) context).getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
-                return fragmentList.get(i);
+                return mFragmentList.get(i);
             }
 
             @Override
             public int getCount() {
-                return fragmentList.size();
+                return mFragmentList.size();
             }
         });
-        view_vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mView_vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
 
@@ -57,12 +58,12 @@ public class AttentionActivityPresenter extends AppDelegate implements View.OnCl
             public void onPageSelected(int i) {
                 switch (i) {
                     case 0:
-                        bt_film.setBackgroundResource(R.drawable.edit_bg);
-                        bt_cinema.setBackgroundResource(R.drawable.edit_bg1);
+                        mBt_film.setBackgroundResource(R.drawable.edit_bg);
+                        mBt_cinema.setBackgroundResource(R.drawable.edit_bg1);
                         break;
                     case 1:
-                        bt_cinema.setBackgroundResource(R.drawable.edit_bg);
-                        bt_film.setBackgroundResource(R.drawable.edit_bg1);
+                        mBt_cinema.setBackgroundResource(R.drawable.edit_bg);
+                        mBt_film.setBackgroundResource(R.drawable.edit_bg1);
                         break;
                 }
             }
@@ -83,15 +84,15 @@ public class AttentionActivityPresenter extends AppDelegate implements View.OnCl
         switch (view.getId()) {
             case R.id.bt_film:
                 //电影
-                view_vp.setCurrentItem(0);
-                bt_film.setBackgroundResource(R.drawable.edit_bg);
-                bt_cinema.setBackgroundResource(R.drawable.edit_bg1);
+                mView_vp.setCurrentItem(0);
+                mBt_film.setBackgroundResource(R.drawable.edit_bg);
+                mBt_cinema.setBackgroundResource(R.drawable.edit_bg1);
                 break;
             case R.id.bt_cinema:
                 //影院
-                view_vp.setCurrentItem(1);
-                bt_cinema.setBackgroundResource(R.drawable.edit_bg);
-                bt_film.setBackgroundResource(R.drawable.edit_bg1);
+                mView_vp.setCurrentItem(1);
+                mBt_cinema.setBackgroundResource(R.drawable.edit_bg);
+                mBt_film.setBackgroundResource(R.drawable.edit_bg1);
                 break;
         }
     }

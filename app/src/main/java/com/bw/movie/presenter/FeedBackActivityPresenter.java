@@ -3,25 +3,29 @@ package com.bw.movie.presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bw.movie.R;
+import com.bw.movie.activity.FeedBackActivity;
 import com.bw.movie.activity.FeedBackSuccessActivity;
 import com.bw.movie.mvp.view.AppDelegate;
 import com.bw.movie.net.HttpHelper;
 import com.bw.movie.net.HttpListener;
 import com.bw.movie.utils.SharedPreferencesUtils;
+import com.bw.movie.utils.UltimateBar;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class FeedBackActivityPresenter extends AppDelegate implements View.OnClickListener {
-    private EditText et_content = null;
-    private TextView text_count = null;
+    private EditText mEt_Content = null;
+    private TextView mText_Count = null;
     private static final int MAX_COUNT = 200;//最大字数
+    private String mEtContent;
 
     @Override
     public int getLayoutId() {
@@ -31,11 +35,12 @@ public class FeedBackActivityPresenter extends AppDelegate implements View.OnCli
     @Override
     public void initData() {
         super.initData();
-        et_content = (EditText) get(R.id.et_content);
-        text_count = (TextView) get(R.id.text_count);
+        UltimateBar.newImmersionBuilder().applyNav(false).build((FeedBackActivity) context).apply();
+        mEt_Content = (EditText) get(R.id.et_content);
+        mText_Count = (TextView) get(R.id.text_count);
 
         //edittext监听事件
-        et_content.addTextChangedListener(new TextWatcher() {
+        mEt_Content.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -49,7 +54,7 @@ public class FeedBackActivityPresenter extends AppDelegate implements View.OnCli
             @Override
             public void afterTextChanged(Editable editable) {
                 //设置值
-                text_count.setText("剩余字数:" + (MAX_COUNT - editable.length()));
+                mText_Count.setText("剩余字数:" + (MAX_COUNT - editable.length()));
             }
         });
         setClick(this, R.id.bt_submit);
@@ -64,20 +69,28 @@ public class FeedBackActivityPresenter extends AppDelegate implements View.OnCli
         switch (view.getId()) {
             case R.id.bt_submit:
                 //提交
-                doSubmit();
+                mEtContent = mEt_Content.getText().toString().trim();
+                if (TextUtils.isEmpty(mEtContent)) {
+                    toast("请输入内容再提交");
+                }else {
+                    doSubmit();
+                }
+
+
+
                 break;
         }
     }
 
     private void doSubmit() {
-        String etContent = et_content.getText().toString().trim();
+
         int userId = SharedPreferencesUtils.getInt(context, "userId");
         String sessionId = SharedPreferencesUtils.getString(context, "sessionId");
         Map<String, String> m = new HashMap<>();
         m.put("userId", userId + "");
         m.put("sessionId", sessionId);
         Map<String, String> map = new HashMap<>();
-        map.put("content", etContent);
+        map.put("content", mEtContent);
         new HttpHelper().post(m, "/movieApi/tool/v1/verify/recordFeedBack", map).result(new HttpListener() {
             @Override
             public void success(String data) {
